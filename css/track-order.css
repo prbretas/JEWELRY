@@ -1,0 +1,152 @@
+/* Track Order Page Styles */
+.track-order-section {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.track-order-container {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.track-order-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.order-status {
+    margin-top: 3rem;
+}
+
+.status-timeline {
+    display: flex;
+    justify-content: space-between;
+    margin: 3rem 0;
+    position: relative;
+}
+
+.status-timeline::before {
+    content: '';
+    position: absolute;
+    top: 25px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--border-color);
+    z-index: 1;
+}
+
+.status-step {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    flex: 1;
+}
+
+.step-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--white);
+    border: 2px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    color: var(--border-color);
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.status-step.completed .step-icon {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--white);
+}
+
+.status-step.active .step-icon {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.step-label {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    margin-top: 0.5rem;
+}
+
+.status-details {
+    background: var(--light-bg);
+    padding: 2rem;
+    border-radius: 8px;
+    margin-top: 2rem;
+}
+
+.status-history {
+    margin-top: 2rem;
+}
+
+.status-history-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.history-date {
+    min-width: 100px;
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.history-details p {
+    margin: 0;
+    color: var(--text-color);
+}
+
+.history-details small {
+    color: #666;
+}
+
+@media (max-width: 768px) {
+    .status-timeline {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .status-timeline::before {
+        width: 2px;
+        height: 100%;
+        left: 25px;
+        top: 0;
+    }
+
+    .status-step {
+        text-align: left;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .step-icon {
+        margin: 0;
+    }
+
+    .step-label {
+        margin-top: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .status-history-item {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .history-date {
+        min-width: auto;
+    }
+}
