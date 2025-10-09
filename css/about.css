@@ -83,7 +83,7 @@
 
 .value-icon {
     font-size: 2.5rem;
-    color: var(--primary-color);
+    color: var(--primary-900);
     margin-bottom: 1rem;
 }
 
@@ -103,7 +103,7 @@
     position: absolute;
     width: 2px;
     height: 100%;
-    background: var(--primary-color);
+    background: var(--primary-900);
     left: 50%;
     transform: translateX(-50%);
     top: 0;
@@ -134,7 +134,7 @@
 }
 
 .timeline-date {
-    color: var(--primary-color);
+    color: var(--primary-900);
     font-weight: 500;
     margin-bottom: 0.5rem;
 }
@@ -174,7 +174,7 @@
 }
 
 .member-role {
-    color: var(--primary-color);
+    color: var(--primary-900);
     margin-bottom: 1rem;
 }
 

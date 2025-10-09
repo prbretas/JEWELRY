@@ -19,15 +19,61 @@
     <header>
         <nav class="navbar">
             <div class="logo">
-                <h1>✨ Joalheria Virtual</h1>
+               <a href="../index.html">
+                    <h1>✨ Joalheria Virtual</h1>
+                </a>
             </div>
-            <div class="nav-links">
-                <a href="../index.html">Home</a>
-                <a href="aneis.html">Anéis</a>
-                <a href="colares.html">Colares</a>
-                <a href="brincos.html">Brincos</a>
-                <a href="pulseiras.html">Pulseiras</a>
-                <a href="#" id="cart-icon"><i class="fas fa-shopping-cart"></i> <span id="cart-count">0</span></a>
+            <div class="nav-menu">
+                <ul class="menu-items">
+                    <li class="menu-item">
+                        <a href="aneis.html">Anéis <i class="fas fa-chevron-down"></i></a>
+                        <ul class="submenu">
+                            <li><a href="aneis.html#noivado">Anéis de Noivado</a></li>
+                            <li><a href="aneis.html#casamento">Alianças de Casamento</a></li>
+                            <li><a href="aneis.html#luxo">Anéis de Luxo</a></li>
+                            <li><a href="aneis.html#casual">Anéis Casuais</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="colares.html">Colares <i class="fas fa-chevron-down"></i></a>
+                        <ul class="submenu">
+                            <li><a href="colares.html#diamantes">Colares com Diamantes</a></li>
+                            <li><a href="colares.html#perolas">Colares de Pérolas</a></li>
+                            <li><a href="colares.html#correntes">Correntes</a></li>
+                            <li><a href="colares.html#pingentes">Pingentes</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="brincos.html">Brincos <i class="fas fa-chevron-down"></i></a>
+                        <ul class="submenu">
+                            <li><a href="brincos.html#argolas">Argolas</a></li>
+                            <li><a href="brincos.html#brilhantes">Brincos com Brilhantes</a></li>
+                            <li><a href="brincos.html#pedras">Brincos com Pedras</a></li>
+                            <li><a href="brincos.html#pequenos">Brincos Pequenos</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="pulseiras.html">Pulseiras <i class="fas fa-chevron-down"></i></a>
+                        <ul class="submenu">
+                            <li><a href="pulseiras.html#ouro">Pulseiras de Ouro</a></li>
+                            <li><a href="pulseiras.html#prata">Pulseiras de Prata</a></li>
+                            <li><a href="pulseiras.html#berloques">Berloques</a></li>
+                            <li><a href="pulseiras.html#rigidas">Pulseiras Rígidas</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="nav-actions">
+                <div id="user-menu" class="user-menu"></div>
+                <div id="login-button"></div>
+                <a href="#" id="wishlist-icon" class="action-icon">
+                    <i class="fas fa-heart"></i>
+                    <span id="wishlist-count" class="count-badge">0</span>
+                </a>
+                <a href="#" id="cart-icon" class="action-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="count-badge">0</span>
+                </a>
             </div>
         </nav>
     </header>
@@ -54,10 +100,10 @@
                     </div>
                 </div>
                 <div class="view-options">
-                    <button id="view-3d" class="view-button">
+                    <button id="view-3d" class="btn btn-primary view-button">
                         <i class="fas fa-cube"></i> Visualizar em 3D
                     </button>
-                    <button id="try-on" class="view-button">
+                    <button id="try-on" class="btn btn-primary view-button">
                         <i class="fas fa-camera"></i> Experimentar Virtual
                     </button>
                 </div>
@@ -104,7 +150,7 @@
                         <input type="number" id="quantity" value="1" min="1">
                         <button id="increase-quantity">+</button>
                     </div>
-                    <button id="add-to-cart-btn" class="primary-button">
+                    <button id="add-to-cart-btn" class="btn btn-primary primary-button">
                         Adicionar ao Carrinho
                     </button>
                 </div>

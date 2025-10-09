@@ -5,7 +5,7 @@
 }
 
 .privacy-content {
-    background: white;
+    background: var(--card-bg);
     border-radius: 12px;
     padding: 2rem;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -14,31 +14,31 @@
 .page-title {
     text-align: center;
     margin: 3rem 0;
-    color: var(--primary-color);
+    color: var(--primary-900);
     font-size: 2.5rem;
 }
 
 .last-updated {
     text-align: center;
-    color: #666;
+    color: var(--muted);
     margin-bottom: 3rem;
     font-style: italic;
 }
 
 .privacy-section h2 {
-    color: var(--primary-color);
+    color: var(--primary-900);
     margin: 2rem 0 1rem;
     font-size: 1.8rem;
 }
 
 .privacy-section h3 {
-    color: #333;
+    color: var(--secondary-color);
     margin: 1.5rem 0 1rem;
     font-size: 1.4rem;
 }
 
 .privacy-section p {
-    color: #666;
+    color: var(--muted);
     line-height: 1.6;
     margin-bottom: 1rem;
 }
@@ -49,17 +49,17 @@
 }
 
 .privacy-section li {
-    color: #666;
+    color: var(--muted);
     margin-bottom: 0.5rem;
     line-height: 1.6;
 }
 
 .privacy-section strong {
-    color: #333;
+    color: var(--secondary-color);
 }
 
 .contact-info {
-    background: #f8f9fa;
+    background: rgba(0,0,0,0.03);
     padding: 1.5rem;
     border-radius: 8px;
     margin: 2rem 0;
@@ -71,32 +71,29 @@
 
 .consent-section {
     background: var(--accent-color);
-    color: white;
+    color: var(--btn-text);
     padding: 2rem;
     border-radius: 8px;
     margin: 2rem 0;
 }
-
 .consent-section h3 {
-    color: white;
+    color: var(--btn-text);
     margin-bottom: 1rem;
 }
 
 .consent-section p {
-    color: white;
+    color: var(--btn-text);
     margin-bottom: 1rem;
 }
 
 .table-of-contents {
-    background: #f8f9fa;
+    background: rgba(0,0,0,0.03);
     padding: 1.5rem;
     border-radius: 8px;
     margin: 2rem 0;
 }
 
-.table-of-contents h3 {
-    margin-bottom: 1rem;
-}
+
 
 .table-of-contents ul {
     list-style: none;
@@ -108,7 +105,7 @@
 }
 
 .table-of-contents a {
-    color: var(--primary-color);
+    color: var(--primary-900);
     text-decoration: none;
     transition: color 0.3s ease;
 }

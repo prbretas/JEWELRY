@@ -30,6 +30,7 @@
     ></script>
   </head>
   <body>
+    <!-------------------- MENU SUPERIOR ---------------->
     <header>
       <nav class="navbar">
         <div class="logo">
@@ -40,69 +41,39 @@
         <div class="nav-menu">
           <ul class="menu-items">
             <li class="menu-item">
-              <a href="pages/aneis.html"
-                >Anéis <i class="fas fa-chevron-down"></i
-              ></a>
+              <a href="pages/aneis.html">Anéis <i class="fas fa-chevron-down"></i></a>
               <ul class="submenu">
                 <li><a href="pages/aneis.html#noivado">Anéis de Noivado</a></li>
-                <li>
-                  <a href="pages/aneis.html#casamento">Alianças de Casamento</a>
-                </li>
+                <li><a href="pages/aneis.html#casamento">Alianças de Casamento</a></li>
                 <li><a href="pages/aneis.html#luxo">Anéis de Luxo</a></li>
                 <li><a href="pages/aneis.html#casual">Anéis Casuais</a></li>
               </ul>
             </li>
             <li class="menu-item">
-              <a href="pages/colares.html"
-                >Colares <i class="fas fa-chevron-down"></i
-              ></a>
+              <a href="pages/colares.html">Colares <i class="fas fa-chevron-down"></i></a>
               <ul class="submenu">
-                <li>
-                  <a href="pages/colares.html#diamantes"
-                    >Colares com Diamantes</a
-                  >
-                </li>
-                <li>
-                  <a href="pages/colares.html#perolas">Colares de Pérolas</a>
-                </li>
+                <li><a href="pages/colares.html#diamantes">Colares com Diamantes</a></li>
+                <li><a href="pages/colares.html#perolas">Colares de Pérolas</a></li>
                 <li><a href="pages/colares.html#correntes">Correntes</a></li>
                 <li><a href="pages/colares.html#pingentes">Pingentes</a></li>
               </ul>
             </li>
             <li class="menu-item">
-              <a href="pages/brincos.html"
-                >Brincos <i class="fas fa-chevron-down"></i
-              ></a>
+              <a href="pages/brincos.html">Brincos <i class="fas fa-chevron-down"></i></a>
               <ul class="submenu">
                 <li><a href="pages/brincos.html#argolas">Argolas</a></li>
-                <li>
-                  <a href="pages/brincos.html#brilhantes"
-                    >Brincos com Brilhantes</a
-                  >
-                </li>
-                <li>
-                  <a href="pages/brincos.html#pedras">Brincos com Pedras</a>
-                </li>
-                <li>
-                  <a href="pages/brincos.html#pequenos">Brincos Pequenos</a>
-                </li>
+                <li><a href="pages/brincos.html#brilhantes">Brincos com Brilhantes</a></li>
+                <li><a href="pages/brincos.html#pedras">Brincos com Pedras</a></li>
+                <li><a href="pages/brincos.html#pequenos">Brincos Pequenos</a></li>
               </ul>
             </li>
             <li class="menu-item">
-              <a href="pages/pulseiras.html"
-                >Pulseiras <i class="fas fa-chevron-down"></i
-              ></a>
+              <a href="pages/pulseiras.html">Pulseiras <i class="fas fa-chevron-down"></i></a>
               <ul class="submenu">
-                <li>
-                  <a href="pages/pulseiras.html#ouro">Pulseiras de Ouro</a>
-                </li>
-                <li>
-                  <a href="pages/pulseiras.html#prata">Pulseiras de Prata</a>
-                </li>
+                <li><a href="pages/pulseiras.html#ouro">Pulseiras de Ouro</a></li>
+                <li><a href="pages/pulseiras.html#prata">Pulseiras de Prata</a></li>
                 <li><a href="pages/pulseiras.html#berloques">Berloques</a></li>
-                <li>
-                  <a href="pages/pulseiras.html#rigidas">Pulseiras Rígidas</a>
-                </li>
+                <li><a href="pages/pulseiras.html#rigidas">Pulseiras Rígidas</a></li>
               </ul>
             </li>
           </ul>
@@ -110,19 +81,21 @@
         <div class="nav-actions">
           <div id="user-menu" class="user-menu"></div>
           <div id="login-button"></div>
-          <a href="#" id="wishlist-icon" class="action-icon">
+          <a href="#" id="wishlist-icon" class="action-icon" aria-label="Lista de desejos">
             <i class="fas fa-heart"></i>
             <span id="wishlist-count" class="count-badge">0</span>
           </a>
-          <a href="#" id="cart-icon" class="action-icon">
+          <a href="#" id="cart-icon" class="action-icon" aria-label="Carrinho">
             <i class="fas fa-shopping-cart"></i>
             <span id="cart-count" class="count-badge">0</span>
           </a>
         </div>
       </nav>
     </header>
+    <!-------------------- MAIN ---------------->
 
     <main>
+      <!-------------------- CARROSSEL ---------------->
       <section>
         <div
           id="carouselExample"
@@ -185,6 +158,16 @@
         </div>
       </section>
 
+      <!-------------------- DESTAQUES ---------------->
+      <section class="featured-products">
+        <h2>Destaques</h2>
+        <div class="product-grid" id="featured-items">
+          <!-- Products will be loaded dynamically via JavaScript -->
+        </div>
+      </section>
+    </main>
+
+          <!-------------------- POSTER - SEARCH ---------------->
       <section class="hero">
         <h2>Descubra a Elegância</h2>
         <p>Joias exclusivas para momentos especiais</p>
@@ -204,7 +187,7 @@
           </button>
         </div>
       </section>
-
+      <!-------------------- FILTERS ---------------->
       <section class="filters" id="filters-section">
         <div class="filter-group">
           <h3>Faixa de Preço</h3>
@@ -271,15 +254,7 @@
           Aplicar Filtros
         </button>
       </section>
-
-      <section class="featured-products">
-        <h2>Destaques</h2>
-        <div class="product-grid" id="featured-items">
-          <!-- Products will be loaded dynamically via JavaScript -->
-        </div>
-      </section>
-    </main>
-
+    <!-------------------- CARRINHO ---------------->
     <div id="cart-modal" class="modal">
       <div class="modal-content">
         <span class="close">&times;</span>
@@ -291,23 +266,23 @@
         <button id="checkout-btn">Finalizar Compra</button>
       </div>
     </div>
-
+    <!-------------------- LISTA DE DESEJOS ---------------->
     <div id="wishlist-modal" class="modal">
       <div class="modal-content">
         <span class="close">&times;</span>
         <h2>Lista de Desejos</h2>
         <div id="wishlist-items"></div>
         <div class="wishlist-actions">
-          <button id="share-wishlist" class="secondary-button">
+          <button id="share-wishlist" class="btn btn-secondary secondary-button">
             <i class="fas fa-share-alt"></i> Compartilhar Lista
           </button>
-          <button id="clear-wishlist" class="secondary-button">
+          <button id="clear-wishlist" class="btn btn-secondary secondary-button">
             <i class="fas fa-trash"></i> Limpar Lista
           </button>
         </div>
       </div>
     </div>
-
+    <!-------------------- FOOTER ---------------->
     <footer>
       <div class="footer-content">
         <div class="footer-section">
@@ -352,5 +327,32 @@
     </footer>
 
     <script type="module" src="js/script.js"></script>
+    <!-- Theme picker UI -->
+    <button id="theme-toggle" class="theme-toggle-btn" title="Abrir painel de tema">
+      <i class="fas fa-paint-roller"></i>
+    </button>
+    <div id="theme-panel" class="theme-panel" aria-hidden="true">
+      <h4>Personalizar Tema</h4>
+      <div class="theme-row">
+        <label class="small">Primária</label>
+        <input type="color" id="theme-primary" value="#b89a70" />
+      </div>
+      <div class="theme-row">
+        <label class="small">Acento</label>
+        <input type="color" id="theme-accent" value="#d4af37" />
+      </div>
+      <div class="theme-row">
+        <label class="small">Texto do menu</label>
+        <input type="color" id="theme-nav-text" value="#ffffff" />
+      </div>
+      <div class="theme-row">
+        <label class="small">Fundo</label>
+        <input type="color" id="theme-bg" value="#fbfaf8" />
+      </div>
+      <div style="display:flex; gap:8px; margin-top:8px;">
+        <button id="theme-reset" class="btn btn-secondary">Reset</button>
+        <button id="theme-apply" class="btn btn-primary">Aplicar</button>
+      </div>
+    </div>
   </body>
 </html>

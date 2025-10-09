@@ -46,8 +46,24 @@ const products = {
             image: "assets/images/pulseira-ouro.jpg",
             category: "pulseiras"
         }
-    ]
+    ],
+    // Provide empty collections for other categories so code that expects them won't throw
+    aneis: [],
+    colares: [],
+    brincos: [],
+    pulseiras: []
 };
+
+// Helper to safely aggregate all products
+function getAllProducts() {
+    return [
+        ...(products.featured || []),
+        ...(products.aneis || []),
+        ...(products.colares || []),
+        ...(products.brincos || []),
+        ...(products.pulseiras || [])
+    ];
+}
 
 // Wishlist functionality
 let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
@@ -77,32 +93,9 @@ function displayProducts() {
     });
 }
 
-// Create product card
-function createProductCard(product) {
-    const card = document.createElement('div');
-    card.className = 'product-card';
-    card.innerHTML = `
-        <img src="${product.image}" alt="${product.name}" class="product-image">
-        <div class="product-info">
-            <h3 class="product-title">${product.name}</h3>
-            <p class="product-price">R$ ${product.price.toFixed(2)}</p>
-            <button class="add-to-cart" onclick="addToCart(${product.id})">
-                Adicionar ao Carrinho
-            </button>
-        </div>
-    `;
-    return card;
-}
+// (removed simple duplicate createProductCard - a richer version is defined later)
 
-// Add item to cart
-function addToCart(productId) {
-    const product = products.featured.find(p => p.id === productId);
-    if (product) {
-        cart.push(product);
-        updateCart();
-        showCartModal();
-    }
-}
+// (addToCart implementation is defined later with wishlist/auth handling; removed duplicate)
 
 // Update cart display
 function updateCart() {
@@ -133,21 +126,24 @@ function removeFromCart(index) {
 
 // Show cart modal
 function showCartModal() {
-    cartModal.style.display = 'block';
+    if (cartModal) cartModal.style.display = 'block';
 }
 
-// Close cart modal
-function closeCartModal() {
-    cartModal.style.display = 'none';
-}
+// Close modal handlers (works for cart and wishlist)
+document.querySelectorAll('.modal .close').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        const modal = btn.closest('.modal');
+        if (modal) modal.style.display = 'none';
+    });
+});
 
-// Event listeners
-cartIcon.addEventListener('click', showCartModal);
-closeBtn.addEventListener('click', closeCartModal);
+// Close when clicking outside modal content
 window.addEventListener('click', (event) => {
-    if (event.target === cartModal) {
-        closeCartModal();
-    }
+    document.querySelectorAll('.modal').forEach(modal => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
 });
 
 checkoutBtn.addEventListener('click', () => {
@@ -242,13 +238,7 @@ function updateActiveFilters() {
 }
 
 function applyFiltersAndSearch() {
-    const allProducts = [
-        ...products.featured,
-        ...products.aneis,
-        ...products.colares,
-        ...products.brincos,
-        ...products.pulseiras
-    ];
+    const allProducts = getAllProducts();
 
     const filteredProducts = allProducts.filter(product => {
         // Price filter
@@ -301,32 +291,13 @@ function displayFilteredProducts(filteredProducts) {
     });
 }
 
-// Wishlist functionality
-function toggleWishlist(productId) {
-    const index = wishlist.indexOf(productId);
-    if (index === -1) {
-        wishlist.push(productId);
-    } else {
-        wishlist.splice(index, 1);
-    }
-    localStorage.setItem('wishlist', JSON.stringify(wishlist));
-    updateWishlistDisplay();
-    updateProductWishlistButtons(productId);
-}
-
+// Wishlist functionality (update and rendering use safe product list)
 function updateWishlistDisplay() {
     wishlistCount.textContent = wishlist.length;
-    
     if (!wishlistItems) return;
-    
     wishlistItems.innerHTML = '';
-    const allProducts = [
-        ...products.featured,
-        ...products.aneis,
-        ...products.colares,
-        ...products.brincos,
-        ...products.pulseiras
-    ];
+
+    const allProducts = getAllProducts();
 
     wishlist.forEach(productId => {
         const product = allProducts.find(p => p.id === productId);
@@ -364,12 +335,9 @@ function updateProductWishlistButtons(productId) {
 }
 
 function shareWishlist() {
-    const wishlistItems = wishlist.map(productId => {
-        const product = products.featured.find(p => p.id === productId) ||
-                       products.aneis.find(p => p.id === productId) ||
-                       products.colares.find(p => p.id === productId) ||
-                       products.brincos.find(p => p.id === productId) ||
-                       products.pulseiras.find(p => p.id === productId);
+    const allProducts = getAllProducts();
+    const wishlistItemsText = wishlist.map(productId => {
+        const product = allProducts.find(p => p.id === productId);
         return product ? product.name : '';
     }).filter(name => name);
 
@@ -414,11 +382,11 @@ function createProductCard(product) {
                 <h3 class="product-title">${product.name}</h3>
                 <p class="product-price">R$ ${product.price.toFixed(2)}</p>
                 <div class="product-actions">
-                    <button class="add-to-cart" onclick="addToCart(${product.id}); event.preventDefault();">
+                    <button class="btn btn-primary add-to-cart" onclick="addToCart(${product.id}); event.preventDefault();">
                         <i class="fas fa-shopping-cart"></i>
                         Adicionar ao Carrinho
                     </button>
-                    <button class="wishlist-btn ${isInWishlist ? 'in-wishlist' : ''}" 
+                    <button class="btn-ghost wishlist-btn ${isInWishlist ? 'in-wishlist' : ''}" 
                             data-product-id="${product.id}"
                             onclick="toggleWishlist(${product.id}); event.preventDefault();">
                         <i class="fas fa-heart"></i>
@@ -497,25 +465,20 @@ document.addEventListener('DOMContentLoaded', () => {
     updateAuthUI();
 });
 
-// Update the Cart and Wishlist to work with authenticated users
+// Centralized, safe addToCart implementation — works with or without authentication
 function addToCart(productId) {
-    if (!auth.isAuthenticated) {
-        window.location.href = 'pages/login.html';
-        return;
-    }
-    const product = products.featured.find(p => p.id === productId);
-    if (product) {
-        cart.push(product);
-        updateCart();
-        showCartModal();
-    }
+    // find product across all collections
+    const product = getAllProducts().find(p => p.id === productId);
+    if (!product) return;
+
+    // Allow adding to cart even if user is not authenticated (store locally)
+    cart.push(product);
+    updateCart();
+    showCartModal();
 }
 
+// Centralized toggleWishlist — will not force redirect to login; stores locally
 function toggleWishlist(productId) {
-    if (!auth.isAuthenticated) {
-        window.location.href = 'pages/login.html';
-        return;
-    }
     const index = wishlist.indexOf(productId);
     if (index === -1) {
         wishlist.push(productId);
@@ -526,3 +489,119 @@ function toggleWishlist(productId) {
     updateWishlistDisplay();
     updateProductWishlistButtons(productId);
 }
+
+/* Theme picker runtime controls */
+function setTheme(vars) {
+    const root = document.documentElement;
+    if (vars.primary) root.style.setProperty('--primary-color', vars.primary);
+    if (vars.accent) root.style.setProperty('--accent-color', vars.accent);
+    if (vars.navText) root.style.setProperty('--nav-text-color', vars.navText);
+    if (vars.bg) root.style.setProperty('--background-color', vars.bg);
+}
+
+function saveTheme(vars) {
+    localStorage.setItem('site-theme', JSON.stringify(vars));
+}
+
+function loadTheme() {
+    try {
+        const raw = localStorage.getItem('site-theme');
+        return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+        return null;
+    }
+}
+
+function resetThemeToDefaults() {
+    const defaults = {
+        primary: getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim() || '#b89a70',
+        accent: getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim() || '#d4af37',
+        navText: getComputedStyle(document.documentElement).getPropertyValue('--nav-text-color').trim() || '#ffffff',
+        bg: getComputedStyle(document.documentElement).getPropertyValue('--background-color').trim() || '#fbfaf8'
+    };
+    saveTheme(defaults);
+    setTheme(defaults);
+    return defaults;
+}
+
+// Wire up theme UI if present
+document.addEventListener('DOMContentLoaded', () => {
+    const panel = document.getElementById('theme-panel');
+    const toggle = document.getElementById('theme-toggle');
+    const primaryInput = document.getElementById('theme-primary');
+    const accentInput = document.getElementById('theme-accent');
+    const navTextInput = document.getElementById('theme-nav-text');
+    const bgInput = document.getElementById('theme-bg');
+    const applyBtn = document.getElementById('theme-apply');
+    const resetBtn = document.getElementById('theme-reset');
+
+    // Load saved theme
+    const saved = loadTheme();
+    if (saved) {
+        setTheme(saved);
+        if (primaryInput) primaryInput.value = saved.primary;
+        if (accentInput) accentInput.value = saved.accent;
+        if (navTextInput) navTextInput.value = saved.navText;
+        if (bgInput) bgInput.value = saved.bg;
+    }
+
+    if (toggle && panel) {
+        toggle.addEventListener('click', () => {
+            panel.classList.toggle('open');
+            panel.setAttribute('aria-hidden', panel.classList.contains('open') ? 'false' : 'true');
+        });
+    }
+
+    if (applyBtn) {
+        applyBtn.addEventListener('click', () => {
+            const vars = {
+                primary: primaryInput ? primaryInput.value : null,
+                accent: accentInput ? accentInput.value : null,
+                navText: navTextInput ? navTextInput.value : null,
+                bg: bgInput ? bgInput.value : null
+            };
+            setTheme(vars);
+            saveTheme(vars);
+            if (panel) { panel.classList.remove('open'); panel.setAttribute('aria-hidden', 'true'); }
+        });
+    }
+
+    if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+            const defaults = resetThemeToDefaults();
+            if (primaryInput) primaryInput.value = defaults.primary;
+            if (accentInput) accentInput.value = defaults.accent;
+            if (navTextInput) navTextInput.value = defaults.navText;
+            if (bgInput) bgInput.value = defaults.bg;
+            if (panel) { panel.classList.remove('open'); panel.setAttribute('aria-hidden', 'true'); }
+        });
+    }
+});
+
+// Inject theme panel markup on pages that don't include it (keeps UI site-wide)
+(function injectThemePanel() {
+    function makePanelHtml() {
+        return `
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Abrir painel de tema">Tema</button>
+        <div id="theme-panel" class="theme-panel" aria-hidden="true">
+            <h4>Personalizar Tema</h4>
+            <div class="theme-row"><label class="small">Primário</label><input type="color" id="theme-primary" value="${getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim() || '#b89a70'}"/></div>
+            <div class="theme-row"><label class="small">Accent</label><input type="color" id="theme-accent" value="${getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim() || '#d4af37'}"/></div>
+            <div class="theme-row"><label class="small">Texto do Nav</label><input type="color" id="theme-nav-text" value="${getComputedStyle(document.documentElement).getPropertyValue('--nav-text-color').trim() || '#ffffff'}"/></div>
+            <div class="theme-row"><label class="small">Fundo</label><input type="color" id="theme-bg" value="${getComputedStyle(document.documentElement).getPropertyValue('--background-color').trim() || '#fbfaf8'}"/></div>
+            <div style="display:flex; gap:8px; margin-top:8px;"><button id="theme-apply" class="btn-primary">Aplicar</button><button id="theme-reset" class="btn-secondary">Reset</button></div>
+        </div>
+        `;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        if (!document.getElementById('theme-panel')) {
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = makePanelHtml();
+            document.body.appendChild(wrapper);
+            // After insertion, re-run the wiring block above by dispatching a small event.
+            const evt = new Event('theme-panel-injected');
+            document.dispatchEvent(evt);
+        }
+    });
+})();

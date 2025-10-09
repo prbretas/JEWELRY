@@ -21,10 +21,10 @@
 
 .category-button {
     padding: 0.8rem 1.5rem;
-    border: 2px solid var(--primary-color);
+    border: 2px solid var(--primary-900);
     border-radius: 6px;
     background: none;
-    color: var(--primary-color);
+    color: var(--primary-900);
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 500;
@@ -32,7 +32,7 @@
 
 .category-button:hover,
 .category-button.active {
-    background-color: var(--primary-color);
+    background-color: var(--primary-900);
     color: var(--white);
 }
 
@@ -55,7 +55,7 @@
 }
 
 .faq-question:hover {
-    color: var(--primary-color);
+    color: var(--primary-900);
 }
 
 .faq-question i {

@@ -62,14 +62,14 @@
 }
 
 .status-step.completed .step-icon {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
+    background-color: var(--primary-900);
+    border-color: var(--primary-900);
     color: var(--white);
 }
 
 .status-step.active .step-icon {
-    border-color: var(--primary-color);
-    color: var(--primary-color);
+    border-color: var(--primary-900);
+    color: var(--primary-900);
 }
 
 .step-label {
@@ -98,7 +98,7 @@
 
 .history-date {
     min-width: 100px;
-    color: var(--primary-color);
+    color: var(--primary-900);
     font-weight: 500;
 }
 
@@ -108,7 +108,7 @@
 }
 
 .history-details small {
-    color: #666;
+    color: var(--muted);
 }
 
 @media (max-width: 768px) {
