@@ -1,128 +1,128 @@
 .returns-section {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 0 1rem;
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
 }
 
 .returns-content {
-    background: var(--card-bg);
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .policy-section {
-    margin-bottom: 2rem;
+  margin-bottom: 2rem;
 }
 
 .policy-section h2 {
-    color: var(--primary-900);
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
+  color: var(--primary-900);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
 }
 
 .policy-section p {
-    color: var(--muted);
-    line-height: 1.8;
-    margin-bottom: 1rem;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 1rem;
 }
 
 .policy-section ul {
-    list-style: none;
-    padding-left: 0;
+  list-style: none;
+  padding-left: 0;
 }
 
 .policy-section li {
-    padding: 0.5rem 0;
-    padding-left: 1.5rem;
-    position: relative;
-    color: var(--muted);
-    line-height: 1.6;
+  padding: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  color: var(--muted);
+  line-height: 1.6;
 }
 
 .policy-section li::before {
-    content: "•";
-    color: var(--primary-900);
-    position: absolute;
-    left: 0;
+  content: "•";
+  color: var(--primary-900);
+  position: absolute;
+  left: 0;
 }
 
 .steps-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-    margin: 2rem 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
 }
 
 .step-card {
-    background: rgba(0,0,0,0.03);
-    padding: 1.5rem;
-    border-radius: 8px;
-    text-align: center;
+  background: var(--surface-light-weak);
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
 }
 
 .step-card i {
-    font-size: 2rem;
-    color: var(--primary-900);
-    margin-bottom: 1rem;
+  font-size: 2rem;
+  color: var(--primary-900);
+  margin-bottom: 1rem;
 }
 
 .step-card h3 {
-    color: var(--secondary-color);
-    margin-bottom: 0.5rem;
+  color: var(--secondary-color);
+  margin-bottom: 0.5rem;
 }
 
 .step-card p {
-    color: var(--muted);
-    font-size: 0.9rem;
-    line-height: 1.6;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
 }
 
 .contact-info {
-    background: rgba(0,0,0,0.03);
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin-top: 2rem;
+  background: var(--surface-light-weak);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-top: 2rem;
 }
 
 .contact-info h3 {
-    color: var(--primary-900);
-    margin-bottom: 1rem;
+  color: var(--primary-900);
+  margin-bottom: 1rem;
 }
 
 .contact-info p {
-    color: var(--muted);
-    margin-bottom: 0.5rem;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
 }
 
 .page-title {
-    text-align: center;
-    margin: 3rem 0;
-    color: var(--primary-900);
-    font-size: 2.5rem;
+  text-align: center;
+  margin: 3rem 0;
+  color: var(--primary-900);
+  font-size: 2.5rem;
 }
 
 .page-description {
-    text-align: center;
-    margin-bottom: 3rem;
-    color: var(--muted);
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+  text-align: center;
+  margin-bottom: 3rem;
+  color: var(--muted);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .alert-box {
-    background-color: var(--alert-bg);
-    color: var(--alert-text);
-    padding: 1rem;
-    border-radius: 6px;
-    margin-bottom: 2rem;
-    border: 1px solid var(--alert-border);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+  background-color: var(--alert-bg);
+  color: var(--alert-text);
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 2rem;
+  border: 1px solid var(--alert-border);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .alert-box i {
-    font-size: 1.2rem;
+  font-size: 1.2rem;
 }

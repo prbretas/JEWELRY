@@ -1,208 +1,302 @@
-// DeepAR configuration
-const deepARConfig = {
-    licenseKey: 'your_deepar_license_key_here', // Replace with your actual DeepAR license key
-    canvas: document.getElementById('deepar-container'),
-    effect: '../assets/effects/jewelry.deepar', // Path to your DeepAR effect file
-    // Additional DeepAR configuration options
-};
 
+/**
+ * @file js/product-detail.js
+ * @module ProductDetail
+ * @author Jewelry Team (prbretas)
+ * @version 1.0.3
+ * @date 2025-10-09
+ * @description Lógica da página de detalhes do produto — carregamento de dados, galeria, seleção de tamanho/metal, integração com DeepAR (virtual try-on), controle de modais.
+ *
+ * Histórico de alterações:
+ * - 1.0.3 (09/10/2025 14:00): Padronização de comentários e documentação JSDoc.
+ * - 1.0.2: Programação defensiva e tratamento de erros DeepAR.
+ * - 1.0.1: Ajustes de galeria e integração de opções.
+ * - 1.0.0: Implementação inicial da página de detalhes.
+ */
+
+/*
+ * Bloco: Configuração do DeepAR
+ */
+// **PROGRAMAÇÃO DEFENSIVA**: Verifica se o canvas existe antes de criar a config.
+const deepARCanvas = document.getElementById('deepar-container');
+
+const deepARConfig = deepARCanvas ? {
+    licenseKey: 'your_deepar_license_key_here', // Substitua pela sua chave DeepAR válida
+    canvas: deepARCanvas,
+    effect: '../assets/effects/jewelry.deepar', // Caminho do efeito DeepAR (arquivo .deepar)
+} : null; // Configuração será null se o elemento não existir
+
+// Estado compartilhado do módulo
 let deepAR = null;
 let currentProduct = null;
 let selectedSize = null;
-let selectedMetal = 'yellow';
+let selectedMetal = null;
 
-// Initialize DeepAR
-async function initializeDeepAR() {
-    try {
-        deepAR = await deepar.initialize(deepARConfig);
-        await deepAR.startCamera();
-        // Load the jewelry effect
-        await deepAR.loadEffect(deepARConfig.effect);
-    } catch (error) {
-        console.error('Error initializing DeepAR:', error);
-        alert('Failed to initialize virtual try-on. Please try again later.');
-    }
-}
 
-// Load product details
-function loadProductDetails() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = parseInt(urlParams.get('id'));
-    
-    // Find product in our data
-    const allProducts = [
-        ...products.featured,
-        ...products.aneis,
-        ...products.colares,
-        ...products.brincos,
-        ...products.pulseiras
-    ];
-    
-    currentProduct = allProducts.find(p => p.id === productId);
-    
-    if (!currentProduct) {
-        window.location.href = '../index.html';
+// =========================================================================
+// Bloco: Viewer 3D (TODO)
+// =========================================================================
+// TODO: Para implementar o visualizador 3D de joias, utilize uma biblioteca como model-viewer (Web Components) ou Three.js.
+// Exemplo de uso futuro:
+// <model-viewer src="/assets/models/joia.glb" ar auto-rotate camera-controls></model-viewer>
+// Ou inicialização de cena Three.js para visualização customizada.
+// Certifique-se de validar o carregamento do modelo e tratar erros de renderização.
+
+/**
+ * @function initDeepAR
+ * @description Inicializa a biblioteca DeepAR e carrega o efeito
+ * @async
+ */
+async function initDeepAR() {
+    // **PROGRAMAÇÃO DEFENSIVA**: Não tenta inicializar se a configuração é nula
+    if (!deepARConfig) {
+        console.warn('DeepAR container not found. Virtual try-on skipped.');
         return;
     }
 
-    // Update page content
-    document.getElementById('product-name').textContent = currentProduct.name;
-    document.getElementById('product-price').textContent = `R$ ${currentProduct.price.toFixed(2)}`;
-    document.getElementById('product-description').textContent = currentProduct.description;
-    document.getElementById('main-product-image').src = currentProduct.images[0];
-    document.getElementById('detailed-description').textContent = currentProduct.description;
-
-    // Load thumbnails
-    const thumbnailContainer = document.querySelector('.thumbnail-container');
-    thumbnailContainer.innerHTML = '';
-    currentProduct.images.forEach((image, index) => {
-        const thumbnail = document.createElement('img');
-        thumbnail.src = image;
-        thumbnail.alt = `${currentProduct.name} - View ${index + 1}`;
-        thumbnail.className = 'thumbnail';
-        if (index === 0) thumbnail.classList.add('active');
-        thumbnail.addEventListener('click', () => updateMainImage(image, index));
-        thumbnailContainer.appendChild(thumbnail);
-    });
-
-    // Load product specifications
-    const specsList = document.getElementById('specifications');
-    specsList.innerHTML = '';
-    for (const [key, value] of Object.entries(currentProduct.details)) {
-        const li = document.createElement('li');
-        li.textContent = `${key.charAt(0).toUpperCase() + key.slice(1)}: ${value}`;
-        specsList.appendChild(li);
+    const tryOnBtn = document.getElementById('try-on-toggle');
+    if (tryOnBtn) {
+        tryOnBtn.disabled = true;
+        tryOnBtn.textContent = 'Carregando Try-On...';
+        tryOnBtn.classList.add('button-loading');
     }
 
-    // Load size options
-    const sizeOptions = document.getElementById('size-options');
-    sizeOptions.innerHTML = '';
-    currentProduct.details.tamanhos.forEach(size => {
-        const button = document.createElement('button');
-        button.className = 'size-option';
-        button.textContent = size;
-        button.addEventListener('click', () => selectSize(size));
-        sizeOptions.appendChild(button);
-    });
-}
+    try {
+        console.log('Initializing DeepAR with config:', deepARConfig);
+        // Tenta inicializar
+        deepAR = await DeepAR.initialize(deepARConfig);
 
-// Update main image when thumbnail is clicked
-function updateMainImage(src, index) {
-    document.getElementById('main-product-image').src = src;
-    document.querySelectorAll('.thumbnail').forEach(thumb => thumb.classList.remove('active'));
-    document.querySelectorAll('.thumbnail')[index].classList.add('active');
-}
+        // Se inicializado com sucesso
+        console.log('DeepAR initialized successfully. Loading effect...');
+        await deepAR.switchEffect(deepARConfig.effect);
 
-// Size selection
-function selectSize(size) {
-    selectedSize = size;
-    document.querySelectorAll('.size-option').forEach(btn => {
-        btn.classList.toggle('active', btn.textContent === size);
-    });
-}
+        if (tryOnBtn) {
+            tryOnBtn.textContent = 'Iniciar Try-On Virtual';
+            tryOnBtn.classList.remove('button-loading');
+            tryOnBtn.disabled = false;
+        }
 
-// Metal selection
-document.querySelectorAll('.metal-option').forEach(btn => {
-    btn.addEventListener('click', () => {
-        selectedMetal = btn.dataset.metal;
-        document.querySelectorAll('.metal-option').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        updateProductVisuals();
-    });
-});
+        // Adiciona listener para alternar a visualização
+        if (tryOnBtn) {
+            tryOnBtn.addEventListener('click', () => {
+                // Lógica para mostrar/esconder o modal/overlay do DeepAR
+                const deeparModal = document.getElementById('deepar-modal');
+                deeparModal?.classList.toggle('open');
+                deeparModal?.setAttribute('aria-hidden', deeparModal.classList.contains('open') ? 'false' : 'true');
+            });
+        }
 
-// Update product visuals based on metal selection
-function updateProductVisuals() {
-    // Update 3D model or AR experience based on selected metal
-    if (deepAR) {
-        deepAR.switchEffect(`../assets/effects/jewelry_${selectedMetal}.deepar`);
+    } catch (error) {
+        console.error('Failed to initialize or load DeepAR effect:', error);
+        // **TRATAMENTO DE ERRO COM FEEDBACK**: Mostra toast de erro
+        if (typeof showToast === 'function') {
+            showToast('Erro ao carregar o Try-On Virtual. Verifique as permissões da câmera e a chave de licença.', 'error');
+        }
+        if (tryOnBtn) {
+            tryOnBtn.textContent = 'Try-On Indisponível';
+            tryOnBtn.classList.remove('button-loading');
+            tryOnBtn.disabled = true;
+            tryOnBtn.style.backgroundColor = 'gray'; // Feedback visual de falha
+        }
     }
 }
 
-// Quantity controls
-document.getElementById('decrease-quantity').addEventListener('click', () => {
-    const input = document.getElementById('quantity');
-    if (input.value > 1) input.value = parseInt(input.value) - 1;
-});
+// =========================================================================
+// Bloco: Galeria de Imagens e UI
+// =========================================================================
 
-document.getElementById('increase-quantity').addEventListener('click', () => {
-    const input = document.getElementById('quantity');
-    input.value = parseInt(input.value) + 1;
-});
+/**
+ * @function updateMainImage
+ * @description Altera a imagem principal e a aba ativa da galeria
+ * @param {string} src - URL da nova imagem
+ */
+function updateMainImage(src) {
+    const mainImage = document.getElementById('main-product-image');
+    if (!mainImage) return; // **PROGRAMAÇÃO DEFENSIVA**
 
-// Virtual Try-On
-document.getElementById('try-on').addEventListener('click', async () => {
-    const modal = document.getElementById('try-on-modal');
-    modal.style.display = 'block';
-    
-    if (!deepAR) {
-        await initializeDeepAR();
-    }
-});
+    mainImage.src = src;
 
-// 3D Viewer
-document.getElementById('view-3d').addEventListener('click', () => {
-    const modal = document.getElementById('viewer-3d-modal');
-    modal.style.display = 'block';
-    
-    // Initialize 3D viewer
-    // Add your 3D viewer implementation here
-});
-
-// Modal controls
-document.querySelectorAll('.modal .close').forEach(closeBtn => {
-    closeBtn.addEventListener('click', () => {
-        closeBtn.closest('.modal').style.display = 'none';
-        if (deepAR) {
-            deepAR.stopCamera();
+    // Atualiza a aba ativa (destaque da miniatura)
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    thumbnails.forEach(thumb => {
+        if (thumb.dataset.src === src) {
+            thumb.classList.add('active');
+        } else {
+            thumb.classList.remove('active');
         }
     });
-});
+}
 
-// Camera controls
-document.getElementById('switch-camera').addEventListener('click', () => {
-    if (deepAR) {
-        deepAR.switchCamera();
-    }
-});
+/**
+ * @function loadProductDetails
+ * @description Carrega os dados do produto na página.
+ */
+function loadProductDetails() {
+    // 1. Obter o ID do produto da URL
+    const params = new URLSearchParams(window.location.search);
+    const productId = parseInt(params.get('id'));
+    const categoryKey = params.get('category') || 'featured';
 
-document.getElementById('take-photo').addEventListener('click', () => {
-    if (deepAR) {
-        deepAR.takeScreenshot();
-    }
-});
-
-// Add to cart
-document.getElementById('add-to-cart-btn').addEventListener('click', () => {
-    if (!selectedSize) {
-        alert('Por favor, selecione um tamanho');
+    // **PROGRAMAÇÃO DEFENSIVA**: Verifica se o ID é válido e se o módulo products existe
+    if (isNaN(productId) || typeof products === 'undefined') {
+        document.getElementById('product-details-container').innerHTML = '<p class="text-danger">Produto não encontrado ou catálogo indisponível.</p>';
         return;
     }
 
-    const quantity = parseInt(document.getElementById('quantity').value);
-    const productToAdd = {
-        ...currentProduct,
-        selectedSize,
-        selectedMetal,
-        quantity
-    };
+    // 2. Buscar o produto no catálogo (exportado de script.js)
+    const categoryProducts = products[categoryKey] || products.featured;
+    currentProduct = categoryProducts.find(p => p.id === productId);
 
-    // Add to cart using the existing cart functionality
-    for (let i = 0; i < quantity; i++) {
-        addToCart(productToAdd.id);
+    if (!currentProduct) {
+        document.getElementById('product-details-container').innerHTML = '<p class="text-danger">Produto não encontrado no catálogo.</p>';
+        return;
     }
-});
+
+    // 3. Popular os detalhes
+    const mainImage = document.getElementById('main-product-image');
+    const nameEl = document.getElementById('product-name');
+    const priceEl = document.getElementById('product-price');
+    const descriptionEl = document.getElementById('product-description');
+    const thumbnailContainer = document.querySelector('.thumbnail-container');
+
+    // **PROGRAMAÇÃO DEFENSIVA**: Garante que os elementos existem antes de popular.
+    if (mainImage) mainImage.src = currentProduct.image;
+    if (nameEl) nameEl.textContent = currentProduct.name;
+    if (priceEl) priceEl.textContent = `R$ ${currentProduct.price.toFixed(2).replace('.', ',')}`;
+    if (descriptionEl) descriptionEl.textContent = currentProduct.description;
+
+    // 4. Montar a galeria de miniaturas
+    if (thumbnailContainer && currentProduct.images) {
+        thumbnailContainer.innerHTML = '';
+        currentProduct.images.forEach((imgSrc, index) => {
+            const thumb = document.createElement('img');
+            thumb.src = imgSrc;
+            thumb.className = `thumbnail ${index === 0 ? 'active' : ''}`;
+            thumb.dataset.src = imgSrc; // Usado para updateMainImage
+            thumb.addEventListener('click', () => updateMainImage(imgSrc));
+            thumbnailContainer.appendChild(thumb);
+        });
+    }
+
+    // 5. Inicializar o DeepAR (só se o produto for do tipo Try-On)
+    // Assumindo que DeepAR só deve inicializar se o container existir (DeepARConfig não for null)
+    if (deepARConfig) {
+        initDeepAR();
+    }
+}
+
+// =========================================================================
+// Bloco: Seleção de Opções e Adicionar ao Carrinho
+// =========================================================================
+
+/**
+ * @function initializeOptions
+ * @description Configura os event listeners para as opções de tamanho e metal.
+ */
+function initializeOptions() {
+    const sizeButtons = document.querySelectorAll('.size-option');
+    const metalButtons = document.querySelectorAll('.metal-option');
+    const addToCartBtn = document.getElementById('add-to-cart-btn');
+
+    // **PROGRAMAÇÃO DEFENSIVA**: Envolver listeners em verificações
+    if (sizeButtons.length > 0) {
+        selectedSize = sizeButtons[0].dataset.size; // Define um padrão
+        sizeButtons[0].classList.add('active');
+
+        sizeButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                sizeButtons.forEach(b => b.classList.remove('active'));
+                e.currentTarget.classList.add('active');
+                selectedSize = e.currentTarget.dataset.size;
+            });
+        });
+    }
+
+    if (metalButtons.length > 0) {
+        selectedMetal = metalButtons[0].dataset.metal; // Define um padrão
+        metalButtons[0].classList.add('active');
+
+        metalButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                metalButtons.forEach(b => b.classList.remove('active'));
+                e.currentTarget.classList.add('active');
+                selectedMetal = e.currentTarget.dataset.metal;
+            });
+        });
+    }
+
+    // Listener para o botão Adicionar ao Carrinho
+    if (addToCartBtn && typeof addToCart === 'function') {
+        addToCartBtn.addEventListener('click', () => {
+            if (!selectedSize && sizeButtons.length > 0) {
+                // Apenas alerta se houver botões de tamanho mas nenhum selecionado
+                showToast('Por favor, selecione um tamanho', 'warning');
+                return;
+            }
+
+            const quantityInput = document.getElementById('quantity');
+            const quantity = quantityInput ? parseInt(quantityInput.value) : 1;
+            // **VALIDAÇÃO DE ENTRADA**: Garante que a quantidade é válida
+            if (isNaN(quantity) || quantity <= 0) {
+                showToast('A quantidade deve ser um número positivo.', 'error');
+                return;
+            }
+
+            // Garante que currentProduct existe
+            if (!currentProduct) return;
+
+            const productToAdd = {
+                ...currentProduct,
+                selectedSize: selectedSize || 'Padrão', // Default para evitar null
+                selectedMetal: selectedMetal || 'Padrão',
+                quantity
+            };
+
+            // Simula um breve loading
+            addToCartBtn.classList.add('button-loading');
+            addToCartBtn.disabled = true;
+
+            setTimeout(() => {
+                addToCartBtn.classList.remove('button-loading');
+                addToCartBtn.disabled = false;
+                // Adiciona ao carrinho usando a função global addToCart
+                addToCart(productToAdd);
+            }, 500);
+        });
+    }
+}
+
+// =========================================================================
+// Bloco: Accordion functionality
+// =========================================================================
 
 // Accordion functionality
-document.querySelectorAll('.accordion-header').forEach(header => {
-    header.addEventListener('click', () => {
-        const content = header.nextElementSibling;
-        content.classList.toggle('active');
-        const icon = header.querySelector('i');
-        icon.classList.toggle('fa-chevron-down');
-        icon.classList.toggle('fa-chevron-up');
-    });
-});
+const accordionHeaders = document.querySelectorAll('.accordion-header');
 
-// Initialize page
-document.addEventListener('DOMContentLoaded', loadProductDetails);
+// **PROGRAMAÇÃO DEFENSIVA**: Envolver em verificação para evitar erro em páginas sem accordion
+if (accordionHeaders.length > 0) {
+    accordionHeaders.forEach(header => {
+        header.addEventListener('click', () => {
+            const content = header.nextElementSibling;
+            // **PROGRAMAÇÃO DEFENSIVA**: Checa o content
+            if (content) content.classList.toggle('active');
+
+            const icon = header.querySelector('i');
+            // **PROGRAMAÇÃO DEFENSIVA**: Checa o ícone
+            if (icon) {
+                icon.classList.toggle('fa-chevron-down');
+                icon.classList.toggle('fa-chevron-up');
+            }
+        });
+    });
+}
+
+
+/*
+ * Inicialização da página
+ */
+document.addEventListener('DOMContentLoaded', function() {
+    loadProductDetails();
+    initializeOptions();
+    // A inicialização do DeepAR é chamada dentro de loadProductDetails
+});

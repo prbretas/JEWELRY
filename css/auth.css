@@ -1,11 +1,311 @@
-/* Authentication Pages Styles */
+/* Estilos para páginas de autenticação */
+.auth-main {
+    min-height: calc(100vh - 200px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, var(--surface-light) 0%, var(--white) 100%);
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+.auth-box {
+    background: var(--white);
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+}
+
+.auth-title {
+    font-family: 'Playfair Display', serif;
+    color: var(--secondary-color);
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+.auth-subtitle {
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    color: var(--secondary-color);
+    font-size: 0.95rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-group label i {
+    color: var(--primary-color);
+    font-size: 1rem;
+}
+
+.form-group input {
+    padding: 0.9rem;
+    border: 1.5px solid var(--muted-light);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(184, 154, 112, 0.15);
+    outline: none;
+}
+
+.password-input {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.toggle-password:hover {
+    color: var(--primary-color);
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--secondary-color);
+    cursor: pointer;
+}
+
+.remember-me input[type="checkbox"] {
+    accent-color: var(--primary-color);
+}
+
+.forgot-password {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.forgot-password:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+.auth-submit {
+    background: var(--primary-color);
+    color: var(--white);
+    border: none;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.auth-submit:hover {
+    background: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.auth-divider {
+    text-align: center;
+    margin: 1.5rem 0;
+    position: relative;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: calc(50% - 30px);
+    height: 1px;
+    background: var(--muted-light);
+}
+
+.auth-divider::before { left: 0; }
+.auth-divider::after { right: 0; }
+
+.auth-divider span {
+    background: var(--white);
+    padding: 0 1rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.social-login {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.social-btn {
+    width: 100%;
+    padding: 0.9rem;
+    border: 1.5px solid var(--muted-light);
+    border-radius: 8px;
+    background: var(--white);
+    color: var(--secondary-color);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+}
+
+.social-btn i {
+    font-size: 1.2rem;
+}
+
+.social-btn.google i { color: var(--social-google); }
+.social-btn.facebook i { color: var(--social-facebook); }
+
+.social-btn:hover {
+    background: var(--surface-light);
+    transform: translateY(-2px);
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 2rem;
+    color: var(--secondary-color);
+    font-size: 0.95rem;
+}
+
+.auth-footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.auth-footer a:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+/* Estilos específicos para página de registro */
+.register-box {
+    max-width: 480px;
+}
+
+.validation-message {
+    color: #dc3545;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+    display: none;
+}
+
+.form-group.error input {
+    border-color: #dc3545;
+}
+
+.form-group.error .validation-message {
+    display: block;
+}
+
+.form-group.success input {
+    border-color: #198754;
+}
+
+.terms-group {
+    margin-top: 0.5rem;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin-top: 0.25rem;
+    accent-color: var(--primary-color);
+}
+
+.checkbox-label a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.checkbox-label a:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+    .auth-box {
+        padding: 2rem 1.5rem;
+    }
+
+    .auth-title {
+        font-size: 1.75rem;
+    }
+
+    .form-options {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+}
 .auth-container {
     min-height: calc(100vh - 150px);
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 2rem;
-    background: linear-gradient(135deg, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.03) 100%);
+    padding: 6rem 2rem 2rem 2rem; /* Aumentei o padding superior para compensar o menu fixo */
+    /* Usando var(light-bg) ou similar para gradientes */
+    background: linear-gradient(135deg, var(--light-bg-low-opacity, rgba(0,0,0,0.02)) 0%, var(--light-bg-medium-opacity, rgba(0,0,0,0.03)) 100%);
 }
 
 .auth-box {
@@ -51,7 +351,7 @@
 }
 
 .form-group input:focus {
-    border-color: var(--primary-color);
+    border-color: var(--primary-900); /* Corrigido para --primary-900 para consistência */
     outline: none;
 }
 
@@ -77,21 +377,21 @@
 
 .strength-meter {
     height: 4px;
-    background: rgba(0,0,0,0.06);
+    background: var(--surface-border, rgba(0,0,0,0.06));
     border-radius: 2px;
     margin-bottom: 0.5rem;
 }
 
 .strength-meter[data-strength="weak"] {
-    background: linear-gradient(90deg, var(--social-1) 33%, rgba(0,0,0,0.06) 33%);
+    background: linear-gradient(90deg, var(--social-1) 33%, var(--surface-border, rgba(0,0,0,0.06)) 33%);
 }
 
 .strength-meter[data-strength="medium"] {
-    background: linear-gradient(90deg, var(--social-2) 66%, rgba(0,0,0,0.06) 66%);
+    background: linear-gradient(90deg, var(--social-2) 66%, var(--surface-border, rgba(0,0,0,0.06)) 66%);
 }
 
 .strength-meter[data-strength="strong"] {
-    background: linear-gradient(90deg, var(--social-3) 100%, rgba(0,0,0,0.06) 100%);
+    background: linear-gradient(90deg, var(--social-3) 100%, var(--surface-border, rgba(0,0,0,0.06)) 100%);
 }
 
 .strength-text {
@@ -116,6 +416,7 @@
     font-size: var(--font-md);
     font-weight: 600;
     cursor: pointer;
+    border: none; /* Adicionado para garantir que não haja borda */
 }
 
 .auth-button.btn-primary { background-color: var(--primary-900); color: var(--btn-text); }
@@ -128,7 +429,7 @@
 }
 
 .auth-links a {
-    color: var(--primary-color);
+    color: var(--primary-900); /* Corrigido para --primary-900 para consistência */
     text-decoration: none;
     transition: color 0.3s ease;
 }
@@ -155,7 +456,7 @@
     top: 50%;
     width: 30%;
     height: 1px;
-    background-color: rgba(0,0,0,0.06);
+    background-color: var(--surface-border, rgba(0,0,0,0.06));
 }
 
 .social-login p::before {
@@ -174,7 +475,7 @@
 .social-button {
     flex: 1;
     padding: 0.8rem;
-    border: 1px solid rgba(0,0,0,0.06);
+    border: 1px solid var(--surface-border, rgba(0,0,0,0.06));
     border-radius: 4px;
     background: var(--card-bg);
     cursor: pointer;
@@ -194,7 +495,7 @@
 }
 
 .social-button:hover {
-    background-color: rgba(0,0,0,0.03);
+    background-color: var(--light-bg, rgba(0,0,0,0.03));
 }
 
 /* Responsive Design */

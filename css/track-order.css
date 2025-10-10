@@ -6,7 +6,7 @@
 }
 
 .track-order-container {
-    background: var(--white);
+    background: var(--card-bg); /* Alterado de var(--white) para var(--card-bg) (melhor semântica) */
     border-radius: 12px;
     padding: 2rem;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -51,12 +51,12 @@
     height: 50px;
     border-radius: 50%;
     background-color: var(--white);
-    border: 2px solid var(--border-color);
+    border: 2px solid var(--border-default);
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 1rem;
-    color: var(--border-color);
+    color: var(--border-default);
     font-size: 1.2rem;
     transition: all 0.3s ease;
 }
@@ -79,7 +79,7 @@
 }
 
 .status-details {
-    background: var(--light-bg);
+    background: var(--surface-light-weak);
     padding: 2rem;
     border-radius: 8px;
     margin-top: 2rem;
@@ -93,7 +93,7 @@
     display: flex;
     gap: 1rem;
     padding: 1rem 0;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-default);
 }
 
 .history-date {

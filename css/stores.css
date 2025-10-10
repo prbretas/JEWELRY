@@ -82,16 +82,6 @@
     background-color: var(--accent-color);
 }
 
-.virtual-tour-btn {
-    background-color: transparent;
-    color: var(--primary-900);
-    border: 2px solid var(--primary-900);
-}
-
-.virtual-tour-btn:hover {
-    background-color: var(--primary-900);
-    color: var(--btn-text);
-}
 
 .store-filters {
     display: flex;

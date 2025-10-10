@@ -30,7 +30,8 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    background: rgba(0,0,0,0.5);
+    /* Usando variável para overlay */
+    background: var(--hero-overlay, rgba(0,0,0,0.5)); 
     color: var(--white);
     padding: 2rem;
 }
@@ -45,7 +46,7 @@
 
 .mission-content {
     padding: 2rem;
-    background: var(--white);
+    background: var(--card-bg); /* Padronizado para card-bg */
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
@@ -70,7 +71,7 @@
 }
 
 .value-card {
-    background: var(--white);
+    background: var(--card-bg); /* Padronizado para card-bg */
     border-radius: 12px;
     padding: 2rem;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -126,7 +127,7 @@
 }
 
 .timeline-content {
-    background: var(--white);
+    background: var(--card-bg); /* Padronizado para card-bg */
     border-radius: 12px;
     padding: 1.5rem;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -137,6 +138,25 @@
     color: var(--primary-900);
     font-weight: 500;
     margin-bottom: 0.5rem;
+}
+
+/* Adicionando bolinha na timeline para melhor visualização */
+.timeline-item::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: var(--primary-900);
+    border: 2px solid var(--white);
+    border-radius: 50%;
+    top: 20px;
+    right: -7px;
+    z-index: 1;
+}
+
+.timeline-item:nth-child(odd)::after {
+    left: -7px;
+    right: auto;
 }
 
 .team-section {
@@ -151,7 +171,7 @@
 }
 
 .team-member {
-    background: var(--white);
+    background: var(--card-bg); /* Padronizado para card-bg */
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -202,6 +222,11 @@
 
     .timeline::before {
         left: 0;
+    }
+    
+    .timeline-item::after {
+        left: -7px;
+        right: auto;
     }
 
     .timeline-item {

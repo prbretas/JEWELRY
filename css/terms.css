@@ -59,7 +59,7 @@
 }
 
 .highlight-box {
-    background: rgba(0,0,0,0.03);
+    background: var(--surface-light-weak); /* Usando nova variável */
     padding: 1.5rem;
     border-radius: 8px;
     margin: 2rem 0;
@@ -85,7 +85,7 @@
 }
 
 .table-of-contents {
-    background: rgba(0,0,0,0.03);
+    background: var(--surface-light-weak); /* Usando nova variável */
     padding: 1.5rem;
     border-radius: 8px;
     margin: 2rem 0;

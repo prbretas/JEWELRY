@@ -5,17 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Joalheria Virtual - Elegância em Cada Detalhe</title>
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/loading-states.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-      crossorigin="anonymous"
-    />
-    <!--LINK PARA BOOTSTRAP-->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -41,51 +35,119 @@
         <div class="nav-menu">
           <ul class="menu-items">
             <li class="menu-item">
-              <a href="pages/aneis.html">Anéis <i class="fas fa-chevron-down"></i></a>
+              <a href="pages/aneis.html"
+                >Anéis <i class="fas fa-chevron-down"></i
+              ></a>
               <ul class="submenu">
                 <li><a href="pages/aneis.html#noivado">Anéis de Noivado</a></li>
-                <li><a href="pages/aneis.html#casamento">Alianças de Casamento</a></li>
+                <li>
+                  <a href="pages/aneis.html#casamento">Alianças de Casamento</a>
+                </li>
                 <li><a href="pages/aneis.html#luxo">Anéis de Luxo</a></li>
                 <li><a href="pages/aneis.html#casual">Anéis Casuais</a></li>
               </ul>
             </li>
             <li class="menu-item">
-              <a href="pages/colares.html">Colares <i class="fas fa-chevron-down"></i></a>
+              <a href="pages/colares.html"
+                >Colares <i class="fas fa-chevron-down"></i
+              ></a>
               <ul class="submenu">
-                <li><a href="pages/colares.html#diamantes">Colares com Diamantes</a></li>
-                <li><a href="pages/colares.html#perolas">Colares de Pérolas</a></li>
+                <li>
+                  <a href="pages/colares.html#diamantes"
+                    >Colares com Diamantes</a
+                  >
+                </li>
+                <li>
+                  <a href="pages/colares.html#perolas">Colares de Pérolas</a>
+                </li>
                 <li><a href="pages/colares.html#correntes">Correntes</a></li>
                 <li><a href="pages/colares.html#pingentes">Pingentes</a></li>
               </ul>
             </li>
             <li class="menu-item">
-              <a href="pages/brincos.html">Brincos <i class="fas fa-chevron-down"></i></a>
+              <a href="pages/brincos.html"
+                >Brincos <i class="fas fa-chevron-down"></i
+              ></a>
               <ul class="submenu">
                 <li><a href="pages/brincos.html#argolas">Argolas</a></li>
-                <li><a href="pages/brincos.html#brilhantes">Brincos com Brilhantes</a></li>
-                <li><a href="pages/brincos.html#pedras">Brincos com Pedras</a></li>
-                <li><a href="pages/brincos.html#pequenos">Brincos Pequenos</a></li>
+                <li>
+                  <a href="pages/brincos.html#brilhantes"
+                    >Brincos com Brilhantes</a
+                  >
+                </li>
+                <li>
+                  <a href="pages/brincos.html#pedras">Brincos com Pedras</a>
+                </li>
+                <li>
+                  <a href="pages/brincos.html#pequenos">Brincos Pequenos</a>
+                </li>
               </ul>
             </li>
             <li class="menu-item">
-              <a href="pages/pulseiras.html">Pulseiras <i class="fas fa-chevron-down"></i></a>
+              <a href="pages/pulseiras.html"
+                >Pulseiras <i class="fas fa-chevron-down"></i
+              ></a>
               <ul class="submenu">
-                <li><a href="pages/pulseiras.html#ouro">Pulseiras de Ouro</a></li>
-                <li><a href="pages/pulseiras.html#prata">Pulseiras de Prata</a></li>
+                <li>
+                  <a href="pages/pulseiras.html#ouro">Pulseiras de Ouro</a>
+                </li>
+                <li>
+                  <a href="pages/pulseiras.html#prata">Pulseiras de Prata</a>
+                </li>
                 <li><a href="pages/pulseiras.html#berloques">Berloques</a></li>
-                <li><a href="pages/pulseiras.html#rigidas">Pulseiras Rígidas</a></li>
+                <li>
+                  <a href="pages/pulseiras.html#rigidas">Pulseiras Rígidas</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item">
+              <a href="pages/collections.html"
+                >COLEÇÕES <i class="fas fa-chevron-down"></i
+              ></a>
+              <ul class="submenu">
+                <li>
+                  <a href="pages/collections.html#primavera">Coleção Primavera</a>
+                </li>
+                <li>
+                  <a href="pages/collections.html#noiva">Coleção Noiva</a>
+                </li>
+                <li>
+                  <a href="pages/collections.html#luxo">Coleção Luxo</a>
+                </li>
+                <li>
+                  <a href="pages/collections.html#classica">Coleção Clássica</a>
+                </li>
               </ul>
             </li>
           </ul>
         </div>
         <div class="nav-actions">
           <div id="user-menu" class="user-menu"></div>
-          <div id="login-button"></div>
-          <a href="#" id="wishlist-icon" class="action-icon" aria-label="Lista de desejos">
+          <!-- Placeholder button to ensure consistent appearance before JS runs -->
+          <div id="login-button">
+            <button class="btn btn-login user-menu-button" aria-label="Entrar">
+              Entrar
+            </button>
+          </div>
+          <a
+            href="#"
+            id="wishlist-icon"
+            class="action-icon"
+            aria-label="Lista de desejos"
+            role="button"
+            tabindex="0"
+          >
             <i class="fas fa-heart"></i>
             <span id="wishlist-count" class="count-badge">0</span>
           </a>
-          <a href="#" id="cart-icon" class="action-icon" aria-label="Carrinho">
+          <a
+            href="#"
+            id="cart-icon"
+            class="action-icon"
+            aria-label="Carrinho"
+            role="button"
+            tabindex="0"
+          >
             <i class="fas fa-shopping-cart"></i>
             <span id="cart-count" class="count-badge">0</span>
           </a>
@@ -151,23 +213,27 @@
             type="button"
             data-bs-target="#carouselExample"
             data-bs-slide="next"
-          >
-            <!--  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>-->
-          </button>
+          ></button>
         </div>
       </section>
 
-      <!-------------------- DESTAQUES ---------------->
-      <section class="featured-products">
-        <h2>Destaques</h2>
-        <div class="product-grid" id="featured-items">
-          <!-- Products will be loaded dynamically via JavaScript -->
+      <section class="promo-banners">
+        <div class="promo-banner">
+          <img
+            src="./assets/images/banners/promo1.jpg"
+            alt="Promoção Anéis de Noivado"
+          />
+          <div class="promo-text">
+            <h3>Anéis de Noivado</h3>
+            <p>Encontre o anel perfeito para o momento inesquecível</p>
+            <a href="pages/collections.html" class="btn btn-primary"
+              >Ver Coleção</a
+            >
+          </div>
         </div>
       </section>
-    </main>
 
-          <!-------------------- POSTER - SEARCH ---------------->
+      <!-------------------- POSTER - SEARCH ---------------->
       <section class="hero">
         <h2>Descubra a Elegância</h2>
         <p>Joias exclusivas para momentos especiais</p>
@@ -254,16 +320,32 @@
           Aplicar Filtros
         </button>
       </section>
+
+      <!-------------------- DESTAQUES ---------------->
+      <section class="featured-products">
+        <h2>Destaques</h2>
+        <div class="product-grid" id="featured-items">
+          <!-- Products will be loaded dynamically via JavaScript -->
+        </div>
+      </section>
+    </main>
+
     <!-------------------- CARRINHO ---------------->
     <div id="cart-modal" class="modal">
       <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Seu Carrinho</h2>
-        <div id="cart-items"></div>
-        <div id="cart-total">
-          <h3>Total: R$ <span id="total-amount">0.00</span></h3>
+        <button class="close" title="Fechar" onclick="closeCartModal()">
+          <i class="fas fa-times"></i>
+        </button>
+        <h2><i class="fas fa-shopping-cart"></i> Seu Carrinho</h2>
+        <div id="cart-items">
+          <!-- Items serão inseridos via JavaScript -->
         </div>
-        <button id="checkout-btn">Finalizar Compra</button>
+        <div id="cart-total">Total: R$ 0,00</div>
+        <button id="checkout-btn" onclick="processCheckout()" class="primary-button">
+          <i class="fas fa-lock"></i>
+          Finalizar Compra
+          <span class="loading-spinner"></span>
+        </button>
       </div>
     </div>
     <!-------------------- LISTA DE DESEJOS ---------------->
@@ -273,17 +355,23 @@
         <h2>Lista de Desejos</h2>
         <div id="wishlist-items"></div>
         <div class="wishlist-actions">
-          <button id="share-wishlist" class="btn btn-secondary secondary-button">
+          <button
+            id="share-wishlist"
+            class="btn btn-secondary secondary-button"
+          >
             <i class="fas fa-share-alt"></i> Compartilhar Lista
           </button>
-          <button id="clear-wishlist" class="btn btn-secondary secondary-button">
+          <button
+            id="clear-wishlist"
+            class="btn btn-secondary secondary-button"
+          >
             <i class="fas fa-trash"></i> Limpar Lista
           </button>
         </div>
       </div>
     </div>
     <!-------------------- FOOTER ---------------->
-    <footer>
+    <footer class="footer">
       <div class="footer-content">
         <div class="footer-section">
           <h3>Atendimento</h3>
@@ -316,7 +404,7 @@
           <h3>Newsletter</h3>
           <p>Receba nossas novidades e ofertas exclusivas</p>
           <form class="newsletter-form">
-            <input type="email" placeholder="Seu e-mail" />
+            <input type="email" placeholder="Seu e-mail" class="input-footer" />
             <button type="submit">Assinar</button>
           </form>
         </div>
@@ -326,33 +414,6 @@
       </div>
     </footer>
 
-    <script type="module" src="js/script.js"></script>
-    <!-- Theme picker UI -->
-    <button id="theme-toggle" class="theme-toggle-btn" title="Abrir painel de tema">
-      <i class="fas fa-paint-roller"></i>
-    </button>
-    <div id="theme-panel" class="theme-panel" aria-hidden="true">
-      <h4>Personalizar Tema</h4>
-      <div class="theme-row">
-        <label class="small">Primária</label>
-        <input type="color" id="theme-primary" value="#b89a70" />
-      </div>
-      <div class="theme-row">
-        <label class="small">Acento</label>
-        <input type="color" id="theme-accent" value="#d4af37" />
-      </div>
-      <div class="theme-row">
-        <label class="small">Texto do menu</label>
-        <input type="color" id="theme-nav-text" value="#ffffff" />
-      </div>
-      <div class="theme-row">
-        <label class="small">Fundo</label>
-        <input type="color" id="theme-bg" value="#fbfaf8" />
-      </div>
-      <div style="display:flex; gap:8px; margin-top:8px;">
-        <button id="theme-reset" class="btn btn-secondary">Reset</button>
-        <button id="theme-apply" class="btn btn-primary">Aplicar</button>
-      </div>
-    </div>
+    <script src="js/script.js"></script>
   </body>
 </html>
