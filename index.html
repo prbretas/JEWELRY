@@ -337,36 +337,41 @@
           <i class="fas fa-times"></i>
         </button>
         <h2><i class="fas fa-shopping-cart"></i> Seu Carrinho</h2>
-        <div id="cart-items">
+        <div id="cart-items" class="cart-items-container">
           <!-- Items serão inseridos via JavaScript -->
         </div>
-        <div id="cart-total">Total: R$ 0,00</div>
-        <button id="checkout-btn" onclick="processCheckout()" class="primary-button">
-          <i class="fas fa-lock"></i>
-          Finalizar Compra
-          <span class="loading-spinner"></span>
-        </button>
+        <div class="cart-summary">
+          <div id="cart-total" class="cart-total">
+            <span>Total:</span>
+            <span class="total-value">R$ 0,00</span>
+          </div>
+          <button id="checkout-btn" onclick="processCheckout()" class="primary-button">
+            <i class="fas fa-lock"></i>
+            Finalizar Compra
+            <span class="loading-spinner"></span>
+          </button>
+        </div>
       </div>
     </div>
     <!-------------------- LISTA DE DESEJOS ---------------->
     <div id="wishlist-modal" class="modal">
       <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Lista de Desejos</h2>
-        <div id="wishlist-items"></div>
-        <div class="wishlist-actions">
-          <button
-            id="share-wishlist"
-            class="btn btn-secondary secondary-button"
-          >
-            <i class="fas fa-share-alt"></i> Compartilhar Lista
-          </button>
-          <button
-            id="clear-wishlist"
-            class="btn btn-secondary secondary-button"
-          >
-            <i class="fas fa-trash"></i> Limpar Lista
-          </button>
+        <button class="close" title="Fechar" onclick="closeWishlistModal()">
+          <i class="fas fa-times"></i>
+        </button>
+        <h2><i class="fas fa-heart"></i> Lista de Desejos</h2>
+        <div id="wishlist-items" class="wishlist-items-container">
+          <!-- Items serão inseridos via JavaScript -->
+        </div>
+        <div class="wishlist-summary">
+          <div class="wishlist-actions">
+            <button id="share-wishlist" class="secondary-button">
+              <i class="fas fa-share-alt"></i> Compartilhar Lista
+            </button>
+            <button id="clear-wishlist" class="secondary-button">
+              <i class="fas fa-trash"></i> Limpar Lista
+            </button>
+          </div>
         </div>
       </div>
     </div>

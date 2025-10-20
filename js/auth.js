@@ -299,6 +299,155 @@ if (typeof window !== 'undefined') {
 
 // Event listeners when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+    // Elementos do formulário multi-etapas
+    const form = document.getElementById('registerForm');
+    const steps = document.querySelectorAll('.step');
+    const progressSteps = document.querySelectorAll('.progress-step');
+    const progressLine = document.querySelector('.progress-line');
+    const prevButton = document.getElementById('prevStep');
+    const nextButton = document.getElementById('nextStep');
+    const submitButton = document.getElementById('submitButton');
+    let currentStep = 1;
+
+    function showStep(stepNumber) {
+        steps.forEach(step => {
+            step.classList.remove('active');
+            if (step.dataset.step == stepNumber) {
+                step.classList.add('active');
+            }
+        });
+
+        // Atualiza os indicadores de progresso
+        progressSteps.forEach((step, index) => {
+            if (index + 1 < stepNumber) {
+                step.classList.add('completed');
+            } else if (index + 1 === stepNumber) {
+                step.classList.add('active');
+            } else {
+                step.classList.remove('active', 'completed');
+            }
+        });
+
+        // Atualiza a linha de progresso
+        if (stepNumber > 1) {
+            progressLine.classList.add('completed');
+        } else {
+            progressLine.classList.remove('completed');
+        }
+
+        // Atualiza os botões
+        prevButton.style.display = stepNumber > 1 ? 'block' : 'none';
+        nextButton.style.display = stepNumber < steps.length ? 'block' : 'none';
+        submitButton.style.display = stepNumber === steps.length ? 'block' : 'none';
+    }
+
+    function validateFields(stepNumber) {
+        const currentStepElement = document.querySelector(`.step[data-step="${stepNumber}"]`);
+        const inputs = currentStepElement.querySelectorAll('input[required]');
+        const emptyFields = [];
+        let isValid = true;
+
+        inputs.forEach(input => {
+            // Remove classes de erro anteriores
+            input.classList.remove('error');
+            const errorMessage = input.parentElement.querySelector('.error-message');
+            if (errorMessage) {
+                errorMessage.remove();
+            }
+
+            // Validação de campos vazios
+            if (!input.value.trim()) {
+                isValid = false;
+                input.classList.add('error');
+                
+                // Adiciona mensagem de erro específica
+                const message = document.createElement('div');
+                message.className = 'error-message';
+                message.textContent = `Campo ${input.placeholder || input.name} é obrigatório`;
+                input.parentElement.appendChild(message);
+                
+                // Adiciona o nome do campo à lista de campos vazios
+                emptyFields.push(input.placeholder || input.name);
+                return;
+            }
+
+            // Validações específicas
+            if (input.type === 'email') {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(input.value)) {
+                    isValid = false;
+                    input.classList.add('error');
+                    const message = document.createElement('div');
+                    message.className = 'error-message';
+                    message.textContent = 'Email inválido';
+                    input.parentElement.appendChild(message);
+                }
+            }
+
+            if (input.id === 'cpf') {
+                if (!auth.validateCPF(input.value)) {
+                    isValid = false;
+                    input.classList.add('error');
+                    const message = document.createElement('div');
+                    message.className = 'error-message';
+                    message.textContent = 'CPF inválido';
+                    input.parentElement.appendChild(message);
+                }
+            }
+
+            if (input.id === 'phone') {
+                const phoneRegex = /^\(\d{2}\) \d{5}-\d{4}$/;
+                if (!phoneRegex.test(input.value)) {
+                    isValid = false;
+                    input.classList.add('error');
+                    const message = document.createElement('div');
+                    message.className = 'error-message';
+                    message.textContent = 'Telefone inválido';
+                    input.parentElement.appendChild(message);
+                }
+            }
+
+            if (input.id === 'birthdate' && input.value) {
+                if (!auth.validateAge(input.value)) {
+                    isValid = false;
+                    showFieldError(input, 'Você deve ter pelo menos 18 anos para se cadastrar');
+                }
+            }
+        });
+
+        if (!isValid && emptyFields.length > 0) {
+            window.showToast(`Por favor, preencha os seguintes campos: ${emptyFields.join(', ')}`, 'warning');
+            const firstError = currentStepElement.querySelector('.error');
+            if (firstError) {
+                firstError.focus();
+            }
+        }
+
+        return isValid;
+    }
+
+    // Event listeners para navegação entre etapas
+    if (nextButton) {
+        nextButton.addEventListener('click', () => {
+            if (validateFields(currentStep)) {
+                currentStep++;
+                showStep(currentStep);
+            }
+        });
+    }
+
+    if (prevButton) {
+        prevButton.addEventListener('click', () => {
+            currentStep--;
+            showStep(currentStep);
+        });
+    }
+
+    // Inicialização do formulário multi-etapas
+    if (form) {
+        showStep(currentStep);
+    }
+
     // Elementos de login
     const loginForm = document.getElementById('loginForm');
     const loginPasswordInput = loginForm?.querySelector('input[type="password"]');
@@ -428,3 +577,298 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// Inicialização do formulário multi-etapas quando o documento estiver carregado
+function initializeFormSteps() {
+    // Elementos do formulário multi-etapas
+    const form = document.getElementById('registerForm');
+    const steps = document.querySelectorAll('.step');
+    const progressSteps = document.querySelectorAll('.progress-step');
+    const progressLine = document.querySelector('.progress-line');
+    const prevButton = document.getElementById('prevStep');
+    const nextButton = document.getElementById('nextStep');
+    const submitButton = document.getElementById('submitButton');
+    const birthdateInput = document.getElementById('birthdate');
+    const cpfInput = document.getElementById('cpf');
+    const phoneInput = document.getElementById('phone');
+    let currentStep = 1;
+
+    // Inicializa os campos de data
+    if (birthdateInput) {
+        const maxDate = new Date();
+        maxDate.setFullYear(maxDate.getFullYear() - 18);
+        birthdateInput.setAttribute('max', maxDate.toISOString().split('T')[0]);
+    }
+
+    // Função para mostrar a etapa atual
+    function showStep(stepNumber) {
+        steps.forEach(step => {
+            step.classList.remove('active');
+            if (step.dataset.step == stepNumber) {
+                step.classList.add('active');
+            }
+        });
+
+        // Atualiza os indicadores de progresso
+        progressSteps.forEach((step, index) => {
+            if (index + 1 < stepNumber) {
+                step.classList.add('completed');
+            } else if (index + 1 === stepNumber) {
+                step.classList.add('active');
+            } else {
+                step.classList.remove('active', 'completed');
+            }
+        });
+
+        // Atualiza a linha de progresso
+        if (stepNumber > 1) {
+            progressLine.classList.add('completed');
+        } else {
+            progressLine.classList.remove('completed');
+        }
+
+        // Atualiza os botões
+        prevButton.style.display = stepNumber > 1 ? 'block' : 'none';
+        nextButton.style.display = stepNumber < steps.length ? 'block' : 'none';
+        submitButton.style.display = stepNumber === steps.length ? 'block' : 'none';
+    }
+
+    // Função de validação dos campos
+    function validateFields(stepNumber) {
+        const currentStepElement = document.querySelector(`.step[data-step="${stepNumber}"]`);
+        const inputs = currentStepElement.querySelectorAll('input[required]');
+        const emptyFields = [];
+        let isValid = true;
+
+        // Validate birthdate first if it exists in current step
+        const birthdateInput = currentStepElement.querySelector('#birthdate');
+        if (birthdateInput && birthdateInput.value) {
+            if (!auth.validateAge(birthdateInput.value)) {
+                isValid = false;
+                showFieldError(birthdateInput, 'Você deve ter pelo menos 18 anos para se cadastrar');
+                window.showToast('Você deve ter pelo menos 18 anos para se cadastrar', 'error');
+                return false;
+            }
+        }
+
+        inputs.forEach(input => {
+            // Remove classes de erro anteriores
+            input.classList.remove('error');
+            const errorMessage = input.parentElement.querySelector('.error-message');
+            if (errorMessage) {
+                errorMessage.remove();
+            }
+
+            // Validação de campos vazios
+            if (!input.value.trim()) {
+                isValid = false;
+                input.classList.add('error');
+                
+                // Adiciona mensagem de erro específica
+                const message = document.createElement('div');
+                message.className = 'error-message';
+                message.textContent = `Campo ${input.placeholder || input.name} é obrigatório`;
+                input.parentElement.appendChild(message);
+                
+                emptyFields.push(input.placeholder || input.name);
+                return;
+            }
+
+            // Validações específicas por tipo de campo
+            switch(input.id) {
+                case 'email':
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(input.value)) {
+                        isValid = false;
+                        showFieldError(input, 'Email inválido');
+                    }
+                    break;
+
+                case 'birthdate':
+                    if (!auth.validateAge(input.value)) {
+                        isValid = false;
+                        showFieldError(input, 'Você deve ter pelo menos 18 anos para se cadastrar');
+                    }
+                    break;
+
+                case 'cpf':
+                    if (!auth.validateCPF(input.value)) {
+                        isValid = false;
+                        showFieldError(input, 'CPF inválido');
+                    }
+                    break;
+
+                case 'phone':
+                    const phoneRegex = /^\(\d{2}\) \d{5}-\d{4}$/;
+                    if (!phoneRegex.test(input.value)) {
+                        isValid = false;
+                        showFieldError(input, 'Telefone inválido');
+                    }
+                    break;
+            }
+        });
+
+        if (!isValid) {
+            if (emptyFields.length > 0) {
+                window.showToast(`Por favor, preencha os seguintes campos: ${emptyFields.join(', ')}`, 'warning');
+            }
+            const firstError = currentStepElement.querySelector('.error');
+            if (firstError) {
+                firstError.focus();
+            }
+        }
+
+        return isValid;
+    }
+
+    function showFieldError(input, message) {
+        input.classList.add('error');
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message';
+        errorDiv.textContent = message;
+        input.parentElement.appendChild(errorDiv);
+    }
+
+    // Event listeners para máscaras de input
+    if (cpfInput) {
+        cpfInput.addEventListener('input', (e) => {
+            e.target.value = auth.formatCPF(e.target.value);
+        });
+    }
+
+    if (phoneInput) {
+        phoneInput.addEventListener('input', (e) => {
+            e.target.value = auth.formatPhone(e.target.value);
+        });
+    }
+
+    if (birthdateInput) {
+        // Função para validar a data de nascimento
+        const validateBirthdate = () => {
+            if (!birthdateInput.value) return;
+
+            if (!auth.validateAge(birthdateInput.value)) {
+                showFieldError(birthdateInput, 'Você deve ter pelo menos 18 anos para se cadastrar');
+                return false;
+            } else {
+                birthdateInput.classList.remove('error');
+                const errorMessage = birthdateInput.parentElement.querySelector('.error-message');
+                if (errorMessage) {
+                    errorMessage.remove();
+                }
+                return true;
+            }
+        };
+
+        // Validar quando o campo perde o foco
+        birthdateInput.addEventListener('blur', validateBirthdate);
+        
+        // Validar enquanto digita (opcional, para feedback em tempo real)
+        birthdateInput.addEventListener('input', () => {
+            // Limpa erro anterior ao começar a digitar
+            birthdateInput.classList.remove('error');
+            const errorMessage = birthdateInput.parentElement.querySelector('.error-message');
+            if (errorMessage) {
+                errorMessage.remove();
+            }
+        });
+        
+        // Define a data máxima permitida (18 anos atrás)
+        const maxDate = new Date();
+        maxDate.setFullYear(maxDate.getFullYear() - 18);
+        birthdateInput.setAttribute('max', maxDate.toISOString().split('T')[0]);
+    }
+
+    // Event listeners para navegação
+    if (nextButton) {
+        nextButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            const currentStepElement = document.querySelector(`.step[data-step="${currentStep}"]`);
+            
+            // Validate birthdate specifically if it's in the current step
+            const birthdateInput = currentStepElement.querySelector('#birthDate');
+            if (birthdateInput) {
+                if (!birthdateInput.value) {
+                    showFieldError(birthdateInput, 'Data de nascimento é obrigatória');
+                    window.showToast('Por favor, informe sua data de nascimento', 'error');
+                    birthdateInput.focus();
+                    return;
+                }
+                if (!auth.validateAge(birthdateInput.value)) {
+                    showFieldError(birthdateInput, 'Você deve ter pelo menos 18 anos para se cadastrar');
+                    window.showToast('Você deve ter pelo menos 18 anos para se cadastrar', 'error');
+                    birthdateInput.focus();
+                    return;
+                }
+            }
+
+            // Validate all required fields
+            if (validateFields(currentStep)) {
+                // If all validations pass, move to next step
+                currentStep++;
+                showStep(currentStep);
+            }
+        });
+    }
+
+    if (prevButton) {
+        prevButton.addEventListener('click', () => {
+            currentStep--;
+            showStep(currentStep);
+        });
+    }
+
+    // Manipulação do formulário
+    if (form) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!validateFields(currentStep)) {
+                window.showToast('Por favor, preencha todos os campos obrigatórios.', 'warning');
+                return;
+            }
+
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
+
+            try {
+                const formData = new FormData(form);
+                await auth.register(formData.get('email'), formData.get('password'), formData.get('fullName'));
+                
+                window.showToast('Cadastro realizado com sucesso! Redirecionando...', 'success');
+                
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+                
+            } catch (error) {
+                window.showToast('Erro ao processar cadastro. Tente novamente.', 'error');
+                submitButton.disabled = false;
+                submitButton.innerHTML = '<i class="fas fa-user-plus"></i> Criar Conta';
+            }
+        });
+    }
+
+    // Função para mostrar erros nos campos
+    function showFieldError(input, message) {
+        input.classList.add('error');
+        // Remove any existing error message
+        const existingError = input.parentElement.querySelector('.error-message');
+        if (existingError) {
+            existingError.remove();
+        }
+        // Add new error message
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message';
+        errorDiv.textContent = message;
+        input.parentElement.appendChild(errorDiv);
+        input.focus();
+    }
+
+    // Inicialização
+    showStep(currentStep);
+}
+
+// Inicializa o formulário quando o DOM estiver carregado
+document.addEventListener('DOMContentLoaded', initializeFormSteps);
+    

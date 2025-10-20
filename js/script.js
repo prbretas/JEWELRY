@@ -315,7 +315,7 @@ function displayProducts() {
                             <i class="fas fa-shopping-cart"></i>
                             Adicionar ao Carrinho
                         </button>
-                        <button class="wishlist-btn ${wishlist.includes(product.id) ? 'in-wishlist' : ''}" 
+                        <button class="wishlist-btn" ${wishlist.includes(product.id) ? 'in-wishlist' : ''}" 
                                 onclick="toggleWishlist(${product.id}, this)">
                             <i class="fas fa-heart"></i>
                         </button>
@@ -889,12 +889,63 @@ if (shareWishlistBtn) {
 }
 
 if (clearWishlistBtn) {
-    clearWishlistBtn.addEventListener('click', () => {
-        if (confirm('Tem certeza que deseja limpar sua lista de desejos?')) {
-            wishlist = [];
-            localStorage.setItem('wishlist', JSON.stringify(wishlist));
-            updateWishlistDisplay();
+    clearWishlistBtn.addEventListener('click', async () => {
+        clearWishlistBtn.disabled = true;
+        clearWishlistBtn.classList.add('button-loading');
+        
+        if (wishlist.length === 0) {
+            showToast('Sua lista de desejos já está vazia', 'info');
+            clearWishlistBtn.disabled = false;
+            clearWishlistBtn.classList.remove('button-loading');
+            return;
         }
+        
+        if (confirm('Tem certeza que deseja limpar sua lista de desejos?')) {
+            try {
+                // Armazena os IDs dos produtos que estavam na wishlist
+                const removedIds = [...wishlist];
+                
+                // Simula um pequeno delay para feedback visual
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                // Limpa a wishlist
+                wishlist = [];
+                localStorage.setItem(WISHLIST_KEY, JSON.stringify(wishlist));
+                
+                // Atualiza a interface
+                updateWishlistDisplay();
+                
+                // Atualiza os botões de todos os produtos que estavam na wishlist
+                removedIds.forEach(productId => {
+                    const buttons = document.querySelectorAll(`.wishlist-btn[data-product-id="${productId}"]`);
+                    buttons.forEach(button => {
+                        button.classList.remove('in-wishlist');
+                        button.innerHTML = `<i class="fas fa-heart"></i>`;
+                    });
+                });
+
+                // Mostra feedback
+                showToast('Lista de desejos foi limpa com sucesso', 'success');
+                
+                // Fecha o modal após um breve delay
+                const modal = document.getElementById('wishlist-modal');
+                if (modal) {
+                    modal.style.opacity = '0';
+                    modal.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        modal.style.display = 'none';
+                        modal.style.opacity = '1';
+                        modal.style.transform = 'scale(1)';
+                    }, 300);
+                }
+            } catch (error) {
+                logError('Erro ao limpar lista de desejos', { error });
+                showToast('Erro ao limpar lista de desejos. Tente novamente.', 'error');
+            }
+        }
+        
+        clearWishlistBtn.disabled = false;
+        clearWishlistBtn.classList.remove('button-loading');
     });
 }
 
@@ -973,6 +1024,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     displayProducts();
     initializeSearchAndFilters();
     updateWishlistDisplay();
+    
+    // Adiciona evento de clique ao ícone do carrinho
+    const cartIcon = document.getElementById('cart-icon');
+    if (cartIcon) {
+        cartIcon.addEventListener('click', openCartModal);
+    }
+    
     console.log('Setup da página concluído');
 
     // Try to dynamically import the auth module if available (avoids parse errors
@@ -1002,17 +1060,104 @@ document.addEventListener('DOMContentLoaded', async () => {
  * @param {HTMLElement} [buttonElement] - Elemento do botão que disparou a ação (opcional)
  */
 async function addToCart(productInfo, buttonElement) {
-    // Se temos o botão, atualizamos seu estado
-    if (buttonElement) {
-        const originalContent = buttonElement.innerHTML;
-        buttonElement.disabled = true;
-        buttonElement.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adicionando...';
-    }
-
     try {
         const product = getAllProducts().find(p => p.id === productInfo.id);
         if (!product) {
             throw new Error('Produto não encontrado');
+        }
+        
+        // Mostra o diálogo de confirmação com controles de quantidade
+        const confirmResult = await new Promise(resolve => {
+            const confirmDialog = document.createElement('div');
+            confirmDialog.className = 'modal';
+            confirmDialog.innerHTML = `
+                <div class="modal-content">
+                    <h3>Confirmar Adição ao Carrinho</h3>
+                    <div class="confirm-product-info">
+                        <img src="${product.image}" alt="${product.name}" style="max-width: 100px; margin: 10px 0;">
+                        <p class="product-name">${product.name}</p>
+                        <p class="price">R$ ${product.price.toFixed(2)}</p>
+                        <div class="quantity-controls">
+                        <button class="quantity-btn decrease" type="button">-</button>
+                        <input type="number" class="quantity-input" value="1" min="1" max="99">
+                        <button class="quantity-btn increase" type="button">+</button>
+                        </div>
+                        <p class="total-price">Total: R$ ${product.price.toFixed(2)}</p>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="btn btn-primary confirm-add">Adicionar ao Carrinho</button>
+                        <button class="btn btn-secondary cancel-add">Cancelar</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(confirmDialog);
+            confirmDialog.style.display = 'block';
+            
+            const quantityInput = confirmDialog.querySelector('.quantity-input');
+            const decreaseBtn = confirmDialog.querySelector('.decrease');
+            const increaseBtn = confirmDialog.querySelector('.increase');
+            const totalPrice = confirmDialog.querySelector('.total-price');
+            
+            // Função para atualizar o preço total
+            const updateTotal = (quantity) => {
+                const total = product.price * quantity;
+                totalPrice.textContent = `Total: R$ ${total.toFixed(2)}`;
+            };
+            
+            // Handlers para os botões de quantidade
+            decreaseBtn.addEventListener('click', () => {
+                let value = parseInt(quantityInput.value);
+                if (value > 1) {
+                    quantityInput.value = value - 1;
+                    updateTotal(value - 1);
+                }
+            });
+            
+            increaseBtn.addEventListener('click', () => {
+                let value = parseInt(quantityInput.value);
+                if (value < 99) {
+                    quantityInput.value = value + 1;
+                    updateTotal(value + 1);
+                }
+            });
+            
+            // Handler para input manual de quantidade
+            quantityInput.addEventListener('change', () => {
+                let value = parseInt(quantityInput.value);
+                if (isNaN(value) || value < 1) value = 1;
+                if (value > 99) value = 99;
+                quantityInput.value = value;
+                updateTotal(value);
+            });
+            
+            const handleConfirm = () => {
+                const quantity = parseInt(quantityInput.value);
+                confirmDialog.remove();
+                resolve({ confirmed: true, quantity: quantity });
+            };
+            
+            const handleCancel = () => {
+                confirmDialog.remove();
+                resolve({ confirmed: false, quantity: 0 });
+            };
+            
+            confirmDialog.querySelector('.confirm-add').addEventListener('click', handleConfirm);
+            confirmDialog.querySelector('.cancel-add').addEventListener('click', handleCancel);
+        });
+        
+        if (!confirmResult.confirmed) {
+            return; // Usuário cancelou a adição
+        }
+        
+        // Atualiza a quantidade do produto com o valor escolhido pelo usuário
+        productInfo.quantity = confirmResult.quantity;
+        
+        // Se temos o botão, atualizamos seu estado
+        if (buttonElement) {
+            const originalContent = buttonElement.innerHTML;
+            buttonElement.disabled = true;
+            buttonElement.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adicionando...';
         }
 
         // Cria uma chave única para a variante
@@ -1021,13 +1166,18 @@ async function addToCart(productInfo, buttonElement) {
         // Simula uma pequena latência para feedback visual
         await new Promise(resolve => setTimeout(resolve, 300));
 
+        // Adiciona a animação de loading ao botão se existir
+        if (buttonElement) {
+            buttonElement.classList.add('button-loading');
+        }
+
         // Tenta encontrar a variante exata no carrinho
         const existingItem = cart.find(item => item.variantKey === variantKey);
         const quantityToAdd = productInfo.quantity || 1;
 
         if (existingItem) {
             existingItem.quantity = (existingItem.quantity || 1) + quantityToAdd;
-            showToast(`+${quantityToAdd} de "${product.name}" adicionado ao carrinho!`, 'success');
+            showToast(`+${quantityToAdd} unidade(s) de "${product.name}" adicionado ao carrinho!`, 'success');
         } else {
             cart.push({
                 ...product,
@@ -1036,7 +1186,16 @@ async function addToCart(productInfo, buttonElement) {
                 quantity: quantityToAdd,
                 variantKey: variantKey
             });
-            showToast(`"${product.name}" adicionado ao carrinho!`, 'success');
+            showToast(`${product.name} adicionado ao carrinho com sucesso!`, 'success');
+        }
+
+        // Anima o ícone do carrinho
+        const cartIcon = document.getElementById('cart-icon');
+        if (cartIcon) {
+            cartIcon.style.animation = 'cartBadgePop 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+            setTimeout(() => {
+                cartIcon.style.animation = '';
+            }, 300);
         }
 
         updateCart();
@@ -1123,25 +1282,42 @@ window.wishlist = wishlist;
  * Descrição: Fecha o modal do carrinho de forma segura (verifica existência).
  */
 // Adiciona função para atualizar quantidade
+async function updateItemQuantityFromInput(variantKey, newQuantity) {
+    const item = cart.find(item => item.variantKey === variantKey);
+    if (!item) return;
+
+    // Validar e converter a quantidade
+    let quantity = parseInt(newQuantity);
+    if (isNaN(quantity) || quantity < 1) quantity = 1;
+    if (quantity > 99) quantity = 99;
+
+    // Atualizar apenas se a quantidade mudou
+    if (quantity !== (item.quantity || 1)) {
+        item.quantity = quantity;
+        window.showToast?.(`Quantidade de "${item.name}" atualizada para ${quantity}`, 'info');
+        updateCart();
+    }
+}
+
 async function updateItemQuantity(variantKey, increase = true) {
     const item = cart.find(item => item.variantKey === variantKey);
     if (!item) return;
 
     const oldQuantity = item.quantity || 1;
-    if (increase) {
+    if (increase && oldQuantity < 99) {
         item.quantity = oldQuantity + 1;
         window.showToast?.(`Quantidade de "${item.name}" atualizada para ${item.quantity}`, 'success');
-    } else if (oldQuantity > 1) {
+    } else if (!increase && oldQuantity > 1) {
         item.quantity = oldQuantity - 1;
         window.showToast?.(`Quantidade de "${item.name}" atualizada para ${item.quantity}`, 'info');
     }
 
-    // Animate the quantity change
-    const quantitySpan = document.querySelector(`[data-variant-key="${variantKey}"]`)?.parentElement?.querySelector('span');
-    if (quantitySpan) {
-        quantitySpan.style.animation = 'none';
-        quantitySpan.offsetHeight; // Trigger reflow
-        quantitySpan.style.animation = 'totalUpdate 0.3s ease';
+    const quantityInput = document.querySelector(`[data-variant-key="${variantKey}"] .quantity-input`);
+    if (quantityInput) {
+        quantityInput.value = item.quantity;
+        quantityInput.style.animation = 'none';
+        quantityInput.offsetHeight; // Trigger reflow
+        quantityInput.style.animation = 'totalUpdate 0.3s ease';
     }
 
     updateCart();
@@ -1191,6 +1367,19 @@ function updateCartView() {
     const cartContainer = document.getElementById('cart-items');
     if (!cartContainer) return;
 
+    if (cart.length === 0) {
+        cartContainer.innerHTML = `
+            <div class="empty-cart">
+                <i class="fas fa-shopping-cart"></i>
+                <p>Seu carrinho está vazio</p>
+                <small>Adicione produtos para começar suas compras</small>
+            </div>
+        `;
+        document.querySelector('.cart-summary').style.display = 'none';
+        return;
+    }
+
+    document.querySelector('.cart-summary').style.display = 'block';
     cartContainer.innerHTML = '';
     let total = 0;
 
@@ -1204,18 +1393,34 @@ function updateCartView() {
         itemElement.dataset.variantKey = item.variantKey;
         
         itemElement.innerHTML = `
-            <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+            <div class="cart-item-image">
+                <img src="${item.image}" alt="${item.name}">
+            </div>
             <div class="cart-item-details">
-                <h3>${item.name}</h3>
-                <p>R$ ${item.price.toFixed(2)}</p>
-                <div class="quantity-controls">
-                    <button onclick="updateItemQuantity('${item.variantKey}', false)">-</button>
-                    <span>${quantity}</span>
-                    <button onclick="updateItemQuantity('${item.variantKey}', true)">+</button>
+                <div class="item-info">
+                    <h3 class="item-name">${item.name}</h3>
+                    <p class="item-price">R$ ${item.price.toFixed(2)}</p>
+                    ${item.selectedSize ? `<p class="item-variant">Tamanho: ${item.selectedSize}</p>` : ''}
+                    ${item.selectedMetal ? `<p class="item-variant">Metal: ${item.selectedMetal}</p>` : ''}
                 </div>
-                <button class="remove-item" onclick="removeFromCart('${item.variantKey}')">
-                    <i class="fas fa-trash"></i>
-                </button>
+                <div class="item-controls">
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" onclick="updateItemQuantity('${item.variantKey}', false)" title="Diminuir quantidade">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <input type="number" class="quantity-input" value="${quantity}" 
+                            min="1" max="99" 
+                            onchange="updateItemQuantityFromInput('${item.variantKey}', this.value)"
+                            title="Quantidade">
+                        <button class="quantity-btn" onclick="updateItemQuantity('${item.variantKey}', true)" title="Aumentar quantidade">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <p class="item-subtotal">Subtotal: R$ ${itemTotal.toFixed(2)}</p>
+                    <button class="remove-item" onclick="removeFromCart('${item.variantKey}')" title="Remover item">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
             </div>
         `;
         
@@ -1263,19 +1468,40 @@ async function processCheckout() {
     if (button) {
         button.disabled = true;
         button.classList.add('button-loading');
+        button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
     }
 
     try {
+        // Calcula o total do carrinho
+        const total = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+        
         // Simula o processamento do pedido
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Avisa o usuário sobre o redirecionamento
+        window.showToast?.('Preparando o checkout seguro...', 'info');
+        
+        // Simula um pequeno delay para o usuário ler a mensagem
+        await new Promise(resolve => setTimeout(resolve, 1000));
 
-        // Limpa o carrinho
+        // Limpa o carrinho antes de redirecionar
         cart = [];
         localStorage.removeItem('cart');
         updateCart();
-
-        window.showToast?.('Pedido realizado com sucesso! Em breve você receberá mais informações por email.', 'success');
+        
+        // Fecha o modal do carrinho com animação
         closeCartModal();
+        
+        // Em um ambiente real, aqui redirecionaríamos para a página de pagamento
+        // Por enquanto, apenas mostramos uma mensagem
+        window.showToast?.('Você será redirecionado para a tela de pagamento seguro...', 'success');
+        
+        // Simula o redirecionamento
+        setTimeout(() => {
+            // Em produção, aqui seria o redirecionamento real para a página de pagamento
+            window.alert(`Redirecionando para pagamento seguro\n\nTotal do pedido: R$ ${total.toFixed(2)}\n\nEm um ambiente de produção, você seria redirecionado para a página de pagamento do gateway escolhido (ex: Mercado Pago, PagSeguro, Stripe, etc).`);
+        }, 1000);
+
     } catch (error) {
         logError('Erro ao processar pedido', { error });
         window.showToast?.('Erro ao processar pedido. Tente novamente.', 'error');
@@ -1283,6 +1509,7 @@ async function processCheckout() {
         if (button) {
             button.disabled = false;
             button.classList.remove('button-loading');
+            button.innerHTML = '<i class="fas fa-lock"></i> Finalizar Compra';
         }
     }
 }

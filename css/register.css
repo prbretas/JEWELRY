@@ -1,0 +1,308 @@
+/* Estilos específicos para a página de registro */
+.form-steps {
+    position: relative;
+}
+
+.step {
+    display: none;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: all 0.3s ease;
+}
+
+.step.active {
+    display: block;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+/* Progresso do formulário */
+.form-progress {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2rem 0;
+}
+
+.progress-step {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--surface-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: var(--muted);
+    border: 2px solid var(--surface-border);
+}
+
+.progress-step.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.progress-step.completed {
+    background: var(--success-color);
+    color: white;
+    border-color: var(--success-color);
+}
+
+.progress-line {
+    flex: 1;
+    height: 2px;
+    background: var(--surface-border);
+    margin: 0 1rem;
+}
+
+.progress-line.completed {
+    background: var(--success-color);
+}
+
+/* Navegação entre etapas */
+.form-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+}
+
+.nav-button {
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+}
+
+.nav-button.primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.nav-button:not(.primary) {
+    background: var(--surface-light);
+    color: var(--secondary-color);
+}
+
+.nav-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Verificação de senha */
+.password-strength {
+    margin-top: 0.5rem;
+}
+
+.strength-meter-container {
+    height: 4px;
+    background: var(--surface-border);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.strength-meter {
+    height: 100%;
+    width: 0;
+    transition: all 0.3s ease;
+}
+
+.strength-text {
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+    transition: color 0.3s ease;
+}
+
+/* Popup de regras de senha */
+.password-rules-popup {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 1rem;
+    margin-top: 0.5rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+
+.password-rules-popup.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.password-rules-popup h4 {
+    color: var(--secondary-color);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#password-rules {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#password-rules li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.4rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+#password-rules li i {
+    width: 16px;
+}
+
+#password-rules li.passed {
+    color: var(--success-color);
+}
+
+#password-rules li.failed {
+    color: var(--danger-color);
+}
+
+/* Indicador de confirmação de senha */
+.password-match-indicator {
+    height: 2px;
+    background: var(--surface-border);
+    margin-top: 0.5rem;
+    border-radius: 1px;
+    transition: all 0.3s ease;
+}
+
+input.match ~ .password-match-indicator {
+    background: var(--success-color);
+}
+
+input.mismatch ~ .password-match-indicator {
+    background: var(--danger-color);
+}
+
+/* Animações */
+@keyframes slide-in {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slide-out {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+}
+
+/* Checkbox personalizado */
+.checkbox-label {
+    position: relative;
+    padding-left: 28px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox-label input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: white;
+    border: 2px solid var(--surface-border);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.checkbox-label:hover input ~ .checkmark {
+    border-color: var(--primary-color);
+}
+
+.checkbox-label input:checked ~ .checkmark {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.checkbox-label input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+    .form-row {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .form-navigation {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .nav-button {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Variáveis de cores */
+:root {
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --muted: #6c757d;
+    --surface-border: #dee2e6;
+    --surface-light: #f8f9fa;
+}
