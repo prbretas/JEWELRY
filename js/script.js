@@ -121,6 +121,10 @@ const products = {
             name: "Anel de Diamante Solitário",
             price: 5999.99,
             image: "assets/images/JOIAS/joia-1 (1).jpeg",
+            images: [
+                "assets/images/JOIAS/joia-1 (1).jpeg",
+                "assets/images/JOIAS/joia-1 (2).jpeg"
+            ],
             category: "aneis",
             description: "Elegante anel solitário com diamante de corte brilhante de 1 quilate, montado em ouro 18k.",
             details: {
@@ -130,6 +134,21 @@ const products = {
                 pureza: "VS1",
                 cor: "F",
                 certificacao: "GIA"
+            },
+            sizes: ["12", "14", "16", "18", "20"],
+            stones: ["diamond"],
+            metals: {
+                yellow: "assets/images/JOIAS/joia-1 (1).jpeg",
+                white:  "assets/images/JOIAS/joia-1 (2).jpeg",
+                rose:   "assets/images/JOIAS/joia-1 (3).jpeg"
+            },
+            arEffects: {
+                yellow: "assets/effects/aneis/anel-diamante-yellow.deepar",
+                white:  "assets/effects/aneis/anel-diamante-white.deepar",
+                rose:   "assets/effects/aneis/anel-diamante-rose.deepar"
+            },
+            models3d: {
+                yellow: "assets/models/aneis/anel-diamante-yellow.glb"
             }
         },
         {
@@ -137,58 +156,378 @@ const products = {
             name: "Colar de Pérolas",
             price: 2999.99,
             image: "assets/images/JOIAS/joia-1 (2).jpeg",
+            images: [
+                "assets/images/JOIAS/joia-1 (2).jpeg",
+                "assets/images/JOIAS/joia-1 (3).jpeg"
+            ],
             category: "colares",
             description: "Belíssimo colar de pérolas naturais com fecho em ouro branco 18k.",
             details: {
                 material: "Ouro Branco 18k",
                 pedra: "Pérolas Naturais",
                 comprimento: "45cm"
-            }
+            },
+            sizes: [],
+            stones: ["pearl"],
+            metals: {
+                white: "assets/images/JOIAS/joia-1 (2).jpeg"
+            },
+            arEffects: {
+                white: "assets/effects/colares/colar-perolas-white.deepar"
+            },
+            models3d: null
         },
         {
             id: 3,
             name: "Brincos de Ouro Rosé",
             price: 1599.99,
             image: "assets/images/JOIAS/joia-1 (3).jpeg",
+            images: [
+                "assets/images/JOIAS/joia-1 (3).jpeg",
+                "assets/images/JOIAS/joia-1 (4).jpeg"
+            ],
             category: "brincos",
             description: "Brincos elegantes em ouro rosé 18k com design moderno e sofisticado.",
             details: {
                 material: "Ouro Rosé 18k",
                 estilo: "Contemporâneo",
                 comprimento: "2.5cm"
-            }
+            },
+            sizes: [],
+            stones: [],
+            metals: {
+                yellow: "assets/images/JOIAS/joia-1 (1).jpeg",
+                white:  "assets/images/JOIAS/joia-1 (2).jpeg",
+                rose:   "assets/images/JOIAS/joia-1 (3).jpeg"
+            },
+            arEffects: {
+                yellow: "assets/effects/brincos/brinco-argola-yellow.deepar",
+                white:  "assets/effects/brincos/brinco-argola-white.deepar",
+                rose:   "assets/effects/brincos/brinco-argola-rose.deepar"
+            },
+            models3d: null
         },
         {
             id: 4,
             name: "Pulseira de Ouro 18k",
             price: 3999.99,
             image: "assets/images/JOIAS/joia-1 (4).jpeg",
+            images: [
+                "assets/images/JOIAS/joia-1 (4).jpeg",
+                "assets/images/JOIAS/joia-1 (5).jpeg"
+            ],
             category: "pulseiras",
             description: "Pulseira clássica em ouro 18k com acabamento polido.",
             details: {
                 material: "Ouro 18k",
                 peso: "12g",
                 comprimento: "19cm"
-            }
+            },
+            sizes: ["15", "17", "19", "21"],
+            stones: [],
+            metals: {
+                yellow: "assets/images/JOIAS/joia-1 (4).jpeg",
+                white:  "assets/images/JOIAS/joia-1 (5).jpeg"
+            },
+            arEffects: {
+                yellow: "assets/effects/pulseiras/pulseira-ouro-yellow.deepar",
+                white:  "assets/effects/pulseiras/pulseira-ouro-white.deepar"
+            },
+            models3d: null
         },
         {
             id: 5,
             name: "Anel de Safira",
             price: 4599.99,
             image: "assets/images/JOIAS/joia-1 (5).jpeg",
+            images: [
+                "assets/images/JOIAS/joia-1 (5).jpeg",
+                "assets/images/JOIAS/joia-1 (1).jpeg"
+            ],
             category: "aneis",
             description: "Anel luxuoso com safira azul cercada por diamantes.",
             details: {
                 material: "Ouro Branco 18k",
                 pedra: "Safira e Diamantes",
                 quilate: "Safira 1.5ct, Diamantes 0.5ct total"
+            },
+            sizes: ["12", "14", "16", "18"],
+            stones: ["diamond", "sapphire"],
+            metals: {
+                white: "assets/images/JOIAS/joia-1 (5).jpeg",
+                yellow: "assets/images/JOIAS/joia-1 (1).jpeg"
+            },
+            arEffects: {
+                white:  "assets/effects/aneis/anel-safira-white.deepar",
+                yellow: "assets/effects/aneis/anel-safira-yellow.deepar"
+            },
+            models3d: {
+                white: "assets/models/aneis/anel-safira-white.glb"
             }
         }
     ],
-    aneis: [],
-    colares: [],
-    brincos: [],
-    pulseiras: []
+    aneis: [
+        {
+            id: 101,
+            name: "Aliança de Casamento Clássica",
+            price: 1899.99,
+            image: "assets/images/JOIAS/joia-1 (1).jpeg",
+            images: ["assets/images/JOIAS/joia-1 (1).jpeg"],
+            category: "aneis",
+            description: "Aliança de casamento em ouro 18k com acabamento liso e polido.",
+            details: { material: "Ouro 18k", peso: "5g", largura: "4mm" },
+            sizes: ["10", "12", "14", "16", "18", "20"],
+            stones: [],
+            metals: {
+                yellow: "assets/images/JOIAS/joia-1 (1).jpeg",
+                white:  "assets/images/JOIAS/joia-1 (2).jpeg"
+            },
+            arEffects: {
+                yellow: "assets/effects/aneis/alianca-yellow.deepar",
+                white:  "assets/effects/aneis/alianca-white.deepar"
+            },
+            models3d: null
+        },
+        {
+            id: 102,
+            name: "Anel de Noivado com Brilhante",
+            price: 8999.99,
+            image: "assets/images/JOIAS/joia-1 (2).jpeg",
+            images: ["assets/images/JOIAS/joia-1 (2).jpeg"],
+            category: "aneis",
+            description: "Anel de noivado com diamante central de 0.75ct em ouro branco.",
+            details: { material: "Ouro Branco 18k", pedra: "Diamante", quilate: "0.75ct", certificacao: "IGI" },
+            sizes: ["12", "14", "16", "18"],
+            stones: ["diamond"],
+            metals: {
+                white:  "assets/images/JOIAS/joia-1 (2).jpeg",
+                yellow: "assets/images/JOIAS/joia-1 (1).jpeg",
+                rose:   "assets/images/JOIAS/joia-1 (3).jpeg"
+            },
+            arEffects: {
+                white:  "assets/effects/aneis/noivado-white.deepar",
+                yellow: "assets/effects/aneis/noivado-yellow.deepar",
+                rose:   "assets/effects/aneis/noivado-rose.deepar"
+            },
+            models3d: { white: "assets/models/aneis/noivado-white.glb" }
+        },
+        {
+            id: 103,
+            name: "Anel Rubi com Diamantes",
+            price: 6700.00,
+            image: "assets/images/JOIAS/joia-1 (3).jpeg",
+            images: ["assets/images/JOIAS/joia-1 (3).jpeg"],
+            category: "aneis",
+            description: "Anel luxuoso com rubi natural cercado por diamantes lapidação brilhante.",
+            details: { material: "Ouro 18k", pedra: "Rubi e Diamantes", quilate: "Rubi 1.2ct" },
+            sizes: ["12", "14", "16", "18"],
+            stones: ["ruby", "diamond"],
+            metals: {
+                yellow: "assets/images/JOIAS/joia-1 (3).jpeg",
+                white:  "assets/images/JOIAS/joia-1 (4).jpeg"
+            },
+            arEffects: {
+                yellow: "assets/effects/aneis/rubi-yellow.deepar",
+                white:  "assets/effects/aneis/rubi-white.deepar"
+            },
+            models3d: null
+        }
+    ],
+    colares: [
+        {
+            id: 201,
+            name: "Corrente Veneziana Ouro",
+            price: 2200.00,
+            image: "assets/images/JOIAS/joia-1 (2).jpeg",
+            images: ["assets/images/JOIAS/joia-1 (2).jpeg"],
+            category: "colares",
+            description: "Corrente veneziana em ouro 18k com elo delicado e acabamento polido.",
+            details: { material: "Ouro 18k", comprimento: "45cm", espessura: "2mm" },
+            sizes: [],
+            stones: [],
+            metals: {
+                yellow: "assets/images/JOIAS/joia-1 (1).jpeg",
+                white:  "assets/images/JOIAS/joia-1 (2).jpeg"
+            },
+            arEffects: {
+                yellow: "assets/effects/colares/corrente-veneziana-yellow.deepar",
+                white:  "assets/effects/colares/corrente-veneziana-white.deepar"
+            },
+            models3d: null
+        },
+        {
+            id: 202,
+            name: "Colar Diamante Solitário",
+            price: 4800.00,
+            image: "assets/images/JOIAS/joia-1 (3).jpeg",
+            images: ["assets/images/JOIAS/joia-1 (3).jpeg"],
+            category: "colares",
+            description: "Colar fino com pingente de diamante solitário de 0.3ct.",
+            details: { material: "Ouro Branco 18k", pedra: "Diamante", quilate: "0.3ct" },
+            sizes: [],
+            stones: ["diamond"],
+            metals: {
+                white:  "assets/images/JOIAS/joia-1 (3).jpeg",
+                yellow: "assets/images/JOIAS/joia-1 (4).jpeg"
+            },
+            arEffects: {
+                white:  "assets/effects/colares/colar-diamante-white.deepar",
+                yellow: "assets/effects/colares/colar-diamante-yellow.deepar"
+            },
+            models3d: null
+        },
+        {
+            id: 203,
+            name: "Choker Esmeralda",
+            price: 5100.00,
+            image: "assets/images/JOIAS/joia-1 (4).jpeg",
+            images: ["assets/images/JOIAS/joia-1 (4).jpeg"],
+            category: "colares",
+            description: "Choker dourado com esmeralda colombiana de 0.8ct ao centro.",
+            details: { material: "Ouro 18k", pedra: "Esmeralda Colombiana", quilate: "0.8ct" },
+            sizes: [],
+            stones: ["emerald"],
+            metals: {
+                yellow: "assets/images/JOIAS/joia-1 (4).jpeg"
+            },
+            arEffects: {
+                yellow: "assets/effects/colares/choker-esmeralda-yellow.deepar"
+            },
+            models3d: null
+        }
+    ],
+    brincos: [
+        {
+            id: 301,
+            name: "Argola Lisa Ouro",
+            price: 980.00,
+            image: "assets/images/JOIAS/joia-1 (3).jpeg",
+            images: ["assets/images/JOIAS/joia-1 (3).jpeg"],
+            category: "brincos",
+            description: "Argola clássica em ouro 18k com acabamento polido, diâmetro 20mm.",
+            details: { material: "Ouro 18k", diametro: "20mm" },
+            sizes: [],
+            stones: [],
+            metals: {
+                yellow: "assets/images/JOIAS/joia-1 (1).jpeg",
+                white:  "assets/images/JOIAS/joia-1 (2).jpeg",
+                rose:   "assets/images/JOIAS/joia-1 (3).jpeg"
+            },
+            arEffects: {
+                yellow: "assets/effects/brincos/argola-yellow.deepar",
+                white:  "assets/effects/brincos/argola-white.deepar",
+                rose:   "assets/effects/brincos/argola-rose.deepar"
+            },
+            models3d: null
+        },
+        {
+            id: 302,
+            name: "Brinco Ponto de Luz Diamante",
+            price: 3200.00,
+            image: "assets/images/JOIAS/joia-1 (4).jpeg",
+            images: ["assets/images/JOIAS/joia-1 (4).jpeg"],
+            category: "brincos",
+            description: "Brinco ponto de luz com diamante de 0.20ct cada, em ouro branco 18k.",
+            details: { material: "Ouro Branco 18k", pedra: "Diamante", quilate: "0.20ct cada" },
+            sizes: [],
+            stones: ["diamond"],
+            metals: {
+                white:  "assets/images/JOIAS/joia-1 (4).jpeg",
+                yellow: "assets/images/JOIAS/joia-1 (1).jpeg"
+            },
+            arEffects: {
+                white:  "assets/effects/brincos/ponto-luz-white.deepar",
+                yellow: "assets/effects/brincos/ponto-luz-yellow.deepar"
+            },
+            models3d: null
+        },
+        {
+            id: 303,
+            name: "Brinco Ear Cuff Ouro Rosé",
+            price: 1450.00,
+            image: "assets/images/JOIAS/joia-1 (5).jpeg",
+            images: ["assets/images/JOIAS/joia-1 (5).jpeg"],
+            category: "brincos",
+            description: "Ear cuff moderno em ouro rosé 18k, sem necessidade de furo.",
+            details: { material: "Ouro Rosé 18k", estilo: "Ear Cuff" },
+            sizes: [],
+            stones: [],
+            metals: {
+                rose:   "assets/images/JOIAS/joia-1 (5).jpeg",
+                yellow: "assets/images/JOIAS/joia-1 (1).jpeg"
+            },
+            arEffects: {
+                rose:   "assets/effects/brincos/ear-cuff-rose.deepar",
+                yellow: "assets/effects/brincos/ear-cuff-yellow.deepar"
+            },
+            models3d: null
+        }
+    ],
+    pulseiras: [
+        {
+            id: 401,
+            name: "Bracelete Riviera Diamantes",
+            price: 12500.00,
+            image: "assets/images/JOIAS/joia-1 (4).jpeg",
+            images: ["assets/images/JOIAS/joia-1 (4).jpeg"],
+            category: "pulseiras",
+            description: "Bracelete riviera com 15 diamantes totalizando 1.5ct em ouro branco 18k.",
+            details: { material: "Ouro Branco 18k", pedra: "Diamantes", quilate: "1.5ct total" },
+            sizes: ["15", "17", "19"],
+            stones: ["diamond"],
+            metals: {
+                white:  "assets/images/JOIAS/joia-1 (4).jpeg",
+                yellow: "assets/images/JOIAS/joia-1 (1).jpeg"
+            },
+            arEffects: {
+                white:  "assets/effects/pulseiras/riviera-white.deepar",
+                yellow: "assets/effects/pulseiras/riviera-yellow.deepar"
+            },
+            models3d: null
+        },
+        {
+            id: 402,
+            name: "Pulseira Berloque Ouro",
+            price: 2850.00,
+            image: "assets/images/JOIAS/joia-1 (5).jpeg",
+            images: ["assets/images/JOIAS/joia-1 (5).jpeg"],
+            category: "pulseiras",
+            description: "Pulseira de berloques em ouro 18k com 5 pingentes articulados.",
+            details: { material: "Ouro 18k", comprimento: "18cm", berloques: "5 inclusos" },
+            sizes: ["16", "18", "20"],
+            stones: [],
+            metals: {
+                yellow: "assets/images/JOIAS/joia-1 (5).jpeg",
+                rose:   "assets/images/JOIAS/joia-1 (3).jpeg"
+            },
+            arEffects: {
+                yellow: "assets/effects/pulseiras/berloque-yellow.deepar",
+                rose:   "assets/effects/pulseiras/berloque-rose.deepar"
+            },
+            models3d: null
+        },
+        {
+            id: 403,
+            name: "Escrava Ouro Prata Bicolor",
+            price: 1680.00,
+            image: "assets/images/JOIAS/joia-1 (1).jpeg",
+            images: ["assets/images/JOIAS/joia-1 (1).jpeg"],
+            category: "pulseiras",
+            description: "Pulseira escrava bicolor em ouro amarelo e ouro branco 18k.",
+            details: { material: "Ouro 18k Bicolor", largura: "6mm", comprimento: "18cm" },
+            sizes: ["16", "18", "20"],
+            stones: [],
+            metals: {
+                yellow: "assets/images/JOIAS/joia-1 (1).jpeg",
+                white:  "assets/images/JOIAS/joia-1 (2).jpeg"
+            },
+            arEffects: {
+                yellow: "assets/effects/pulseiras/escrava-yellow.deepar",
+                white:  "assets/effects/pulseiras/escrava-white.deepar"
+            },
+            models3d: null
+        }
+    ]
 };
 
 // Helper to safely aggregate all products
@@ -842,15 +1181,32 @@ function shareWishlist() {
 }
 
 // Update createProductCard function to include wishlist button
+/**
+ * @function createProductCard
+ * @description Cria um card de produto reutilizável com lazy loading, onerror fallback,
+ * botão de carrinho e botão de wishlist com estado visual.
+ * @param {Object} product - Objeto do produto
+ * @returns {HTMLElement} Elemento div do card
+ */
 function createProductCard(product) {
     const card = document.createElement('div');
     card.className = 'product-card';
     const isInWishlist = wishlist.includes(product.id);
+    // Determinar categoria para o link de detalhe
+    const category = product.category || 'featured';
+    // URL relativa funciona tanto da raiz quanto de /pages/
+    const isInPages = window.location.pathname.includes('/pages/');
+    const baseUrl = isInPages ? 'product-detail.html' : 'pages/product-detail.html';
     
     card.innerHTML = `
-        <a href="pages/product-detail.html?id=${product.id}" class="product-link">
+        <a href="${baseUrl}?id=${product.id}&category=${category}" class="product-link">
             <div class="product-image-container">
-                <img src="${product.image}" alt="${product.name}" class="product-image">
+                <img 
+                    src="${product.image}" 
+                    alt="${product.name}" 
+                    class="product-image"
+                    loading="lazy"
+                    onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22300%22%3E%3Crect fill=%22%23f5f0e8%22 width=%22300%22 height=%22300%22/%3E%3Ctext fill=%22%23c4a86e%22 font-family=%22Arial%22 font-size=%2240%22 text-anchor=%22middle%22 x=%22150%22 y=%22165%22%3E✨%3C/text%3E%3C/svg%3E';">
                 <div class="product-overlay">
                     <span class="view-details">
                         <i class="fas fa-search"></i>
@@ -862,13 +1218,14 @@ function createProductCard(product) {
                 <h3 class="product-title">${product.name}</h3>
                 <p class="product-price">R$ ${product.price.toFixed(2)}</p>
                 <div class="product-actions">
-                    <button class="btn btn-primary add-to-cart" onclick="addToCart(${product.id}); event.preventDefault();">
+                    <button class="btn btn-primary add-to-cart" onclick="addToCart({id: ${product.id}}); event.preventDefault();" aria-label="Adicionar ${product.name} ao carrinho">
                         <i class="fas fa-shopping-cart"></i>
                         Adicionar ao Carrinho
                     </button>
                     <button class="btn-ghost wishlist-btn ${isInWishlist ? 'in-wishlist' : ''}" 
                             data-product-id="${product.id}"
-                            onclick="toggleWishlist(${product.id}); event.preventDefault();">
+                            onclick="toggleWishlist(${product.id}, this); event.preventDefault();"
+                            aria-label="${isInWishlist ? 'Remover' : 'Adicionar'} ${product.name} da lista de desejos">
                         <i class="fas fa-heart"></i>
                     </button>
                 </div>
