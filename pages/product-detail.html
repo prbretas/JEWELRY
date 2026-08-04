@@ -197,45 +197,49 @@
         </div>
 
         <!-- Virtual Try-On Modal -->
-        <div id="try-on-modal" class="modal">
+        <div id="try-on-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="tryon-modal-title">
             <div class="modal-content try-on-content">
-                <span class="close">&times;</span>
-                <h2>Experimente Virtualmente</h2>
-                <div id="deepar-container">
-                    <!-- DeepAR will be initialized here -->
+                <button class="close" aria-label="Fechar prova virtual">&times;</button>
+                <h2 id="tryon-modal-title">Experimente Virtualmente</h2>
+
+                <!-- Área da câmera AR — canvas DeepAR inserido aqui (Fix T3.4) -->
+                <div id="ar-viewport" class="ar-viewport">
+                    <canvas id="deepar-canvas" aria-label="Câmera de realidade aumentada"></canvas>
+                    <!-- Fallback: exibido quando AR não está disponível -->
+                    <div id="ar-fallback" class="ar-fallback" style="display:none">
+                        <img id="ar-fallback-image" src="" alt="Imagem do produto" />
+                        <p class="ar-fallback-message">Prova virtual não disponível neste momento.</p>
+                    </div>
+                    <!-- UI de permissão de câmera -->
+                    <div id="camera-permission-ui" class="camera-permission-ui" style="display:none">
+                        <i class="fas fa-camera" aria-hidden="true"></i>
+                        <h3>Permitir acesso à câmera</h3>
+                        <p>Para experimentar a joia virtualmente, precisamos acessar sua câmera.</p>
+                        <button id="request-camera-btn" class="btn btn-primary">
+                            <i class="fas fa-camera"></i> Permitir câmera
+                        </button>
+                        <p class="camera-help-text" id="camera-help-text"></p>
+                    </div>
                 </div>
-                <div class="try-on-controls">
-                    <button id="switch-camera">
-                        <i class="fas fa-camera-rotate"></i>
+
+                <div class="try-on-controls" role="group" aria-label="Controles da prova virtual">
+                    <button id="switch-camera" class="try-on-btn" aria-label="Alternar câmera frontal/traseira" style="display:none">
+                        <i class="fas fa-camera-rotate" aria-hidden="true"></i>
                     </button>
-                    <button id="take-photo">
-                        <i class="fas fa-camera"></i>
+                    <button id="take-photo" class="try-on-btn" aria-label="Tirar foto">
+                        <i class="fas fa-camera" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
         </div>
 
         <!-- 3D Viewer Modal -->
-        <div id="viewer-3d-modal" class="modal">
+        <div id="viewer-3d-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="viewer3d-modal-title">
             <div class="modal-content viewer-3d-content">
-                <span class="close">&times;</span>
-                <h2>Visualização 3D</h2>
+                <button class="close" aria-label="Fechar visualização 3D">&times;</button>
+                <h2 id="viewer3d-modal-title">Visualização 3D</h2>
                 <div id="model-viewer-container">
-                    <!-- 3D viewer will be initialized here -->
-                </div>
-                <div class="viewer-controls">
-                    <button id="rotate-left">
-                        <i class="fas fa-undo"></i>
-                    </button>
-                    <button id="rotate-right">
-                        <i class="fas fa-redo"></i>
-                    </button>
-                    <button id="zoom-in">
-                        <i class="fas fa-search-plus"></i>
-                    </button>
-                    <button id="zoom-out">
-                        <i class="fas fa-search-minus"></i>
-                    </button>
+                    <!-- model-viewer será inserido dinamicamente quando produto tiver models3d -->
                 </div>
             </div>
         </div>

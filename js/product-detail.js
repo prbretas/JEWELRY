@@ -129,61 +129,178 @@ function updateMainImage(src) {
 
 /**
  * @function loadProductDetails
- * @description Carrega os dados do produto na página.
+ * @description Carrega os dados do produto na página buscando em todas as categorias.
+ * Fix T3.1: busca em todas as categorias, não só 'featured'. Trata ID inválido sem erros no console.
  */
 function loadProductDetails() {
     // 1. Obter o ID do produto da URL
     const params = new URLSearchParams(window.location.search);
     const productId = parseInt(params.get('id'));
-    const categoryKey = params.get('category') || 'featured';
 
     // **PROGRAMAÇÃO DEFENSIVA**: Verifica se o ID é válido e se o módulo products existe
     if (isNaN(productId) || typeof products === 'undefined') {
-        document.getElementById('product-details-container').innerHTML = '<p class="text-danger">Produto não encontrado ou catálogo indisponível.</p>';
+        showProductError('Produto não encontrado. ID inválido ou catálogo indisponível.');
         return;
     }
 
-    // 2. Buscar o produto no catálogo (exportado de script.js)
-    const categoryProducts = products[categoryKey] || products.featured;
-    currentProduct = categoryProducts.find(p => p.id === productId);
+    // 2. Buscar o produto em TODAS as categorias (Fix T3.1)
+    let found = null;
+    const allCategories = Object.keys(products);
+    for (const key of allCategories) {
+        const arr = products[key];
+        if (Array.isArray(arr)) {
+            const match = arr.find(p => p.id === productId);
+            if (match) { found = match; break; }
+        }
+    }
+    currentProduct = found;
 
     if (!currentProduct) {
-        document.getElementById('product-details-container').innerHTML = '<p class="text-danger">Produto não encontrado no catálogo.</p>';
+        showProductError(`Produto #${productId} não encontrado. <a href="../index.html">Voltar ao catálogo</a>`);
         return;
     }
 
-    // 3. Popular os detalhes
-    const mainImage = document.getElementById('main-product-image');
+    // 3. Popular breadcrumb dinamicamente
+    const breadcrumb = document.getElementById('product-breadcrumb');
+    if (breadcrumb) breadcrumb.textContent = currentProduct.name;
+
+    const categoryLink = document.querySelector('.breadcrumb a:last-of-type');
+    if (categoryLink && currentProduct.category) {
+        const categoryNames = {
+            aneis: 'Anéis', colares: 'Colares', brincos: 'Brincos', pulseiras: 'Pulseiras'
+        };
+        categoryLink.textContent = categoryNames[currentProduct.category] || currentProduct.category;
+        categoryLink.href = `${currentProduct.category}.html`;
+    }
+
+    // 4. Popular os detalhes no DOM
     const nameEl = document.getElementById('product-name');
     const priceEl = document.getElementById('product-price');
     const descriptionEl = document.getElementById('product-description');
-    const thumbnailContainer = document.querySelector('.thumbnail-container');
 
-    // **PROGRAMAÇÃO DEFENSIVA**: Garante que os elementos existem antes de popular.
-    if (mainImage) mainImage.src = currentProduct.image;
     if (nameEl) nameEl.textContent = currentProduct.name;
     if (priceEl) priceEl.textContent = `R$ ${currentProduct.price.toFixed(2).replace('.', ',')}`;
     if (descriptionEl) descriptionEl.textContent = currentProduct.description;
 
-    // 4. Montar a galeria de miniaturas
-    if (thumbnailContainer && currentProduct.images) {
-        thumbnailContainer.innerHTML = '';
-        currentProduct.images.forEach((imgSrc, index) => {
-            const thumb = document.createElement('img');
-            thumb.src = imgSrc;
-            thumb.className = `thumbnail ${index === 0 ? 'active' : ''}`;
-            thumb.dataset.src = imgSrc; // Usado para updateMainImage
-            thumb.addEventListener('click', () => updateMainImage(imgSrc));
-            thumbnailContainer.appendChild(thumb);
-        });
+    // Atualizar title da página
+    document.title = `${currentProduct.name} - Joalheria Virtual`;
+
+    // 5. Popular especificações
+    const specsEl = document.getElementById('product-specs');
+    if (specsEl && currentProduct.details) {
+        specsEl.innerHTML = Object.entries(currentProduct.details)
+            .filter(([, v]) => v)
+            .map(([k, v]) => `<li><strong>${k.charAt(0).toUpperCase() + k.slice(1)}:</strong> ${v}</li>`)
+            .join('');
     }
 
-    // 5. Inicializar o DeepAR (só se o produto for do tipo Try-On)
-    // Assumindo que DeepAR só deve inicializar se o container existir (DeepARConfig não for null)
-    if (deepARConfig) {
-        initDeepAR();
+    // 6. Popular opções de tamanho
+    const sizeOptionsEl = document.getElementById('size-options');
+    if (sizeOptionsEl && Array.isArray(currentProduct.sizes) && currentProduct.sizes.length > 0) {
+        sizeOptionsEl.innerHTML = currentProduct.sizes
+            .map(s => `<button class="size-option btn btn-ghost" data-size="${s}">${s}</button>`)
+            .join('');
+    } else if (sizeOptionsEl) {
+        sizeOptionsEl.closest('.size-selection')?.style.setProperty('display', 'none');
+    }
+
+    // 7. Configurar botões de metal: mostrar apenas os disponíveis
+    const metalButtons = document.querySelectorAll('.metal-option');
+    metalButtons.forEach(btn => {
+        const metal = btn.dataset.metal;
+        if (currentProduct.metals && currentProduct.metals[metal]) {
+            btn.style.display = '';
+        } else {
+            btn.style.display = 'none';
+        }
+    });
+
+    // 8. Galeria — inicializar Swiper com imagens do produto (T3.2 - básico)
+    initializeGallery(currentProduct);
+
+    // 9. Botão 3D: mostrar apenas se produto tem model3d
+    const btn3d = document.getElementById('view-3d');
+    if (btn3d) {
+        const has3d = currentProduct.models3d && Object.keys(currentProduct.models3d).length > 0;
+        btn3d.style.display = has3d ? '' : 'none';
+    }
+
+    // 10. Inicializar DeepAR se produto tem arEffects
+    const hasar = currentProduct.arEffects && Object.keys(currentProduct.arEffects).length > 0;
+    if (hasar) {
+        const tryOnBtn = document.getElementById('try-on');
+        if (tryOnBtn) tryOnBtn.style.display = '';
     }
 }
+
+/**
+ * @function showProductError
+ * @description Exibe mensagem de erro quando produto não é encontrado, sem lançar erros no console.
+ */
+function showProductError(message) {
+    const container = document.querySelector('.product-container') || document.querySelector('main');
+    if (container) {
+        container.innerHTML = `
+            <div class="product-not-found" style="text-align:center; padding:4rem 2rem;">
+                <i class="fas fa-search" style="font-size:3rem; color:var(--accent-color); margin-bottom:1rem;"></i>
+                <h2>Produto não encontrado</h2>
+                <p>${message}</p>
+                <a href="../index.html" class="btn btn-primary" style="margin-top:1rem;">
+                    <i class="fas fa-arrow-left"></i> Voltar ao Catálogo
+                </a>
+            </div>
+        `;
+    }
+}
+
+/**
+ * @function initializeGallery
+ * @description Inicializa a galeria de imagens do produto com Swiper.
+ * Fallback: se Swiper não disponível, usa imagem simples.
+ */
+function initializeGallery(product) {
+    const images = product.images?.length ? product.images : [product.image];
+
+    // Inicializar slide principal
+    const mainWrapper = document.querySelector('.product-main-slider .swiper-wrapper');
+    if (mainWrapper) {
+        mainWrapper.innerHTML = images.map(src => `
+            <div class="swiper-slide">
+                <img src="${src}" alt="${product.name}" loading="lazy"
+                     onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23f5f0e8%22 width=%22400%22 height=%22400%22/%3E%3Ctext fill=%22%23c4a86e%22 font-family=%22Arial%22 font-size=%2260%22 text-anchor=%22middle%22 x=%22200%22 y=%22220%22%3E✨%3C/text%3E%3C/svg%3E';">
+            </div>
+        `).join('');
+    }
+
+    // Inicializar thumbnails
+    const thumbWrapper = document.querySelector('.product-thumbs .swiper-wrapper');
+    if (thumbWrapper) {
+        thumbWrapper.innerHTML = images.map(src => `
+            <div class="swiper-slide">
+                <img src="${src}" alt="${product.name}" loading="lazy">
+            </div>
+        `).join('');
+    }
+
+    // Inicializar Swiper se disponível
+    if (typeof Swiper !== 'undefined' && mainWrapper) {
+        // Thumbnails Swiper
+        const thumbsSwiper = thumbWrapper ? new Swiper('.product-thumbs', {
+            spaceBetween: 8,
+            slidesPerView: 4,
+            watchSlidesProgress: true,
+        }) : null;
+
+        // Main Swiper
+        new Swiper('.product-main-slider', {
+            spaceBetween: 10,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            thumbs: thumbsSwiper ? { swiper: thumbsSwiper } : undefined,
+        });
+    }
 
 // =========================================================================
 // Bloco: Seleção de Opções e Adicionar ao Carrinho

@@ -415,3 +415,111 @@
         width: 100%;
     }
 }
+
+/* =========================================================================
+   AR Try-On Modal — adicionado T3.4 / T4.x
+   ========================================================================= */
+
+.ar-viewport {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    aspect-ratio: 3 / 4;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+#deepar-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.ar-fallback {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-color, #faf8f5);
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.ar-fallback img {
+    max-width: 60%;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.ar-fallback-message {
+    color: var(--text-muted, #777);
+    font-size: 0.9rem;
+}
+
+.camera-permission-ui {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-color, #faf8f5);
+    padding: 2rem;
+    text-align: center;
+    gap: 0.75rem;
+}
+
+.camera-permission-ui .fa-camera {
+    font-size: 3rem;
+    color: var(--accent-color, #c9a84c);
+}
+
+.camera-help-text {
+    font-size: 0.8rem;
+    color: var(--text-muted, #777);
+    margin-top: 0.5rem;
+}
+
+.try-on-controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.try-on-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-color, #8b6914);
+    background: white;
+    color: var(--primary-color, #8b6914);
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.try-on-btn:hover {
+    background: var(--primary-color, #8b6914);
+    color: white;
+}
+
+/* Produto não encontrado */
+.product-not-found {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.product-not-found i {
+    font-size: 3rem;
+    color: var(--accent-color, #c9a84c);
+    margin-bottom: 1rem;
+}
