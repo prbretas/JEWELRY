@@ -211,21 +211,22 @@ let wishlist = JSON.parse(localStorage.getItem(WISHLIST_KEY)) || [];
 const CART_KEY = 'cart';
 let cart = JSON.parse(localStorage.getItem(CART_KEY)) || []; // IMPLEMENTED CART PERSISTENCE
 
-// DOM elements - Usando const e consultando defensivamente (Melhoria 1.1.0)
-const wishlistIcon = document.getElementById('wishlist-icon');
-const wishlistModal = document.getElementById('wishlist-modal');
-const wishlistItems = document.getElementById('wishlist-items');
-const wishlistCount = document.getElementById('wishlist-count');
-const shareWishlistBtn = document.getElementById('share-wishlist');
-const clearWishlistBtn = document.getElementById('clear-wishlist');
+// DOM elements - usando `let` para permitir reatribuição segura em ensureElements()
+// Fix #001: convertido de const para let
+let wishlistIcon = document.getElementById('wishlist-icon');
+let wishlistModal = document.getElementById('wishlist-modal');
+let wishlistItems = document.getElementById('wishlist-items');
+let wishlistCount = document.getElementById('wishlist-count');
+let shareWishlistBtn = document.getElementById('share-wishlist');
+let clearWishlistBtn = document.getElementById('clear-wishlist');
 
-const cartIcon = document.getElementById('cart-icon');
-const cartModal = document.getElementById('cart-modal');
-const closeBtn = document.querySelector('.close');
-const cartItems = document.getElementById('cart-items');
-const cartCount = document.getElementById('cart-count');
-const totalAmount = document.getElementById('total-amount');
-const checkoutBtn = document.getElementById('checkout-btn');
+let cartIcon = document.getElementById('cart-icon');
+let cartModal = document.getElementById('cart-modal');
+let closeBtn = document.querySelector('.close');
+let cartItems = document.getElementById('cart-items');
+let cartCount = document.getElementById('cart-count');
+let totalAmount = document.getElementById('total-amount');
+let checkoutBtn = document.getElementById('checkout-btn');
 
 
 // Helper to safely get DOM elements that may not exist yet
@@ -315,7 +316,8 @@ function displayProducts() {
                             <i class="fas fa-shopping-cart"></i>
                             Adicionar ao Carrinho
                         </button>
-                        <button class="wishlist-btn" ${wishlist.includes(product.id) ? 'in-wishlist' : ''}" 
+                        <button class="wishlist-btn${wishlist.includes(product.id) ? ' active' : ''}" 
+                                data-product-id="${product.id}"
                                 onclick="toggleWishlist(${product.id}, this)">
                             <i class="fas fa-heart"></i>
                         </button>
@@ -1030,7 +1032,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (cartIcon) {
         cartIcon.addEventListener('click', openCartModal);
     }
-    
+
+    // Fix #004: listener do checkout via JS, sem onclick inline no HTML
+    const checkoutBtnEl = document.getElementById('checkout-btn');
+    if (checkoutBtnEl) {
+        checkoutBtnEl.addEventListener('click', processCheckout);
+    }
+
     console.log('Setup da página concluído');
 
     // Try to dynamically import the auth module if available (avoids parse errors
@@ -1351,6 +1359,15 @@ function closeCartModal() {
     }
 }
 
+/**
+ * closeWishlistModal — fecha o modal da lista de desejos de forma segura
+ * Fix #004: adicionada função nomeada global
+ */
+function closeWishlistModal() {
+    const modal = document.getElementById('wishlist-modal');
+    if (modal) modal.style.display = 'none';
+}
+
 // Remove item do carrinho
 function removeFromCart(variantKey) {
     const itemIndex = cart.findIndex(item => item.variantKey === variantKey);
@@ -1452,6 +1469,8 @@ function updateCart() {
 
 window.openCartModal = openCartModal;
 window.closeCartModal = closeCartModal;
+window.closeWishlistModal = closeWishlistModal;
+window.processCheckout = processCheckout;
 window.updateItemQuantity = updateItemQuantity;
 window.removeFromCart = removeFromCart;
 

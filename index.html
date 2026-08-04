@@ -333,7 +333,7 @@
     <!-------------------- CARRINHO ---------------->
     <div id="cart-modal" class="modal">
       <div class="modal-content">
-        <button class="close" title="Fechar" onclick="closeCartModal()">
+        <button class="close" title="Fechar" aria-label="Fechar carrinho">
           <i class="fas fa-times"></i>
         </button>
         <h2><i class="fas fa-shopping-cart"></i> Seu Carrinho</h2>
@@ -345,7 +345,7 @@
             <span>Total:</span>
             <span class="total-value">R$ 0,00</span>
           </div>
-          <button id="checkout-btn" onclick="processCheckout()" class="primary-button">
+          <button id="checkout-btn" class="primary-button">
             <i class="fas fa-lock"></i>
             Finalizar Compra
             <span class="loading-spinner"></span>
@@ -356,7 +356,7 @@
     <!-------------------- LISTA DE DESEJOS ---------------->
     <div id="wishlist-modal" class="modal">
       <div class="modal-content">
-        <button class="close" title="Fechar" onclick="closeWishlistModal()">
+        <button class="close" title="Fechar" aria-label="Fechar lista de desejos">
           <i class="fas fa-times"></i>
         </button>
         <h2><i class="fas fa-heart"></i> Lista de Desejos</h2>
