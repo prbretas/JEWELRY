@@ -1,16 +1,12 @@
 /**
  * @file js/product-detail.js
  * @module ProductDetail
- * @author Jewelry Team (prbretas)
- * @version 2.0.0
+ * @version 2.1.0
  * @date 2026-08-04
  * @description Lógica da página de detalhes do produto.
- * - Carregamento de produto por URL em todas as categorias (T3.1)
- * - Galeria Swiper com thumbnails (T3.2)
- * - Seleção de variante com evento productVariantChanged (T3.3)
- * - Estrutura HTML do modal Try-On com deepar-canvas (T3.4)
- * - Integração com módulo ARTryOn (T4.7)
- * - Visualizador 3D model-viewer (T5.1, T5.2)
+ * Carregado como script normal (sem type=module) para acesso simples ao window.
+ * Depende de: script.js (window.products, window.addToCart, window.showToast)
+ *             ar-tryon.js (window.ARTryOn)
  */
 
 // Estado do módulo
@@ -359,9 +355,18 @@ function openTryOnModal() {
     const modal = document.getElementById('try-on-modal');
     if (modal) {
         modal.style.display = 'flex';
-        // Inicializar AR se disponível (T4.7 — ARTryOn)
+        // Mostrar produto no modal
+        const infoEl = document.getElementById('tryon-product-info');
+        if (infoEl && currentProduct) {
+            infoEl.innerHTML = `<strong>${currentProduct.name}</strong> — ${Object.values(currentProduct.metals || {})[0] ? 'Variantes de metal disponíveis' : ''}`;
+        }
+        // Inicializar AR se ARTryOn disponível
         if (typeof ARTryOn !== 'undefined' && currentProduct?.arEffects) {
             startARTryOn();
+        } else {
+            // Sem módulo AR ou produto sem efeito — mostrar fallback direto
+            hideARLoading();
+            showARFallback('Prova virtual não configurada para este produto.');
         }
     }
 }
@@ -463,15 +468,18 @@ async function startARTryOn() {
         arInstance = new ARTryOn(canvas.closest('#ar-viewport'), config);
 
         arInstance.on('ready', () => {
+            hideARLoading();
             document.getElementById('camera-permission-ui')?.style.setProperty('display', 'none');
             document.getElementById('switch-camera')?.style.setProperty('display', '');
         });
 
         arInstance.on('cameraPermissionDenied', () => {
+            hideARLoading();
             showCameraPermissionUI();
         });
 
         arInstance.on('error', (code) => {
+            hideARLoading();
             showARFallback(`Erro AR: ${code}`);
         });
 
@@ -564,13 +572,19 @@ function showCameraPermissionUI() {
  * @description Exibe imagem estática como fallback quando AR falha.
  */
 function showARFallback(reason) {
+    hideARLoading();
     if (typeof window.showToast === 'function') {
         window.showToast('Prova virtual não disponível no momento.', 'warning');
     }
-    const fallback = document.getElementById('ar-fallback');
+    const fallback    = document.getElementById('ar-fallback');
     const fallbackImg = document.getElementById('ar-fallback-image');
-    if (fallback) fallback.style.display = 'flex';
-    if (fallbackImg && currentProduct?.image) fallbackImg.src = currentProduct.image;
+    if (fallback)    fallback.style.display    = 'flex';
+    if (fallbackImg && currentProduct?.image)  fallbackImg.src = currentProduct.image;
+}
+
+function hideARLoading() {
+    const loading = document.getElementById('ar-loading');
+    if (loading) loading.style.display = 'none';
 }
 
 /**

@@ -2,76 +2,62 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Detalhes do Produto - Joalheria Virtual</title>
+
+    <!-- Estilos -->
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/product-detail.css">
+    <link rel="stylesheet" href="../css/loading-states.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdn.deepar.ai/js/deepar.js"></script>
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+    <!-- Google Fonts preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <!-- SDKs que precisam carregar ANTES dos módulos JS -->
+    <script src="https://cdn.deepar.ai/js/deepar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 </head>
 <body>
+    <!-- ==================== HEADER ==================== -->
     <header>
         <nav class="navbar">
             <div class="logo">
-               <a href="../index.html">
-                    <h1>✨ Joalheria Virtual</h1>
-                </a>
+                <a href="../index.html"><h1>✨ Joalheria Virtual</h1></a>
             </div>
             <div class="nav-menu">
                 <ul class="menu-items">
                     <li class="menu-item">
                         <a href="aneis.html">Anéis <i class="fas fa-chevron-down"></i></a>
-                        <ul class="submenu">
-                            <li><a href="aneis.html#noivado">Anéis de Noivado</a></li>
-                            <li><a href="aneis.html#casamento">Alianças de Casamento</a></li>
-                            <li><a href="aneis.html#luxo">Anéis de Luxo</a></li>
-                            <li><a href="aneis.html#casual">Anéis Casuais</a></li>
-                        </ul>
                     </li>
                     <li class="menu-item">
                         <a href="colares.html">Colares <i class="fas fa-chevron-down"></i></a>
-                        <ul class="submenu">
-                            <li><a href="colares.html#diamantes">Colares com Diamantes</a></li>
-                            <li><a href="colares.html#perolas">Colares de Pérolas</a></li>
-                            <li><a href="colares.html#correntes">Correntes</a></li>
-                            <li><a href="colares.html#pingentes">Pingentes</a></li>
-                        </ul>
                     </li>
                     <li class="menu-item">
                         <a href="brincos.html">Brincos <i class="fas fa-chevron-down"></i></a>
-                        <ul class="submenu">
-                            <li><a href="brincos.html#argolas">Argolas</a></li>
-                            <li><a href="brincos.html#brilhantes">Brincos com Brilhantes</a></li>
-                            <li><a href="brincos.html#pedras">Brincos com Pedras</a></li>
-                            <li><a href="brincos.html#pequenos">Brincos Pequenos</a></li>
-                        </ul>
                     </li>
                     <li class="menu-item">
                         <a href="pulseiras.html">Pulseiras <i class="fas fa-chevron-down"></i></a>
-                        <ul class="submenu">
-                            <li><a href="pulseiras.html#ouro">Pulseiras de Ouro</a></li>
-                            <li><a href="pulseiras.html#prata">Pulseiras de Prata</a></li>
-                            <li><a href="pulseiras.html#berloques">Berloques</a></li>
-                            <li><a href="pulseiras.html#rigidas">Pulseiras Rígidas</a></li>
-                        </ul>
                     </li>
                 </ul>
             </div>
             <div class="nav-actions">
                 <div id="user-menu" class="user-menu"></div>
                 <div id="login-button"></div>
-                <a href="#" id="wishlist-icon" class="action-icon">
+                <a href="#" id="wishlist-icon" class="action-icon" aria-label="Lista de desejos" role="button" tabindex="0">
                     <i class="fas fa-heart"></i>
                     <span id="wishlist-count" class="count-badge">0</span>
                 </a>
-                <a href="#" id="cart-icon" class="action-icon">
+                <a href="#" id="cart-icon" class="action-icon" aria-label="Carrinho" role="button" tabindex="0">
                     <i class="fas fa-shopping-cart"></i>
                     <span id="cart-count" class="count-badge">0</span>
                 </a>
@@ -79,89 +65,98 @@
         </nav>
     </header>
 
+    <!-- ==================== PRODUTO ==================== -->
     <main class="product-detail">
+        <!-- Breadcrumb -->
         <div class="breadcrumb">
             <a href="../index.html">Home</a> /
-            <a href="aneis.html">Anéis</a> /
-            <span id="product-breadcrumb"></span>
+            <a href="aneis.html" id="breadcrumb-category">Categoria</a> /
+            <span id="product-breadcrumb">Produto</span>
         </div>
 
         <div class="product-container">
+
+            <!-- ===== GALERIA ===== -->
             <div class="product-gallery">
+                <!-- Swiper Principal -->
                 <div class="swiper product-main-slider">
                     <div class="swiper-wrapper">
-                        <!-- Main images will be loaded dynamically -->
+                        <!-- slides injetados via JS -->
                     </div>
                     <div class="swiper-button-next"></div>
                     <div class="swiper-button-prev"></div>
                 </div>
-                <div thumbsSlider="" class="swiper product-thumbs">
+                <!-- Thumbnails -->
+                <div thumbsSlider="" class="swiper product-thumbs" style="margin-top:0.75rem;">
                     <div class="swiper-wrapper">
-                        <!-- Thumbnails will be loaded dynamically -->
+                        <!-- thumbnails injetados via JS -->
                     </div>
                 </div>
-                <div class="view-options">
-                    <button id="view-3d" class="btn btn-primary view-button">
+
+                <!-- Botões de Visualização -->
+                <div class="view-options" style="margin-top:1rem;">
+                    <button id="view-3d" class="btn view-button" style="display:none"
+                            aria-label="Visualizar em 3D">
                         <i class="fas fa-cube"></i> Visualizar em 3D
                     </button>
-                    <button id="try-on" class="btn btn-primary view-button">
-                        <i class="fas fa-camera"></i> Experimentar Virtual
+                    <button id="try-on" class="btn view-button"
+                            aria-label="Experimentar virtualmente pela câmera">
+                        <i class="fas fa-camera"></i> ✨ Experimentar Virtual
                     </button>
                 </div>
             </div>
 
+            <!-- ===== INFORMAÇÕES ===== -->
             <div class="product-info">
-                <h1 id="product-name"></h1>
+                <h1 id="product-name" style="font-family:'Playfair Display',serif;"></h1>
                 <div class="product-price">
-                    <span id="product-price"></span>
+                    <span id="product-price" style="font-size:1.8rem;font-weight:700;color:var(--primary-color,#8b6914);"></span>
                 </div>
-                
                 <div class="product-description">
                     <p id="product-description"></p>
                 </div>
 
+                <!-- Specs -->
                 <div class="product-details">
                     <h3>Detalhes do Produto</h3>
-                    <ul id="product-specs">
-                        <!-- Product specifications will be loaded dynamically -->
-                    </ul>
+                    <ul id="product-specs" style="list-style:none;padding:0;"></ul>
                 </div>
 
+                <!-- Seleção de Variante -->
                 <div class="product-customization">
                     <div class="size-selection">
                         <h3>Tamanho</h3>
-                        <div class="size-options" id="size-options">
-                            <!-- Size options will be loaded dynamically -->
-                        </div>
+                        <div class="size-options" id="size-options"></div>
                     </div>
-
-                    <div class="metal-selection">
+                    <div class="metal-selection" style="margin-top:1rem;">
                         <h3>Metal</h3>
                         <div class="metal-options">
                             <button class="metal-option" data-metal="yellow">Ouro Amarelo</button>
                             <button class="metal-option" data-metal="white">Ouro Branco</button>
                             <button class="metal-option" data-metal="rose">Ouro Rosé</button>
+                            <button class="metal-option" data-metal="silver">Prata</button>
                         </div>
                     </div>
                 </div>
 
+                <!-- Quantidade + Carrinho -->
                 <div class="purchase-options">
                     <div class="quantity-selector">
-                        <button id="decrease-quantity">-</button>
-                        <input type="number" id="quantity" value="1" min="1">
-                        <button id="increase-quantity">+</button>
+                        <button id="decrease-quantity" aria-label="Diminuir quantidade">-</button>
+                        <input type="number" id="quantity" value="1" min="1" aria-label="Quantidade">
+                        <button id="increase-quantity" aria-label="Aumentar quantidade">+</button>
                     </div>
                     <button id="add-to-cart" class="btn btn-primary primary-button">
-                        Adicionar ao Carrinho
+                        <i class="fas fa-shopping-cart"></i> Adicionar ao Carrinho
                     </button>
                 </div>
 
+                <!-- Accordion -->
                 <div class="additional-info">
                     <div class="accordion">
                         <div class="accordion-item">
                             <button class="accordion-header">
-                                Descrição Detalhada
-                                <i class="fas fa-chevron-down"></i>
+                                Descrição Detalhada <i class="fas fa-chevron-down"></i>
                             </button>
                             <div class="accordion-content">
                                 <p id="detailed-description"></p>
@@ -169,19 +164,15 @@
                         </div>
                         <div class="accordion-item">
                             <button class="accordion-header">
-                                Especificações
-                                <i class="fas fa-chevron-down"></i>
+                                Especificações <i class="fas fa-chevron-down"></i>
                             </button>
                             <div class="accordion-content">
-                                <ul id="specifications">
-                                    <!-- Specifications will be loaded dynamically -->
-                                </ul>
+                                <ul id="specifications" style="list-style:none;padding:0;"></ul>
                             </div>
                         </div>
                         <div class="accordion-item">
                             <button class="accordion-header">
-                                Cuidados com a Joia
-                                <i class="fas fa-chevron-down"></i>
+                                Cuidados com a Joia <i class="fas fa-chevron-down"></i>
                             </button>
                             <div class="accordion-content">
                                 <ul>
@@ -194,70 +185,126 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </div><!-- /product-info -->
+        </div><!-- /product-container -->
 
-        <!-- Virtual Try-On Modal -->
-        <div id="try-on-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="tryon-modal-title">
-            <div class="modal-content try-on-content">
-                <button class="close" aria-label="Fechar prova virtual">&times;</button>
-                <h2 id="tryon-modal-title">Experimente Virtualmente</h2>
+        <!-- ==================== MODAL: AR TRY-ON ==================== -->
+        <div id="try-on-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="tryon-modal-title"
+             style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:9999;
+                    align-items:center; justify-content:center;">
+            <div class="modal-content try-on-content"
+                 style="background:#fff; border-radius:16px; padding:1.5rem; max-width:520px;
+                        width:95vw; max-height:90vh; overflow-y:auto; position:relative;">
 
-                <!-- Área da câmera AR — canvas DeepAR inserido aqui (Fix T3.4) -->
+                <!-- Fechar -->
+                <button class="close" aria-label="Fechar prova virtual"
+                        style="position:absolute;top:1rem;right:1rem;background:none;border:none;
+                               font-size:1.5rem;cursor:pointer;color:#555;">&times;</button>
+
+                <h2 id="tryon-modal-title"
+                    style="font-family:'Playfair Display',serif;margin-bottom:1rem;font-size:1.3rem;">
+                    ✨ Experimente Virtualmente
+                </h2>
+                <p style="font-size:0.85rem;color:#888;margin-bottom:1rem;">
+                    Veja como a joia fica em você em tempo real
+                </p>
+
+                <!-- Viewport da câmera AR -->
                 <div id="ar-viewport" class="ar-viewport">
+                    <!-- Canvas DeepAR -->
                     <canvas id="deepar-canvas" aria-label="Câmera de realidade aumentada"></canvas>
-                    <!-- Fallback: exibido quando AR não está disponível -->
-                    <div id="ar-fallback" class="ar-fallback" style="display:none">
-                        <img id="ar-fallback-image" src="" alt="Imagem do produto" />
-                        <p class="ar-fallback-message">Prova virtual não disponível neste momento.</p>
+
+                    <!-- Estado: Carregando -->
+                    <div id="ar-loading" class="camera-permission-ui" style="display:flex;">
+                        <i class="fas fa-spinner fa-spin" style="font-size:2rem;color:var(--accent-color,#c9a84c);"></i>
+                        <p style="margin-top:0.75rem;">Iniciando câmera...</p>
                     </div>
-                    <!-- UI de permissão de câmera -->
-                    <div id="camera-permission-ui" class="camera-permission-ui" style="display:none">
+
+                    <!-- Estado: Permissão negada -->
+                    <div id="camera-permission-ui" class="camera-permission-ui" style="display:none;">
                         <i class="fas fa-camera" aria-hidden="true"></i>
-                        <h3>Permitir acesso à câmera</h3>
-                        <p>Para experimentar a joia virtualmente, precisamos acessar sua câmera.</p>
-                        <button id="request-camera-btn" class="btn btn-primary">
+                        <h3 style="font-size:1rem;margin:0.5rem 0;">Câmera necessária</h3>
+                        <p style="font-size:0.85rem;margin-bottom:0.75rem;">
+                            Para experimentar a joia, precisamos acessar sua câmera.
+                        </p>
+                        <button id="request-camera-btn" class="btn btn-primary" style="padding:0.6rem 1.2rem;">
                             <i class="fas fa-camera"></i> Permitir câmera
                         </button>
-                        <p class="camera-help-text" id="camera-help-text"></p>
+                        <p class="camera-help-text" id="camera-help-text"
+                           style="font-size:0.75rem;color:#888;margin-top:0.75rem;max-width:280px;text-align:center;"></p>
                     </div>
-                </div>
 
-                <div class="try-on-controls" role="group" aria-label="Controles da prova virtual">
-                    <button id="switch-camera" class="try-on-btn" aria-label="Alternar câmera frontal/traseira" style="display:none">
+                    <!-- Estado: Fallback (AR falhou) -->
+                    <div id="ar-fallback" class="ar-fallback" style="display:none;">
+                        <img id="ar-fallback-image" src="" alt="Produto"
+                             style="max-width:70%;border-radius:8px;margin-bottom:1rem;">
+                        <p style="font-size:0.9rem;color:#666;">
+                            Prova virtual não disponível neste dispositivo.
+                        </p>
+                    </div>
+                </div><!-- /ar-viewport -->
+
+                <!-- Controles AR -->
+                <div class="try-on-controls" style="margin-top:1rem;">
+                    <button id="switch-camera" class="try-on-btn" title="Alternar câmera"
+                            aria-label="Alternar câmera frontal e traseira" style="display:none;">
                         <i class="fas fa-camera-rotate" aria-hidden="true"></i>
                     </button>
-                    <button id="take-photo" class="try-on-btn" aria-label="Tirar foto">
+                    <button id="take-photo" class="try-on-btn" title="Tirar foto"
+                            aria-label="Tirar foto com a joia">
                         <i class="fas fa-camera" aria-hidden="true"></i>
+                        <span style="font-size:0.65rem;display:block;margin-top:2px;">Foto</span>
                     </button>
+                </div>
+
+                <!-- Info do produto no modal -->
+                <div id="tryon-product-info"
+                     style="margin-top:1rem;padding:0.75rem;background:#faf8f5;border-radius:8px;
+                            font-size:0.85rem;color:#555;text-align:center;">
+                </div>
+            </div>
+        </div><!-- /try-on-modal -->
+
+        <!-- ==================== MODAL: 3D VIEWER ==================== -->
+        <div id="viewer-3d-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="viewer3d-modal-title"
+             style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:9999;
+                    align-items:center; justify-content:center;">
+            <div class="modal-content viewer-3d-content"
+                 style="background:#fff; border-radius:16px; padding:1.5rem; max-width:600px;
+                        width:95vw; max-height:90vh; position:relative;">
+                <button class="close" aria-label="Fechar visualização 3D"
+                        style="position:absolute;top:1rem;right:1rem;background:none;border:none;
+                               font-size:1.5rem;cursor:pointer;color:#555;">&times;</button>
+                <h2 id="viewer3d-modal-title"
+                    style="font-family:'Playfair Display',serif;margin-bottom:1rem;font-size:1.3rem;">
+                    Visualização 3D
+                </h2>
+                <div id="model-viewer-container" style="width:100%;min-height:400px;border-radius:8px;overflow:hidden;background:#f5f0e8;">
+                    <!-- model-viewer inserido dinamicamente -->
                 </div>
             </div>
         </div>
 
-        <!-- 3D Viewer Modal -->
-        <div id="viewer-3d-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="viewer3d-modal-title">
-            <div class="modal-content viewer-3d-content">
-                <button class="close" aria-label="Fechar visualização 3D">&times;</button>
-                <h2 id="viewer3d-modal-title">Visualização 3D</h2>
-                <div id="model-viewer-container">
-                    <!-- model-viewer será inserido dinamicamente quando produto tiver models3d -->
+        <!-- Modal Carrinho -->
+        <div id="cart-modal" class="modal"
+             style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:9998;
+                    align-items:center; justify-content:center;">
+            <div class="modal-content" style="background:#fff;border-radius:16px;padding:1.5rem;max-width:480px;width:95vw;max-height:85vh;overflow-y:auto;position:relative;">
+                <button class="close" aria-label="Fechar carrinho"
+                        style="position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.5rem;cursor:pointer;">&times;</button>
+                <h2><i class="fas fa-shopping-cart"></i> Seu Carrinho</h2>
+                <div id="cart-items" style="margin:1rem 0;"></div>
+                <div class="cart-summary">
+                    <div id="cart-total" class="cart-total">Total: R$ 0,00</div>
+                    <button id="checkout-btn" class="btn btn-primary primary-button" style="margin-top:1rem;width:100%;">
+                        <i class="fas fa-lock"></i> Finalizar Compra
+                    </button>
                 </div>
             </div>
         </div>
     </main>
 
-    <div id="cart-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Seu Carrinho</h2>
-            <div id="cart-items"></div>
-            <div id="cart-total">
-                <h3>Total: R$ <span id="total-amount">0.00</span></h3>
-            </div>
-            <button id="checkout-btn">Finalizar Compra</button>
-        </div>
-    </div>
-
+    <!-- ==================== FOOTER ==================== -->
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
@@ -265,17 +312,13 @@
                 <ul>
                     <li><a href="./faq.html">Perguntas Frequentes</a></li>
                     <li><a href="./contact.html">Fale Conosco</a></li>
-                    <li><a href="./track-order.html">Rastrear Pedido</a></li>
-                    <li><a href="./returns.html">Trocas e Devoluções</a></li>
                 </ul>
             </div>
             <div class="footer-section">
                 <h3>Institucional</h3>
                 <ul>
                     <li><a href="./about.html">Sobre Nós</a></li>
-                    <li><a href="./stores.html">Nossas Lojas</a></li>
-                    <li><a href="./privacy.html">Política de Privacidade</a></li>
-                    <li><a href="./terms.html">Termos de Uso</a></li>
+                    <li><a href="./privacy.html">Privacidade</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -283,17 +326,7 @@
                 <div class="social-links">
                     <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
                     <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-pinterest"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
                 </div>
-            </div>
-            <div class="footer-section">
-                <h3>Newsletter</h3>
-                <p>Receba nossas novidades e ofertas exclusivas</p>
-                <form class="newsletter-form">
-                    <input type="email" placeholder="Seu e-mail">
-                    <button type="submit">Assinar</button>
-                </form>
             </div>
         </div>
         <div class="footer-bottom">
@@ -301,10 +334,15 @@
         </div>
     </footer>
 
-    <!-- Load core site script first to expose globals expected by page modules -->
-     <script defer src="../js/script.js" type="module"></script>
-    <script defer src="../js/ar-tryon.js" type="module"></script>
-    <script defer src="../js/product-visualization.js" type="module"></script>
-    <script defer src="../js/product-detail.js" type="module"></script>
+    <!--
+        ORDEM DE CARREGAMENTO:
+        1. script.js  — expõe window.products, window.addToCart, window.showToast etc.
+        2. ar-tryon.js — expõe window.ARTryOn
+        3. product-detail.js — usa os globals acima
+        Todos sem type="module" para garantir acesso ao window de forma simples.
+    -->
+    <script src="../js/script.js"></script>
+    <script src="../js/ar-tryon.js"></script>
+    <script src="../js/product-detail.js"></script>
 </body>
 </html>
