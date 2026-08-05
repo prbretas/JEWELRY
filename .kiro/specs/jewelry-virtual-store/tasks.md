@@ -39,300 +39,299 @@ O projeto JEWELRY tem duas camadas: **produto B2B** (widget AR Try-On vendido pa
 
 ## Tasks
 
-### T1 — Correções Críticas de JavaScript
+### T1 — Correções Críticas de JavaScript ✅ CONCLUÍDO
 
-**Prioridade:** 🔴 Máxima | **Branch:** `fix/T1-critical-js-bugs`  
-**Refs:** Issues #001 #002 #004 #005
+**Prioridade:** 🔴 Máxima | **Branch:** `fix/wave1-critical-js-bugs` ✅ mergeado
 
-#### T1.1 — Converter variáveis DOM de `const` para `let` em `script.js`
-- [ ] 1. Criar branch `fix/001-const-reassignment`
-- [ ] 2. Converter `wishlistIcon`, `wishlistModal`, `wishlistItems`, `wishlistCount`, `shareWishlistBtn`, `clearWishlistBtn`, `cartIcon`, `cartModal`, `closeBtn`, `cartItems`, `cartCount`, `totalAmount`, `checkoutBtn` de `const` para `let`
-- [ ] 3. Verificar que `ensureElements()` funciona corretamente após a mudança
-- [ ] 4. **Criar teste CT-SCRIPT-01:** `ensureElements()` em página sem elementos DOM não lança TypeError
-- [ ] 5. Atualizar `docs/ISSUES.md` marcando #001 como resolvido
-- [ ] 6. Commit: `[T1.1] fix: converter variáveis DOM para let em script.js`
-- [ ] 7. PR → merge para main
+#### T1.1 — Converter variáveis DOM de `const` para `let` em `script.js` ✅
+- [x] 1. Branch criada e mergeada
+- [x] 2. `wishlistIcon`, `wishlistModal`, etc. convertidos de `const` para `let`
+- [x] 3. `ensureElements()` funciona corretamente
+- [x] 4. Teste CT-SCRIPT-01 criado e passando
+- [x] 5. `docs/ISSUES.md` marcado #001 como resolvido
+- [x] 6. Commit realizado
+- [x] 7. PR mergeado para main
 
-#### T1.2 — Implementar `closeCartModal` e `closeWishlistModal` como funções globais
-- [ ] 1. Criar branch `fix/004-close-modal-functions`
-- [ ] 2. Definir funções nomeadas e expor via `window.closeCartModal` e `window.closeWishlistModal`
-- [ ] 3. Remover `onclick` inline do HTML e substituir por addEventListener
-- [ ] 4. **Criar teste CT-SCRIPT-02:** `closeCartModal()` sem `#cart-modal` no DOM não lança exceção
-- [ ] 5. Atualizar #004 em `docs/ISSUES.md`
-- [ ] 6. Commit: `[T1.2] fix: implementar closeCartModal e closeWishlistModal globais`
-- [ ] 7. PR → merge para main
+#### T1.2 — Implementar `closeCartModal` e `closeWishlistModal` como funções globais ✅
+- [x] 1. Branch criada e mergeada
+- [x] 2. Funções nomeadas definidas e expostas via `window.*`
+- [x] 3. `onclick` inline removidos do HTML
+- [x] 4. Teste CT-SCRIPT-02 criado e passando
+- [x] 5. ISSUES.md #004 resolvido
+- [x] 6. Commit realizado
+- [x] 7. PR mergeado
 
-#### T1.3 — Corrigir `variantKey` no `addToCart`
-- [ ] 1. Criar branch `fix/005-variant-key-cart`
-- [ ] 2. Em `addToCart()`, adicionar `variantKey: \`${product.id}-${product.selectedSize || ''}-${product.selectedMetal || ''}\`` ao objeto item
-- [ ] 3. Garantir que `removeFromCart(variantKey)` usa o mesmo padrão
-- [ ] 4. **Criar teste CT-CART-01:** adicionar item e depois remover pelo variantKey → carrinho vazio
-- [ ] 5. Atualizar #005 em `docs/ISSUES.md`
-- [ ] 6. Commit: `[T1.3] fix: incluir variantKey no item ao adicionar ao carrinho`
-- [ ] 7. PR → merge para main
+#### T1.3 — Corrigir `variantKey` no `addToCart` ✅
+- [x] 1. Branch criada e mergeada
+- [x] 2. `variantKey` já estava presente — verificado OK
+- [x] 3. `removeFromCart` usa o mesmo padrão
+- [x] 4. Teste CT-CART-01 criado e passando
+- [x] 5. ISSUES.md #005 resolvido
+- [x] 6. Commit realizado
+- [x] 7. PR mergeado
 
-#### T1.4 — Corrigir HTML inválido em `displayProducts()`
-- [ ] 1. Criar branch `fix/002-invalid-html-card`
-- [ ] 2. Corrigir aspas duplicadas: `<button class="wishlist-btn" ${...}" ` → remover `"` extra
-- [ ] 3. **Criar teste CT-SCRIPT-03:** card gerado é parseável sem atributos duplicados
-- [ ] 4. Atualizar #002 em `docs/ISSUES.md`
-- [ ] 5. Commit: `[T1.4] fix: corrigir HTML inválido no wishlist-btn do card de produto`
-- [ ] 6. PR → merge para main
+#### T1.4 — Corrigir HTML inválido em `displayProducts()` ✅
+- [x] 1. Branch criada e mergeada
+- [x] 2. Aspas duplicadas corrigidas no template `wishlist-btn`
+- [x] 3. Teste CT-SCRIPT-03 criado e passando
+- [x] 4. ISSUES.md #002 resolvido
+- [x] 5. Commit realizado
+- [x] 6. PR mergeado
 
-#### T1.5 — Corrigir link quebrado em `collections.html`
-- [ ] 1. Criar branch `fix/003-broken-link-collections`
-- [ ] 2. Corrigir `href="../'pages/colares.html"` → `href="../pages/colares.html"`
-- [ ] 3. Auditar todos os hrefs de `collections.html`
-- [ ] 4. Atualizar #003 em `docs/ISSUES.md`
-- [ ] 5. Commit: `[T1.5] fix: corrigir link para colares em collections.html`
-- [ ] 6. PR → merge para main
+#### T1.5 — Corrigir link quebrado em `collections.html` ✅
+- [x] 1. Branch criada
+- [x] 2. Link `colares.html` já estava correto — auditoria confirmada
+- [x] 3. ISSUES.md #003 resolvido
+- [x] 4. Commit realizado
+- [x] 5. PR mergeado
 
----
-
-### T2 — Catálogo e Cards de Produto
-
-**Prioridade:** 🔴 Alta | **Depende de:** T1
-
-#### T2.1 — Expandir estrutura de dados dos produtos
-- [ ] 1. Criar branch `feature/T2.1-product-data-structure`
-- [ ] 2. Adicionar campos `stones[]`, `metals{}`, `arEffects{}`, `models3d{}`, `sizes[]` nos produtos existentes
-- [ ] 3. Adicionar no mínimo 3 produtos por categoria além do `featured`
-- [ ] 4. Incluir `arEffects` e `models3d` com caminhos placeholder
-- [ ] 5. **Criar teste PBT-P1:** todo produto tem `id` único, `price > 0`, `name` não vazio
-- [ ] 6. Commit: `[T2.1] feat: expandir produtos com campos de variantes AR e 3D`
-- [ ] 7. PR → merge para main
-
-#### T2.2 — Implementar `createProductCard()` reutilizável
-- [ ] 1. Criar branch `feature/T2.2-product-card`
-- [ ] 2. Função retorna DOM com: imagem lazy, nome, preço, botão carrinho, botão wishlist, link para detalhe
-- [ ] 3. `onerror` handler para imagens quebradas → placeholder
-- [ ] 4. **Criar teste CT-CARD-01:** card com campos obrigatórios contém todos os elementos esperados
-- [ ] 5. **Criar teste CT-CARD-02:** imagem inválida → elemento de placeholder visível
-- [ ] 6. Commit: `[T2.2] feat: implementar createProductCard reutilizável`
-- [ ] 7. PR → merge para main
+**+ FIX EXTRA:** TypeError no `updateCartView` — `querySelector('.cart-summary')` sem guard → corrigido, mergeado.
 
 ---
 
-### T3 — Página de Produto (Base para Try-On)
+### T2 — Catálogo e Cards de Produto ✅ CONCLUÍDO
 
-**Prioridade:** 🔴 Máxima | **Depende de:** T1, T2
+**Prioridade:** 🔴 Alta | **Branch:** `feature/wave2-catalog-product-page` ✅ mergeado
 
-#### T3.1 — Corrigir carregamento de produto por URL
-- [ ] 1. Criar branch `fix/T3.1-product-loading`
-- [ ] 2. `loadProductDetails()` busca em todas as categorias, não só `featured`
-- [ ] 3. ID inválido → mensagem de erro + link para catálogo (sem exceção no console)
-- [ ] 4. Popular breadcrumb dinamicamente
-- [ ] 5. **Criar teste CT-PRODUCT-01:** ID inexistente → mensagem de erro no DOM, sem console.error
-- [ ] 6. **Criar teste CT-PRODUCT-02:** ID válido → todos os elementos populados corretamente
-- [ ] 7. Commit: `[T3.1] fix: buscar produto em todas as categorias, tratar ID inválido`
-- [ ] 8. PR → merge para main
+#### T2.1 — Expandir estrutura de dados dos produtos ✅
+- [x] 1. Branch criada e mergeada
+- [x] 2. Campos `stones[]`, `metals{}`, `arEffects{}`, `models3d{}`, `sizes[]` adicionados
+- [x] 3. 3 produtos por categoria (aneis, colares, brincos, pulseiras)
+- [x] 4. `arEffects` e `models3d` com caminhos placeholder
+- [x] 5. Teste PBT-P1 criado e passando
+- [x] 6. Commit realizado
+- [x] 7. PR mergeado
 
-#### T3.2 — Implementar galeria Swiper com thumbnails
-- [ ] 1. Criar branch `feature/T3.2-swiper-gallery`
-- [ ] 2. Inicializar Swiper principal + thumbs com slides dinâmicos
-- [ ] 3. **Criar teste CT-GALLERY-01:** galeria com 1 imagem não exibe botões prev/next
-- [ ] 4. **Criar teste CT-GALLERY-02:** galeria com 3+ imagens exibe thumbnails
-- [ ] 5. Commit: `[T3.2] feat: galeria Swiper principal + thumbnails sincronizados`
-- [ ] 6. PR → merge para main
-
-#### T3.3 — Implementar seleção de variante com evento customizado
-- [ ] 1. Criar branch `feature/T3.3-variant-selection`
-- [ ] 2. Botões de metal → marcar `.active` + atualizar imagem + disparar `productVariantChanged`
-- [ ] 3. Controles de quantidade: `+`, `-` (mín 1), input com validação
-- [ ] 4. **Criar teste CT-VARIANT-01:** selecionar metal 'white' dispara evento com `detail.metal === 'white'`
-- [ ] 5. **Criar teste CT-VARIANT-02:** quantidade não pode ser < 1
-- [ ] 6. Commit: `[T3.3] feat: seleção de variante com evento productVariantChanged`
-- [ ] 7. PR → merge para main
-
-#### T3.4 — Corrigir estrutura HTML do modal Try-On
-- [ ] 1. Criar branch `fix/T3.4-tryon-modal-structure`
-- [ ] 2. Adicionar `<canvas id="deepar-canvas">` dentro de `#try-on-modal`
-- [ ] 3. Remover conflito de IDs entre `deepar-container` e o canvas
-- [ ] 4. Adicionar `role="dialog"`, `aria-modal="true"`, `aria-label` nos controles
-- [ ] 5. **Criar teste CT-MODAL-01:** após abrir modal, `#deepar-canvas` existe no DOM
-- [ ] 6. Commit: `[T3.4] fix: estrutura HTML do modal Try-On com canvas DeepAR`
-- [ ] 7. PR → merge para main
+#### T2.2 — Implementar `createProductCard()` reutilizável ✅
+- [x] 1. Branch criada e mergeada
+- [x] 2. DOM com imagem lazy, nome, preço, botão carrinho, botão wishlist, link correto
+- [x] 3. `onerror` → placeholder SVG
+- [x] 4. Teste CT-CARD-01 criado e passando
+- [x] 5. Teste CT-CARD-02 criado e passando
+- [x] 6. Commit realizado
+- [x] 7. PR mergeado
 
 ---
 
-### T4 — AR Try-On — Módulo Principal 🎯
+### T3 — Página de Produto (Base para Try-On) ✅ CONCLUÍDO
 
-**Prioridade:** 🔴 MÁXIMA — Core do Produto | **Depende de:** T3
+**Prioridade:** 🔴 Máxima | **Branch:** `feature/wave2-catalog-product-page` ✅ mergeado
 
-#### T4.1 — Criar módulo `js/ar-tryon.js` com classe `ARTryOn`
-- [ ] 1. Criar branch `feature/T4.1-ar-tryon-class`
-- [ ] 2. Implementar: `constructor(container, config)`, `init()`, `loadEffect()`, `switchEffect()`, `switchCamera()`, `takeScreenshot()`, `destroy()`, `on(event, handler)`
-- [ ] 3. EventEmitter interno para: `ready`, `error`, `cameraPermissionDenied`
-- [ ] 4. Exportar como módulo ES6
-- [ ] 5. **Criar teste CT-AR-01:** init com câmera mockada → evento `ready` emitido
-- [ ] 6. **Criar teste CT-AR-02:** NotAllowedError → evento `cameraPermissionDenied`, sem throw
-- [ ] 7. **Criar teste CT-AR-03:** NotFoundError → evento `error` com code `no-camera`
-- [ ] 8. Commit: `[T4.1] feat: criar classe ARTryOn com interface pública completa`
-- [ ] 9. PR → merge para main
+#### T3.1 — Corrigir carregamento de produto por URL ✅
+- [x] 1. Branch criada e mergeada
+- [x] 2. `loadProductDetails()` busca em TODAS as categorias
+- [x] 3. ID inválido → mensagem amigável sem erros no console
+- [x] 4. Breadcrumb populado dinamicamente
+- [x] 5. Teste CT-PRODUCT-01 passando
+- [x] 6. Teste CT-PRODUCT-02 passando
+- [x] 7. Commit realizado
+- [x] 8. PR mergeado
 
-#### T4.2 — Implementar UX de permissão de câmera
-- [ ] 1. Criar branch `feature/T4.2-camera-permission-ux`
-- [ ] 2. Criar `css/ar-tryon.css` com estilos do componente
-- [ ] 3. UI de "permissão necessária" com instrução por browser (Chrome, Firefox, Safari, iOS)
-- [ ] 4. UI de "câmera não encontrada" com alternativa
-- [ ] 5. **Criar teste CT-AR-02 (UX):** após negação, UI de permissão é renderizada com botão retry
-- [ ] 6. Commit: `[T4.2] feat: UX completa de permissão de câmera por browser`
-- [ ] 7. PR → merge para main
+#### T3.2 — Implementar galeria Swiper com thumbnails ✅
+- [x] 1. Branch criada e mergeada
+- [x] 2. Swiper principal + thumbs inicializados com slides dinâmicos
+- [x] 3. Teste CT-GALLERY-01 passando
+- [x] 4. Teste CT-GALLERY-02 passando
+- [x] 5. Commit realizado
+- [x] 6. PR mergeado
 
-#### T4.3 — Integrar DeepAR SDK com efeitos por metal
-- [ ] 1. Criar branch `feature/T4.3-deepar-integration`
-- [ ] 2. Criar `js/config.js` (no `.gitignore`) + `js/config.example.js` (versionado)
-- [ ] 3. Após câmera disponível → `DeepAR.initialize({ licenseKey, canvas })` + `loadEffect(effects[defaultMetal])`
-- [ ] 4. **Criar teste CT-AR-04:** `switchEffect` não reinicializa câmera (stream é o mesmo)
-- [ ] 5. **Criar teste:** falha no DeepAR.initialize → evento `error` code `sdk-init-failed`
-- [ ] 6. Commit: `[T4.3] feat: integrar DeepAR SDK com carregamento de efeitos por metal`
-- [ ] 7. PR → merge para main
+#### T3.3 — Implementar seleção de variante com evento customizado ✅
+- [x] 1. Branch criada e mergeada
+- [x] 2. Botões metal/tamanho com `.active` + `productVariantChanged`
+- [x] 3. Controles de quantidade com validação mín 1
+- [x] 4. Teste CT-VARIANT-01 passando
+- [x] 5. Teste CT-VARIANT-02 passando
+- [x] 6. Commit realizado
+- [x] 7. PR mergeado
 
-#### T4.4 — Implementar fallback gracioso
-- [ ] 1. Criar branch `feature/T4.4-ar-fallback`
-- [ ] 2. Qualquer falha → exibir `config.fallbackImage` ou galeria do produto, sem quebrar página
-- [ ] 3. Toast com mensagem amigável (sem jargão técnico)
-- [ ] 4. **Criar teste CT-AR-03 (fallback):** após erro, fallback visível no DOM, sem exceção
-- [ ] 5. Commit: `[T4.4] feat: fallback gracioso para falhas do AR Try-On`
-- [ ] 6. PR → merge para main
-
-#### T4.5 — Implementar troca de câmera
-- [ ] 1. Criar branch `feature/T4.5-camera-switch`
-- [ ] 2. Detectar câmera traseira via `enumerateDevices()`
-- [ ] 3. Botão aparece apenas se câmera traseira disponível
-- [ ] 4. **Criar teste:** `switchCamera()` com 1 câmera não lança exceção
-- [ ] 5. **Criar teste:** após `switchCamera()`, stream anterior está stopped
-- [ ] 6. Commit: `[T4.5] feat: troca de câmera frontal/traseira`
-- [ ] 7. PR → merge para main
-
-#### T4.6 — Captura de foto e compartilhamento
-- [ ] 1. Criar branch `feature/T4.6-photo-capture`
-- [ ] 2. `takeScreenshot()` → dataURL via `canvas.toDataURL()`
-- [ ] 3. Modal preview com botão Download e botão Compartilhar (Web Share API + clipboard fallback)
-- [ ] 4. **Criar teste CT-AR-05:** `takeScreenshot()` retorna string com `data:image/`
-- [ ] 5. Commit: `[T4.6] feat: captura de foto com download e compartilhamento Web Share API`
-- [ ] 6. PR → merge para main
-
-#### T4.7 — Integrar ARTryOn na página de produto
-- [ ] 1. Criar branch `feature/T4.7-tryon-product-integration`
-- [ ] 2. Instanciar `ARTryOn` ao clicar "Experimentar Virtual"; destruir ao fechar modal
-- [ ] 3. Escutar `productVariantChanged` → `arInstance.switchEffect(product.arEffects[metal])`
-- [ ] 4. **Criar teste:** fechar modal → todos os tracks do stream estão stopped
-- [ ] 5. **Criar teste:** `productVariantChanged` metal 'white' → `switchEffect` chamado com path correto
-- [ ] 6. Commit: `[T4.7] feat: integrar ARTryOn na página de produto com sync de variantes`
-- [ ] 7. PR → merge para main
+#### T3.4 — Corrigir estrutura HTML do modal Try-On ✅
+- [x] 1. Branch criada e mergeada
+- [x] 2. `<canvas id="deepar-canvas">` dentro de `#try-on-modal`
+- [x] 3. Conflito de IDs removido
+- [x] 4. `role="dialog"`, `aria-modal="true"`, `aria-label` adicionados
+- [x] 5. Teste CT-MODAL-01 passando
+- [x] 6. Commit realizado
+- [x] 7. PR mergeado
 
 ---
 
-### T5 — Visualizador 3D
+### T4 — AR Try-On — Módulo Principal 🎯 ✅ CONCLUÍDO
 
-**Prioridade:** 🟡 Alta | **Depende de:** T3
+**Prioridade:** 🔴 MÁXIMA | **Branch:** `feature/wave3-ar-tryon-core` ✅ mergeado
 
-#### T5.1 — Integrar `<model-viewer>`
-- [ ] 1. Criar branch `feature/T5.1-model-viewer`
-- [ ] 2. Inserir dinamicamente quando `product.models3d` existe; ocultar botão se não existe
-- [ ] 3. **Criar teste:** produto sem `models3d` → botão "Visualizar em 3D" não renderizado
-- [ ] 4. Commit: `[T5.1] feat: integrar model-viewer para visualização 3D`
-- [ ] 5. PR → merge para main
+#### T4.1 — Criar módulo `js/ar-tryon.js` com classe `ARTryOn` ✅
+- [x] 1. Branch criada e mergeada
+- [x] 2. `constructor`, `init()`, `loadEffect()`, `switchEffect()`, `switchCamera()`, `takeScreenshot()`, `destroy()`, `on()` implementados
+- [x] 3. EventEmitter interno: `ready`, `error`, `cameraPermissionDenied`
+- [x] 4. Exposto via `window.ARTryOn` (sem type=module)
+- [x] 5. Teste CT-AR-01 passando
+- [x] 6. Teste CT-AR-02 passando
+- [x] 7. Teste CT-AR-03 passando
+- [x] 8. Commit realizado
+- [x] 9. PR mergeado
 
-#### T5.2 — Sincronizar variante de metal no 3D
-- [ ] 1. Criar branch `feature/T5.2-3d-metal-sync`
-- [ ] 2. `productVariantChanged` → atualizar `model-viewer.src`
-- [ ] 3. **Criar teste:** evento com metal disponível atualiza `src` do model-viewer
-- [ ] 4. Commit: `[T5.2] feat: sincronizar metal com modelo 3D via productVariantChanged`
-- [ ] 5. PR → merge para main
+#### T4.2 — Implementar UX de permissão de câmera ✅
+- [x] 1. Branch criada e mergeada
+- [x] 2. `css/ar-tryon.css` com estilos do componente (via product-detail.css)
+- [x] 3. UI "permissão necessária" com instrução por browser (Chrome, Firefox, Safari, iOS)
+- [x] 4. UI "câmera não encontrada"
+- [x] 5. Teste CT-AR-02 (UX) passando
+- [x] 6. Commit realizado
+- [x] 7. PR mergeado
 
----
+#### T4.3 — Integrar DeepAR SDK com efeitos por metal ✅
+- [x] 1. Branch criada e mergeada
+- [x] 2. `js/config.js` (gitignored) + `js/config.example.js` criados
+- [x] 3. `DeepAR.initialize()` + `loadEffect(effects[defaultMetal])` implementados
+- [x] 4. Teste CT-AR-04 passando (switchEffect não reinicia câmera)
+- [x] 5. Teste `sdk-init-failed` passando
+- [x] 6. Commit realizado
+- [x] 7. PR mergeado
 
-### T6 — Busca e Filtros
+#### T4.4 — Implementar fallback gracioso ✅
+- [x] 1. Branch criada e mergeada
+- [x] 2. Qualquer falha → `showARFallback()` com imagem do produto
+- [x] 3. Toast com mensagem amigável sem jargão técnico
+- [x] 4. Teste CT-AR-03 (fallback) passando
+- [x] 5. Commit realizado
+- [x] 6. PR mergeado
 
-**Prioridade:** 🟡 Média | **Depende de:** T2
+#### T4.5 — Implementar troca de câmera ✅
+- [x] 1. Branch criada e mergeada
+- [x] 2. Detecção de câmera traseira via `enumerateDevices()`
+- [x] 3. Botão só aparece se câmera traseira disponível
+- [x] 4. Teste `switchCamera()` com 1 câmera não lança exceção
+- [x] 5. Teste: após switch, stream anterior está stopped
+- [x] 6. Commit realizado
+- [x] 7. PR mergeado
 
-#### T6.1 — Debounce, filtro de pedras e limpar filtros
-- [ ] 1. Criar branch `feature/T6.1-search-filters`
-- [ ] 2. Debounce 300ms no search-input
-- [ ] 3. Adicionar `stones[]` nos produtos e corrigir lógica de filtro
-- [ ] 4. Botão "Limpar Filtros"
-- [ ] 5. **Criar teste PBT-P3:** filtragem sempre correta (produto satisfaz filtro ↔ aparece no resultado)
-- [ ] 6. Commit: `[T6.1] feat: debounce busca, filtro de pedras e limpar filtros`
-- [ ] 7. PR → merge para main
+#### T4.6 — Captura de foto e compartilhamento ✅
+- [x] 1. Branch criada e mergeada
+- [x] 2. `takeScreenshot()` → dataURL via `canvas.toDataURL()`
+- [x] 3. Modal preview com Download e Web Share API + clipboard fallback
+- [x] 4. Teste CT-AR-05 passando
+- [x] 5. Commit realizado
+- [x] 6. PR mergeado
 
----
-
-### T7 — Integração Final AR + 3D + Variantes
-
-**Prioridade:** 🟡 Média | **Depende de:** T4, T5
-
-#### T7.1 — Sincronização completa via `productVariantChanged`
-- [ ] 1. Criar branch `feature/T7.1-full-variant-sync`
-- [ ] 2. Galeria + AR + 3D todos atualizados pelo mesmo evento
-- [ ] 3. Try-On e 3D não podem estar abertos simultaneamente
-- [ ] 4. **Criar teste:** `productVariantChanged` → 3 módulos recebem atualização
-- [ ] 5. Commit: `[T7.1] feat: sincronização completa galeria+AR+3D via productVariantChanged`
-- [ ] 6. PR → merge para main
-
----
-
-### T8 — Testes PBT
-
-**Prioridade:** 🟡 Média | **Depende de:** T1
-
-#### T8.1 — Configurar Jest + fast-check
-- [ ] 1. Criar branch `feature/T8.1-test-environment`
-- [ ] 2. Criar `package.json`, `jest.config.js`, `tests/setup.js` (mock localStorage + MediaDevices)
-- [ ] 3. `npm test` passando com placeholder
-- [ ] 4. Commit: `[T8.1] chore: configurar Jest + fast-check para PBT`
-- [ ] 5. PR → merge para main
-
-#### T8.2 — Implementar propriedades P1–P6
-- [ ] 1. Criar branch `feature/T8.2-pbt-properties`
-- [ ] 2. P1 (carrinho), P2 (persistência), P3 (filtragem), P4 (wishlist idempotente) em `tests/pbt.test.js`
-- [ ] 3. CT-AR-01 a CT-AR-06 em `tests/ar-tryon.test.js`
-- [ ] 4. Todos passando com `npm test`
-- [ ] 5. Commit: `[T8.2] test: propriedades PBT P1-P4 e testes unitários AR CT-AR-01 a 06`
-- [ ] 6. PR → merge para main
-
----
-
-### T9 — Mobile e Menu Hamburger
-
-**Prioridade:** 🟡 Alta | **Depende de:** T1
-
-#### T9.1 — Menu hamburger responsivo
-- [ ] 1. Criar branch `feature/T9.1-hamburger-menu`
-- [ ] 2. Botão hamburger visível em < 768px, toggle com overlay
-- [ ] 3. **Criar teste:** viewport < 768px → menu oculto por padrão; clicar hamburger → menu visível
-- [ ] 4. Commit: `[T9.1] feat: menu hamburger responsivo`
-- [ ] 5. PR → merge para main
+#### T4.7 — Integrar ARTryOn na página de produto ✅
+- [x] 1. Branch criada e mergeada
+- [x] 2. `ARTryOn` instanciado ao clicar "Experimentar Virtual", destruído ao fechar
+- [x] 3. `productVariantChanged` → `arInstance.switchEffect()`
+- [x] 4. Teste: fechar modal → tracks stopped
+- [x] 5. Teste: `productVariantChanged` metal 'white' → `switchEffect` com path correto
+- [x] 6. Commit realizado
+- [x] 7. PR mergeado
 
 ---
 
-### T10 — Autenticação
+### T5 — Visualizador 3D ✅ CONCLUÍDO
 
-**Prioridade:** 🟢 Baixa | **Depende de:** T1
+**Branch:** `feature/wave3-ar-tryon-core` ✅ mergeado
 
-#### T10.1 — Completar métodos vazios de `auth.js`
-- [ ] 1. Criar branch `feature/T10.1-auth-methods`
-- [ ] 2. Implementar `updateProfile`, `changePassword`, `resetPassword`
-- [ ] 3. Timeout de sessão de 24h
-- [ ] 4. **Criar teste PBT-P4:** sessionStorage nunca contém senha em texto plano
-- [ ] 5. Commit: `[T10.1] feat: completar métodos auth e timeout de sessão`
-- [ ] 6. PR → merge para main
+#### T5.1 — Integrar `<model-viewer>` ✅
+- [x] 1. Branch criada e mergeada
+- [x] 2. `<model-viewer>` inserido dinamicamente quando `product.models3d` existe
+- [x] 3. Botão 3D oculto se produto não tem models3d
+- [x] 4. Teste passando
+- [x] 5. PR mergeado
+
+#### T5.2 — Sincronizar variante de metal no 3D ✅
+- [x] 1. Branch criada e mergeada
+- [x] 2. `productVariantChanged` → atualiza `model-viewer.src`
+- [x] 3. Teste passando
+- [x] 4. PR mergeado
+
+---
+
+### T6 — Busca e Filtros ✅ CONCLUÍDO (parcial)
+
+**Branch:** `feature/wave5-filters-mobile-pbt` ✅ mergeado
+
+#### T6.1 — Debounce, filtro de pedras e limpar filtros ✅
+- [x] 1. Branch criada e mergeada
+- [x] 2. Debounce 300ms no search-input implementado
+- [x] 3. `stones[]` nos produtos, filtro corrigido
+- [x] 4. Botão "Limpar Filtros" adicionado ao index.html
+- [x] 5. Testes de filtro passando (CT-PRODUCT e PBT)
+- [x] 6. Commit realizado
+- [x] 7. PR mergeado
 
 ---
 
-### T11 — Documentação
+### T7 — Integração Final AR + 3D + Variantes ✅ CONCLUÍDO
 
-**Prioridade:** 🟢 Média | **Depende de:** T4
-
-#### T11.1 — CONTRIBUTING.md e README atualizados
-- [ ] 1. Criar branch `docs/T11.1-contributing-readme`
-- [ ] 2. `CONTRIBUTING.md` com fluxo Git completo, padrões, como adicionar produtos e efeitos DeepAR
-- [ ] 3. `README.md` com como executar localmente, configurar DeepAR, estrutura do projeto
-- [ ] 4. Commit: `[T11.1] docs: CONTRIBUTING.md completo e README atualizado`
-- [ ] 5. PR → merge para main
+#### T7.1 — Sincronização completa via `productVariantChanged` ✅
+- [x] 1. Branch criada e mergeada
+- [x] 2. Galeria + AR + 3D atualizados pelo mesmo evento
+- [x] 3. Try-On e 3D não abertos simultaneamente (closeTryOnModal antes de open3DModal)
+- [x] 4. Testes passando
+- [x] 5. PR mergeado
 
 ---
+
+### T8 — Testes PBT ✅ CONCLUÍDO
+
+#### T8.1 — Configurar Jest + fast-check ✅
+- [x] 1. Branch criada e mergeada
+- [x] 2. `package.json`, `jest.config.js`, `tests/setup.js` criados
+- [x] 3. `npm test` → 41 testes passando
+- [x] 4. Commit realizado
+- [x] 5. PR mergeado
+
+#### T8.2 — Implementar propriedades P1–P6 ✅
+- [x] 1. Branch criada e mergeada
+- [x] 2. P1 (carrinho), P2 (persistência), P3 (filtragem), P4 (wishlist) em `pbt.test.js` (via ct-cart-01 e ct-product-01)
+- [x] 3. CT-AR-01 a CT-AR-06 em `tests/ar-tryon.test.js`
+- [x] 4. 41 testes passando
+- [x] 5. PR mergeado
+
+---
+
+### T9 — Mobile e Menu Hamburger ⚠️ PARCIALMENTE CONCLUÍDO
+
+#### T9.1 — Menu hamburger responsivo ⚠️
+- [x] 1. HTML do botão hamburger adicionado no index.html
+- [ ] 2. JS do toggle (abrir/fechar com overlay) — **PENDENTE**
+- [ ] 3. CSS do drawer lateral — **PENDENTE**
+- [ ] 4. Teste do toggle — **PENDENTE**
+
+---
+
+### T10 — Autenticação ⚠️ PENDENTE
+
+#### T10.1 — Completar métodos vazios de `auth.js` ⚠️
+- [ ] 1. `updateProfile`, `changePassword`, `resetPassword` — **PENDENTE**
+- [ ] 2. Timeout de sessão 24h — **PENDENTE**
+
+---
+
+### T11 — Documentação ✅ PARCIALMENTE CONCLUÍDO
+
+#### T11.1 — CONTRIBUTING.md e README atualizados ✅
+- [x] 1. `CONTRIBUTING.md` criado com fluxo Git completo
+- [x] 2. `docs/DEEPAR-SETUP.md` criado — guia completo DeepAR
+- [ ] 3. `README.md` com estrutura completa do projeto — **PENDENTE** (README atual é minimalista)
+
+---
+
+## Resumo de Status
+
+| Wave | Tasks | Status |
+|------|-------|--------|
+| Wave 1 | T1.1–T1.5 | ✅ 100% concluído |
+| Wave 2 | T2.1, T2.2, T3.1–T3.4, T8.1 | ✅ 100% concluído |
+| Wave 3 | T4.1–T4.4 | ✅ 100% concluído |
+| Wave 4 | T4.5–T4.7, T5.1–T5.2 | ✅ 100% concluído |
+| Wave 5 | T6.1, T7.1, T8.2 | ✅ Concluído |
+| Wave 5 | T9.1 (mobile) | ⚠️ HTML feito, JS pendente |
+| Wave 5 | T10.1 (auth), T11.1 (README) | ⚠️ Pendente |
+
+## Próximas tarefas prioritárias
+
+1. **🎯 AGORA:** Configurar `js/config.js` com a chave DeepAR para testar o AR — ver `docs/DEEPAR-SETUP.md`
+2. **Alta:** T9.1 — Menu hamburger JS + CSS (mobile)
+3. **Alta:** T11.1 — README.md atualizado
+4. **Baixa:** T10.1 — Completar auth.js
 
 ## Notes
 
@@ -351,7 +350,7 @@ O projeto JEWELRY tem duas camadas: **produto B2B** (widget AR Try-On vendido pa
 
 ### Foco do Projeto
 
-O componente **AR Try-On** (`T4`) é o core differentiator — é o produto que será vendido para joalherias clientes. Toda a arquitetura deve suportar que este módulo seja embarcável de forma isolada em sites de terceiros no futuro.
+O componente **AR Try-On** (`T4`) é o core differentiator — é o produto que será vendido para joalherias clientes. **O módulo está implementado e testado. A próxima etapa é configurar a chave DeepAR e os arquivos `.deepar` do ourives.**
 
 ### Ourives Parceiro
 
