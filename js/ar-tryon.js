@@ -42,21 +42,14 @@ class EventEmitter {
  * @class ARTryOn
  * @description Classe principal do módulo AR Try-On.
  *
- * @example
- * const ar = new ARTryOn(containerEl, {
- *   licenseKey: 'sua-chave-deepar',
- *   productCategory: 'earring',
- *   effects: { yellow: 'assets/effects/brincos/argola-yellow.deepar' },
- *   fallbackImage: 'assets/images/produto.jpg'
- * });
- *
- * ar.on('ready', () => console.log('AR pronto!'));
- * ar.on('error', (code) => console.error('Erro AR:', code));
- * ar.on('cameraPermissionDenied', () => showPermissionUI());
- *
- * await ar.init();
+ * Uso básico:
+ *   const ar = new ARTryOn(containerEl, { licenseKey, productCategory, effects, fallbackImage });
+ *   ar.on('ready', () => { ... });
+ *   ar.on('error', (code) => { ... });
+ *   ar.on('cameraPermissionDenied', () => { ... });
+ *   await ar.init();
  */
-export class ARTryOn extends EventEmitter {
+class ARTryOn extends EventEmitter {
     /**
      * @param {HTMLElement} container - Elemento pai onde o canvas será renderizado
      * @param {Object} config - Configuração do componente
@@ -287,4 +280,9 @@ export class ARTryOn extends EventEmitter {
 // Expor globalmente para uso sem bundler (páginas que não usam import)
 if (typeof window !== 'undefined') {
     window.ARTryOn = ARTryOn;
+}
+
+// Exportar também como módulo ES6 (para testes Jest)
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { ARTryOn };
 }
