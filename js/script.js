@@ -1421,7 +1421,7 @@ function updateAuthUI() {
 }
 
 // Initialize the page
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
     console.log('DOMContentLoaded - Iniciando setup da página');
     displayProducts();
     initializeSearchAndFilters();
@@ -1441,18 +1441,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     console.log('Setup da página concluído');
 
-    // Try to dynamically import the auth module if available (avoids parse errors
-    // when this file is included without type="module"). If import fails, keep
-    // using the fallback `auth` object.
-    try {
-        const module = await import('./auth.js');
-        auth = module.default || module;
-    } catch (e) {
-        // If dynamic import isn't available or file not found, continue with fallback.
-        console.warn('auth module could not be loaded dynamically:', e);
-    }
+    // Auth module loaded separately if needed
+    console.log('Auth: usando fallback local');
 
-    // Update UI now that auth is resolved (either real module or fallback)
+    // Update UI with fallback auth state
     updateAuthUI();
 });
 
@@ -1792,11 +1784,13 @@ function updateCartView() {
                 <small>Adicione produtos para começar suas compras</small>
             </div>
         `;
-        document.querySelector('.cart-summary').style.display = 'none';
+        const cartSummary = document.querySelector('.cart-summary');
+        if (cartSummary) cartSummary.style.display = 'none';
         return;
     }
 
-    document.querySelector('.cart-summary').style.display = 'block';
+    const cartSummary = document.querySelector('.cart-summary');
+    if (cartSummary) cartSummary.style.display = 'block';
     cartContainer.innerHTML = '';
     let total = 0;
 
