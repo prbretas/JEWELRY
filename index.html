@@ -32,7 +32,15 @@
             <h1>✨ Joalheria Virtual</h1>
           </a>
         </div>
-        <div class="nav-menu">
+        <!-- Botão hamburger — visível em mobile < 768px (T9.1) -->
+        <button class="hamburger-menu" id="hamburger-btn" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-menu-mobile">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+        <!-- Overlay do menu mobile -->
+        <div class="nav-menu-overlay" id="nav-overlay"></div>
+        <div class="nav-menu" id="nav-menu-mobile">
           <ul class="menu-items">
             <li class="menu-item">
               <a href="pages/aneis.html"
@@ -316,9 +324,14 @@
             <label><input type="checkbox" value="pearl" /> Pérola</label>
           </div>
         </div>
-        <button id="apply-filters" class="apply-filters-btn">
-          Aplicar Filtros
-        </button>
+        <div class="filter-actions" style="display:flex;gap:0.5rem;margin-top:1rem;">
+          <button id="apply-filters" class="apply-filters-btn">
+            Aplicar Filtros
+          </button>
+          <button id="clear-filters" class="apply-filters-btn" style="background:transparent;color:var(--primary-color,#8b6914);border:1px solid var(--primary-color,#8b6914);">
+            <i class="fas fa-times"></i> Limpar Filtros
+          </button>
+        </div>
       </section>
 
       <!-------------------- DESTAQUES ---------------->
