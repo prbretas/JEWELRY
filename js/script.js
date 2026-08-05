@@ -849,6 +849,19 @@ let activeFilters = {
 };
 
 /**
+ * @function debounce
+ * @description Atrasa execução de uma função até que o usuário pare de digitar.
+ * T6.1: aplicado na busca com 300ms de delay.
+ */
+function debounce(fn, delay) {
+    let timer;
+    return function (...args) {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn.apply(this, args), delay);
+    };
+}
+
+/**
  * initializeSearchAndFilters
  * Versão: 1.0.1
  * Data: 2025-10-09
@@ -896,18 +909,48 @@ function initializeSearchAndFilters() {
 
     // Search functionality - protege contra searchInput undefined
     if (elements.searchButton && elements.searchInput) {
+        // T6.1: debounce de 300ms para não disparar a cada tecla
+        const debouncedSearch = debounce(() => {
+            activeFilters.searchQuery = elements.searchInput.value;
+            applyFiltersAndSearch();
+        }, 300);
+
         elements.searchButton.addEventListener('click', () => {
-            console.log('Botão de busca clicado');
             activeFilters.searchQuery = elements.searchInput.value;
             applyFiltersAndSearch();
         });
 
+        elements.searchInput.addEventListener('input', debouncedSearch);
+
         elements.searchInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
-                console.log('Tecla Enter pressionada na busca');
                 activeFilters.searchQuery = elements.searchInput.value;
                 applyFiltersAndSearch();
             }
+        });
+    }
+
+    // T6.1: Botão Limpar Filtros
+    const clearFiltersBtn = document.getElementById('clear-filters');
+    if (clearFiltersBtn) {
+        clearFiltersBtn.addEventListener('click', () => {
+            // Reset dos filtros ativos
+            activeFilters = { priceMin: 0, priceMax: 10000, metals: [], stones: [], searchQuery: '' };
+
+            // Reset UI dos sliders e inputs
+            if (elements.priceMinRange)  elements.priceMinRange.value  = '0';
+            if (elements.priceMaxRange)  elements.priceMaxRange.value  = '10000';
+            if (elements.priceMinInput)  elements.priceMinInput.value  = '0';
+            if (elements.priceMaxInput)  elements.priceMaxInput.value  = '10000';
+            if (elements.searchInput)    elements.searchInput.value    = '';
+
+            // Desmarcar checkboxes
+            document.querySelectorAll('.checkbox-group input[type="checkbox"]')
+                .forEach(cb => { cb.checked = false; });
+
+            // Reexibir todos os produtos
+            displayProducts();
+            showToast('Filtros removidos.', 'info');
         });
     }
 
