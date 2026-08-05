@@ -62,6 +62,11 @@ Legenda: 🔴 Crítico | 🟡 Importante | 🟢 Melhoria | 💡 Inovação | �
 **Problema:** `licenseKey: 'your_deepar_license_key_here'` — o AR Try-On não funciona sem chave real.  
 **Solução:** Criar `js/config.js` com a chave real e adicionar ao `.gitignore`; documentar no README como obter chave em developer.deepar.ai.
 
+✅ **Resolvido em 2026-08-04 via branch `feature/wave3-ar-tryon-core`**  
+- Módulo `js/ar-tryon.js` criado com classe `ARTryOn` isolada  
+- Lê `DEEPAR_LICENSE_KEY` de `js/config.js` (gitignored)  
+- Fallback gracioso implementado quando chave inválida ou DeepAR falha
+
 ---
 
 ## 🟡 BUGS IMPORTANTES (Correção a curto prazo)
@@ -102,6 +107,11 @@ Legenda: 🔴 Crítico | 🟡 Importante | 🟢 Melhoria | 💡 Inovação | �
 **Arquivo:** `js/product-detail.js`, `pages/product-detail.html`  
 **Problema:** Botão "Visualizar em 3D" existe na UI mas não tem implementação — apenas um TODO no código.  
 **Solução:** Integrar `<model-viewer>` (ver T7 nas tasks).
+
+✅ **Resolvido em 2026-08-04 via branch `feature/wave3-ar-tryon-core`**  
+- `initialize3DViewer()` implementado com `<model-viewer>` Google  
+- CDN do model-viewer adicionado no `product-detail.html`  
+- Botão 3D oculto automaticamente quando produto não tem `models3d`
 
 ---
 
